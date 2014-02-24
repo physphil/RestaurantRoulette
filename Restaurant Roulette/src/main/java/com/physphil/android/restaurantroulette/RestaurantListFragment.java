@@ -56,8 +56,24 @@ public class RestaurantListFragment extends ListFragment {
     @Override
     public void onListItemClick(ListView l, View v, int position, long id){
 
-        String text = "Restaurant id = " + mRestaurants.get(position).getId();
-        Toast.makeText(getActivity(), text, Toast.LENGTH_LONG).show();
+        String restaurantId = mRestaurants.get(position).getId();
+        viewRestaurantDetail(restaurantId);
+    }
+
+    /**
+     * Start activity to view restaurant information
+     * @param id database id of restaurant to view, or null if a new restaurant
+     */
+    private void viewRestaurantDetail(String id){
+
+        Intent i = new Intent(getActivity(), RestaurantActivity.class);
+
+        if(id != null){
+            i.putExtra(RestaurantFragment.EXTRA_RESTAURANT_ID, id);
+        }
+
+        startActivity(i);
+
     }
 
     @Override
@@ -72,8 +88,7 @@ public class RestaurantListFragment extends ListFragment {
         switch(item.getItemId()){
 
             case R.id.menu_add_restaurant:
-                Intent i = new Intent(getActivity(), RestaurantActivity.class);
-                startActivity(i);
+                viewRestaurantDetail(null);
 
                 return true;
 

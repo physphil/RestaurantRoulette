@@ -13,10 +13,14 @@ public class Restaurant {
     private int userRating;
     private String notes;
 
-    public Restaurant(){}
+    public Restaurant(){
+
+        this.id = UUID.randomUUID().toString();
+    }
 
     public Restaurant(String name, int genre, int userRating, String notes){
 
+        this.id = UUID.randomUUID().toString();
         this.name = name;
         this.genre = genre;
         this.userRating = userRating;

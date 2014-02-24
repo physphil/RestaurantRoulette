@@ -32,6 +32,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_RESTAURANT_USER_RATING = "userRating";
     public static final String COLUMN_RESTAURANT_NOTES = "notes";
 
+    public static final String[] COLUMNS_RESTAURANT_TABLE = {COLUMN_RESTAURANT_ID, COLUMN_RESTAURANT_NAME, COLUMN_RESTAURANT_GENRE, COLUMN_RESTAURANT_USER_RATING, COLUMN_RESTAURANT_NOTES};
+
     // History Table columns
     public static final String COLUMN_HISTORY_ID = "id";
     public static final String COLUMN_HISTORY_RESTAURANT_ID = "restaurantId";
@@ -127,7 +129,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_RESTAURANT_GENRE, restaurant.getGenre());
         cv.put(COLUMN_RESTAURANT_USER_RATING, restaurant.getUserRating());
 
-        db.insert(TABLE_RESTAURANTS, null, cv);
+        db.replace(TABLE_RESTAURANTS, null, cv);
     }
 
     /**
@@ -137,6 +139,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void addRestaurant(Restaurant restaurant){
 
         addRestaurant(mDb, restaurant);
+    }
+
+    public Restaurant getRestaurantById(String id){
+
+        Restaurant r = new Restaurant();
+        String selection = COLUMN_RESTAURANT_ID + " = '" + id + "'";
+
+        Cursor c = mDb.query(TABLE_RESTAURANTS, COLUMNS_RESTAURANT_TABLE, selection, null, null, null, null);
+
+        if(c.moveToFirst()){
+
+            r.setId(c.getString(c.getColumnIndex(COLUMN_RESTAURANT_ID)));
+            r.setName(c.getString(c.getColumnIndex(COLUMN_RESTAURANT_NAME)));
+            r.setGenre(c.getInt(c.getColumnIndex(COLUMN_RESTAURANT_GENRE)));
+            r.setUserRating(c.getInt(c.getColumnIndex(COLUMN_RESTAURANT_USER_RATING)));
+            r.setNotes(c.getString(c.getColumnIndex(COLUMN_RESTAURANT_NOTES)));
+        }
+
+        c.close();
+        return r;
     }
 
     /**

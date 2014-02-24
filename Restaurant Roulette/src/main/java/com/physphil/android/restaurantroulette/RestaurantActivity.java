@@ -14,7 +14,7 @@ public class RestaurantActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_host_fragment);
 
-        int id = getIntent().getIntExtra(RestaurantFragment.EXTRA_RESTAURANT_ID, RestaurantFragment.NEW_RESTAURAUNT);
+        String id = getIntent().getStringExtra(RestaurantFragment.EXTRA_RESTAURANT_ID);
 
         FragmentManager fm = getSupportFragmentManager();
         fm.beginTransaction()
