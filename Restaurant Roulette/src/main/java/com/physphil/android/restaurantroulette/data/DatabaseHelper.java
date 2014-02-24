@@ -30,6 +30,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_RESTAURANT_NAME = "name";
     public static final String COLUMN_RESTAURANT_GENRE = "genre";
     public static final String COLUMN_RESTAURANT_USER_RATING = "userRating";
+    public static final String COLUMN_RESTAURANT_NOTES = "notes";
 
     // History Table columns
     public static final String COLUMN_HISTORY_ID = "id";
@@ -38,14 +39,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Database creation SQL statements
     private static final String CREATE_TABLE_RESTAURANTS =
-            "CREATE table " + TABLE_RESTAURANTS + " (" + COLUMN_RESTAURANT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            "CREATE table " + TABLE_RESTAURANTS + " (" + COLUMN_RESTAURANT_ID + " TEXT PRIMARY KEY, " +
                 COLUMN_RESTAURANT_NAME + " TEXT, " +
                 COLUMN_RESTAURANT_GENRE + " INTEGER, " +
-                COLUMN_RESTAURANT_USER_RATING + " INTEGER);";
+                COLUMN_RESTAURANT_USER_RATING + " INTEGER, " +
+                COLUMN_RESTAURANT_NOTES + " TEXT);";
 
     private static final String CREATE_TABLE_HISTORY =
             "CREATE table " + TABLE_HISTORY + " (" + COLUMN_HISTORY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                COLUMN_HISTORY_RESTAURANT_ID + " INTEGER, " +
+                COLUMN_HISTORY_RESTAURANT_ID + " TEXT, " +
                 COLUMN_HISTORY_DATE + " TEXT);";
 
     // Restaurant genres
@@ -76,11 +78,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
         return mInstance;
-    }
-
-    public static SQLiteDatabase getDatabase(){
-
-        return mDb;
     }
 
     private DatabaseHelper(Context context){
@@ -125,6 +122,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void addRestaurant(SQLiteDatabase db, Restaurant restaurant){
 
         ContentValues cv = new ContentValues();
+        cv.put(COLUMN_RESTAURANT_ID, restaurant.getId());
         cv.put(COLUMN_RESTAURANT_NAME, restaurant.getName());
         cv.put(COLUMN_RESTAURANT_GENRE, restaurant.getGenre());
         cv.put(COLUMN_RESTAURANT_USER_RATING, restaurant.getUserRating());
@@ -141,6 +139,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         addRestaurant(mDb, restaurant);
     }
 
+    /**
+     * Get list of all Restaurants stored in database
+     * @return list of all restaurants
+     */
     public List<Restaurant> getAllRestaurants(){
 
         List<Restaurant> restaurants = new ArrayList<Restaurant>();
@@ -153,7 +155,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             while(!c.isAfterLast()){
 
                 Restaurant r = new Restaurant();
-                r.setId(c.getInt(c.getColumnIndex(COLUMN_RESTAURANT_ID)));
+                r.setId(c.getString(c.getColumnIndex(COLUMN_RESTAURANT_ID)));
                 r.setName(c.getString(c.getColumnIndex(COLUMN_RESTAURANT_NAME)));
                 r.setGenre(c.getInt(c.getColumnIndex(COLUMN_RESTAURANT_GENRE)));
                 r.setUserRating(c.getInt(c.getColumnIndex(COLUMN_RESTAURANT_USER_RATING)));

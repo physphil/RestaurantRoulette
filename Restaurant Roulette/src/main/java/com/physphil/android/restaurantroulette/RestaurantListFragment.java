@@ -2,12 +2,18 @@ package com.physphil.android.restaurantroulette;
 
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import com.physphil.android.restaurantroulette.data.DatabaseHelper;
 import com.physphil.android.restaurantroulette.models.Restaurant;
@@ -22,15 +28,11 @@ import java.util.List;
 public class RestaurantListFragment extends ListFragment {
 
     private DatabaseHelper mDatabaseHelper;
-
-    /**
-     * 1. adapter for list is from db
-     * 2. set list adapter
-     * 3. show list
-     */
+    private List<Restaurant> mRestaurants;
 
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
 
         mDatabaseHelper = DatabaseHelper.getInstance(getActivity());
     }
@@ -39,16 +41,45 @@ public class RestaurantListFragment extends ListFragment {
     public void onActivityCreated(Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
 
-        List<Restaurant> restaurants = mDatabaseHelper.getAllRestaurants();
+        mRestaurants = mDatabaseHelper.getAllRestaurants();
         ArrayList<String> names = new ArrayList<String>();
 
-        for(Restaurant r : restaurants){
+        for(Restaurant r : mRestaurants){
 
             names.add(r.getName());
         }
 
         ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, names);
         setListAdapter(adapter);
+    }
+
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id){
+
+        String text = "Restaurant id = " + mRestaurants.get(position).getId();
+        Toast.makeText(getActivity(), text, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_restaurant_list, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+
+        switch(item.getItemId()){
+
+            case R.id.menu_add_restaurant:
+                Intent i = new Intent(getActivity(), RestaurantActivity.class);
+                startActivity(i);
+
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 }
