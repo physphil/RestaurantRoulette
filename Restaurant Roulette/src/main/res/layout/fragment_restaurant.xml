@@ -78,6 +78,7 @@
         android:id="@+id/restaurant_notes"
         android:layout_below="@+id/restaurant_notes_text"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true" />
+        android:layout_alignParentRight="true"
+        android:capitalize="sentences" />
 
 </RelativeLayout>
