@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.support.v7.appcompat.R;
 
 import com.physphil.android.restaurantroulette.models.Restaurant;
 
@@ -43,7 +44,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String CREATE_TABLE_RESTAURANTS =
             "CREATE table " + TABLE_RESTAURANTS + " (" + COLUMN_RESTAURANT_ID + " TEXT PRIMARY KEY, " +
                 COLUMN_RESTAURANT_NAME + " TEXT, " +
-                COLUMN_RESTAURANT_GENRE + " INTEGER, " +
+                COLUMN_RESTAURANT_GENRE + " TEXT, " +
                 COLUMN_RESTAURANT_USER_RATING + " INTEGER, " +
                 COLUMN_RESTAURANT_NOTES + " TEXT);";
 
@@ -51,25 +52,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             "CREATE table " + TABLE_HISTORY + " (" + COLUMN_HISTORY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_HISTORY_RESTAURANT_ID + " TEXT, " +
                 COLUMN_HISTORY_DATE + " TEXT);";
-
-    // Restaurant genres
-    public static final int GENRE_DEFAULT = 0;
-    public static final int GENRE_NORTH_AMERICAN = 1;
-    public static final int GENRE_BREAKFAST = 2;
-    public static final int GENRE_CHINESE = 3;
-    public static final int GENRE_ETHNIC = 4;
-    public static final int GENRE_FAST_FOOD = 5;
-    public static final int GENRE_INDIAN = 6;
-    public static final int GENRE_ITALIAN = 7;
-    public static final int GENRE_JAPANESE = 8;
-    public static final int GENRE_MEXICAN = 9;
-    public static final int GENRE_OTHER = 10;
-    public static final int GENRE_PIZZA = 11;
-    public static final int GENRE_PUB = 12;
-    public static final int GENRE_SEAFOOD = 13;
-    public static final int GENRE_SUSHI = 14;
-    public static final int GENRE_VEGETARIAN = 15;
-
 
 
     public static DatabaseHelper getInstance(Context context){
@@ -106,14 +88,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
     private void insertInitialData(SQLiteDatabase db){
 
-        addRestaurant(db, new Restaurant("Burger King", GENRE_FAST_FOOD, 3));
-        addRestaurant(db, new Restaurant("McDonald's", GENRE_FAST_FOOD, 3));
-        addRestaurant(db, new Restaurant("Wendy's", GENRE_FAST_FOOD, 3));
-        addRestaurant(db, new Restaurant("Pizza Hut", GENRE_PIZZA, 3));
-        addRestaurant(db, new Restaurant("Olive Garden", GENRE_ITALIAN, 3));
-        addRestaurant(db, new Restaurant("East Side Mario's", GENRE_ITALIAN, 3));
-        addRestaurant(db, new Restaurant("Cheesecake Factory", GENRE_NORTH_AMERICAN, 3));
-        addRestaurant(db, new Restaurant("Red Lobster", GENRE_SEAFOOD, 3));
+        addRestaurant(db, new Restaurant("Burger King", Restaurant.GENRE_FAST_FOOD, 3));
+        addRestaurant(db, new Restaurant("McDonald's", Restaurant.GENRE_FAST_FOOD, 3));
+        addRestaurant(db, new Restaurant("Wendy's", Restaurant.GENRE_FAST_FOOD, 3));
+        addRestaurant(db, new Restaurant("Pizza Hut", Restaurant.GENRE_PIZZA, 3));
+        addRestaurant(db, new Restaurant("Olive Garden", Restaurant.GENRE_ITALIAN, 3));
+        addRestaurant(db, new Restaurant("East Side Mario's", Restaurant.GENRE_ITALIAN, 3));
+        addRestaurant(db, new Restaurant("Cheesecake Factory", Restaurant.GENRE_NORTH_AMERICAN, 3));
+        addRestaurant(db, new Restaurant("Red Lobster", Restaurant.GENRE_SEAFOOD, 3));
     }
 
     /**
@@ -153,7 +135,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
             r.setId(c.getString(c.getColumnIndex(COLUMN_RESTAURANT_ID)));
             r.setName(c.getString(c.getColumnIndex(COLUMN_RESTAURANT_NAME)));
-            r.setGenre(c.getInt(c.getColumnIndex(COLUMN_RESTAURANT_GENRE)));
+            r.setGenre(c.getString(c.getColumnIndex(COLUMN_RESTAURANT_GENRE)));
             r.setUserRating(c.getInt(c.getColumnIndex(COLUMN_RESTAURANT_USER_RATING)));
             r.setNotes(c.getString(c.getColumnIndex(COLUMN_RESTAURANT_NOTES)));
         }
@@ -180,7 +162,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 Restaurant r = new Restaurant();
                 r.setId(c.getString(c.getColumnIndex(COLUMN_RESTAURANT_ID)));
                 r.setName(c.getString(c.getColumnIndex(COLUMN_RESTAURANT_NAME)));
-                r.setGenre(c.getInt(c.getColumnIndex(COLUMN_RESTAURANT_GENRE)));
+                r.setGenre(c.getString(c.getColumnIndex(COLUMN_RESTAURANT_GENRE)));
                 r.setUserRating(c.getInt(c.getColumnIndex(COLUMN_RESTAURANT_USER_RATING)));
 
                 restaurants.add(r);
