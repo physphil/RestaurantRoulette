@@ -99,5 +99,6 @@ public class RestaurantFragment extends Fragment {
         mName.setText(mRestaurant.getName());
         mNotes.setText(mRestaurant.getNotes());
         mRating.setRating(mRestaurant.getUserRating());
+
     }
 }
