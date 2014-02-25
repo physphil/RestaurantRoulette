@@ -1,6 +1,9 @@
 package com.physphil.android.restaurantroulette;
 
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -69,7 +72,40 @@ public class RestaurantListFragment extends ListFragment {
         }
 
         startActivity(i);
+    }
 
+    /**
+     * Prompt user to confirm deletion of all restaurants saved in database
+     */
+    private void confirmDeleteAllRestaurants(){
+
+        new AlertDialog.Builder(getActivity())
+                .setTitle(R.string.dialog_delete_all_restaurants_title)
+                .setMessage(R.string.dialog_delete_all_restaurants_message)
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener(){
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which){
+
+                        deleteAllRestaurants();
+                    }
+                })
+                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Do nothing
+                    }
+                })
+                .show();
+    }
+
+    /**
+     * Delete all restaurants in database
+     */
+    private void deleteAllRestaurants(){
+
+        mDatabaseHelper.deleteAllRestaurants();
     }
 
     @Override
@@ -85,7 +121,10 @@ public class RestaurantListFragment extends ListFragment {
 
             case R.id.menu_add_restaurant:
                 viewRestaurantDetail(null);
+                return true;
 
+            case R.id.menu_delete_all_restaurants:
+                confirmDeleteAllRestaurants();
                 return true;
 
             default:

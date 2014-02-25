@@ -192,4 +192,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return restaurants;
     }
+
+    /**
+     * Delete all restaurants and history stored in database
+     */
+    public void deleteAllRestaurants(){
+
+        mDb.delete(TABLE_RESTAURANTS, null, null);
+        mDb.delete(TABLE_HISTORY, null, null);
+    }
 }

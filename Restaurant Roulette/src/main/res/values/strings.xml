@@ -16,4 +16,9 @@
     <string name="restaurant_rating">Rating:</string>
     <string name="restaurant_notes">Notes:</string>
 
+    <string name="menu_delete_all_restaurants">Delete All</string>
+
+    <string name="dialog_delete_all_restaurants_title">Delete All Restaurants?</string>
+    <string name="dialog_delete_all_restaurants_message">Are you sure you want to delete all your saved restaurants?</string>
+
 </resources>
