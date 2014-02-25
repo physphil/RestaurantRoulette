@@ -117,7 +117,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * Add restaurant to database
+     * Update restaurant in database. Restaurant will be added if it doesn't exist, or updated if already present.
      * @param db database
      * @param restaurant Restaurant to add
      */
@@ -128,12 +128,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_RESTAURANT_NAME, restaurant.getName());
         cv.put(COLUMN_RESTAURANT_GENRE, restaurant.getGenre());
         cv.put(COLUMN_RESTAURANT_USER_RATING, restaurant.getUserRating());
+        cv.put(COLUMN_RESTAURANT_NOTES, restaurant.getNotes());
 
         db.replace(TABLE_RESTAURANTS, null, cv);
     }
 
     /**
-     * Add restaurant to database
+     * Update restaurant in database. Restaurant will be added if it doesn't exist, or updated if already present.
      * @param restaurant Restaurant to add
      */
     public void addRestaurant(Restaurant restaurant){
@@ -162,7 +163,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * Get list of all Restaurants stored in database
+     * Get list of all Restaurants stored in database, sorted in alphabetical order
      * @return list of all restaurants
      */
     public List<Restaurant> getAllRestaurants(){
@@ -170,7 +171,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         List<Restaurant> restaurants = new ArrayList<Restaurant>();
         String[] columns = new String[] {COLUMN_RESTAURANT_ID, COLUMN_RESTAURANT_NAME, COLUMN_RESTAURANT_GENRE, COLUMN_RESTAURANT_USER_RATING};
 
-        Cursor c = mDb.query(TABLE_RESTAURANTS, columns, null, null, null, null, null);
+        Cursor c = mDb.query(TABLE_RESTAURANTS, columns, null, null, null, null, COLUMN_RESTAURANT_NAME);
 
         if(c.moveToFirst()){
 
