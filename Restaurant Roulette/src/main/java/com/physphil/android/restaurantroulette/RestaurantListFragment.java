@@ -33,6 +33,7 @@ public class RestaurantListFragment extends ListFragment {
 
     private DatabaseHelper mDatabaseHelper;
     private List<Restaurant> mRestaurants;
+    private RestaurantListAdapter mAdapter;
 
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -44,18 +45,11 @@ public class RestaurantListFragment extends ListFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
+        setEmptyText(getString(R.string.empty_listview_restaurants));
 
         mRestaurants = mDatabaseHelper.getAllRestaurants();
-        ArrayList<String> names = new ArrayList<String>();
-
-        for(Restaurant r : mRestaurants){
-
-            names.add(r.getName());
-        }
-
-        // ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, names);
-        RestaurantListAdapter adapter = new RestaurantListAdapter(getActivity(), mRestaurants);
-        setListAdapter(adapter);
+        mAdapter = new RestaurantListAdapter(getActivity(), mRestaurants);
+        setListAdapter(mAdapter);
     }
 
     @Override
@@ -126,7 +120,44 @@ public class RestaurantListFragment extends ListFragment {
      */
     private void deleteAllRestaurants(){
 
+        // delete from db
         mDatabaseHelper.deleteAllRestaurants();
+
+        // clear adapter
+        mRestaurants.clear();
+        mAdapter.notifyDataSetChanged();
+    }
+
+    /**
+     * Delete restaurant from database and adapter
+     * @param id id of restaurant to delete
+     */
+    private void deleteRestaurant(String id){
+
+        // delete from db
+        mDatabaseHelper.deleteRestaurantById(id);
+
+        // find in adapter, delete and refresh
+        mRestaurants.remove(getIndex(id));
+        mAdapter.notifyDataSetChanged();
+    }
+
+    /**
+     * Get index of Restaurant object according to id
+     * @param id id of restaurant to find
+     * @return index of restaurant in mRestaurants, -1 if not found
+     */
+    private int getIndex(String id){
+
+        for(int i = 0; i < mRestaurants.size(); i++){
+
+            if(mRestaurants.get(i).getId().equals(id)){
+
+                return i;
+            }
+        }
+
+        return -1;
     }
 
     @Override
@@ -167,7 +198,7 @@ public class RestaurantListFragment extends ListFragment {
 
                 if(id != null){
 
-                    mDatabaseHelper.deleteRestaurantById(id);
+                    deleteRestaurant(id);
                 }
             }
         }

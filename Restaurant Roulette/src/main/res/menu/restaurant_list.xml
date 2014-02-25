@@ -5,6 +5,7 @@
         android:id="@+id/menu_add_restaurant"
         android:orderInCategory="100"
         android:icon="@drawable/ic_action_new"
+        android:title="@string/menu_add_restaurant"
         app:showAsAction="ifRoom" />
 
     <item
