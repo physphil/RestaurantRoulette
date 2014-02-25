@@ -16,6 +16,7 @@ import android.widget.ListView;
 
 import com.physphil.android.restaurantroulette.data.DatabaseHelper;
 import com.physphil.android.restaurantroulette.models.Restaurant;
+import com.physphil.android.restaurantroulette.ui.RestaurantListAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +49,8 @@ public class RestaurantListFragment extends ListFragment {
             names.add(r.getName());
         }
 
-        ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, names);
+        // ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, names);
+        RestaurantListAdapter adapter = new RestaurantListAdapter(getActivity(), mRestaurants);
         setListAdapter(adapter);
     }
 
