@@ -22,6 +22,7 @@ import com.physphil.android.restaurantroulette.models.Restaurant;
  */
 public class RestaurantFragment extends Fragment {
 
+    public static final String ACTION_DELETE_RESTAURANT = "com.physphil.android.restaurantroulette.ACTION_DELETE_RESTAURANT";
     public static final String EXTRA_RESTAURANT_ID = "com.physphil.android.restaurantroulette.EXTRA_RESTAURANT_ID";
 
     private DatabaseHelper mDatabaseHelper;

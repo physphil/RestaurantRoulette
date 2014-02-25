@@ -176,6 +176,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     /**
+     * Delete restaurant from database, including all its history
+     * @param id id of restaurant to delete
+     */
+    public void deleteRestaurantById(String id){
+
+        String selection = COLUMN_RESTAURANT_ID + " = '" + id + "'";
+        mDb.delete(TABLE_RESTAURANTS, selection, null);
+
+        selection = COLUMN_HISTORY_RESTAURANT_ID + " = '" + id + "'";
+        mDb.delete(TABLE_HISTORY, selection, null);
+    }
+
+    /**
      * Delete all restaurants and history stored in database
      */
     public void deleteAllRestaurants(){

@@ -3,10 +3,14 @@ package com.physphil.android.restaurantroulette;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -52,6 +56,21 @@ public class RestaurantListFragment extends ListFragment {
         // ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, names);
         RestaurantListAdapter adapter = new RestaurantListAdapter(getActivity(), mRestaurants);
         setListAdapter(adapter);
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mReceiver,
+                new IntentFilter(RestaurantFragment.ACTION_DELETE_RESTAURANT));
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mReceiver);
     }
 
     @Override
@@ -133,5 +152,25 @@ public class RestaurantListFragment extends ListFragment {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    /**
+     * Receiver to catch all broadcasts for this fragment
+     */
+    private BroadcastReceiver mReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            if(intent.getAction().equals(RestaurantFragment.ACTION_DELETE_RESTAURANT)){
+
+                String id = intent.getStringExtra(RestaurantFragment.EXTRA_RESTAURANT_ID);
+
+                if(id != null){
+
+                    mDatabaseHelper.deleteRestaurantById(id);
+                }
+            }
+        }
+    };
 
 }
