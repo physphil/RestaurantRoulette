@@ -11,12 +11,12 @@
         <item>Japanese</item>
         <item>Mexican</item>
         <item>North American</item>
-        <item>Other</item>
         <item>Pizza</item>
         <item>Pub</item>
         <item>Seafood</item>
         <item>Sushi</item>
         <item>Vegetarian</item>
+        <item>Other</item>
     </string-array>
 
 </resources>

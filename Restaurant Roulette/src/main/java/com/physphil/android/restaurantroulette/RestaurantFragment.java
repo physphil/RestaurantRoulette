@@ -7,6 +7,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.Spinner;
@@ -14,8 +16,6 @@ import android.widget.Spinner;
 
 import com.physphil.android.restaurantroulette.data.DatabaseHelper;
 import com.physphil.android.restaurantroulette.models.Restaurant;
-
-import java.util.UUID;
 
 /**
  * Created by pshadlyn on 2/24/14.
@@ -26,10 +26,10 @@ public class RestaurantFragment extends Fragment {
 
     private DatabaseHelper mDatabaseHelper;
     private Restaurant mRestaurant;
-    private EditText mName;
-    private Spinner mGenre;
-    private RatingBar mRating;
-    private EditText mNotes;
+    private EditText etName;
+    private Spinner spinnerGenre;
+    private RatingBar ratingBarUserRating;
+    private EditText etNotes;
 
     public RestaurantFragment(){}
 
@@ -52,10 +52,10 @@ public class RestaurantFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View v = inflater.inflate(R.layout.fragment_restaurant, container, false);
 
-        mName = (EditText) v.findViewById(R.id.restaurant_name);
-        mGenre = (Spinner) v.findViewById(R.id.spinner_restaurant_genre);
-        mRating = (RatingBar) v.findViewById(R.id.rating_bar_restaurant);
-        mNotes = (EditText) v.findViewById(R.id.restaurant_notes);
+        etName = (EditText) v.findViewById(R.id.restaurant_name);
+        spinnerGenre = (Spinner) v.findViewById(R.id.spinner_restaurant_genre);
+        ratingBarUserRating = (RatingBar) v.findViewById(R.id.rating_bar_restaurant);
+        etNotes = (EditText) v.findViewById(R.id.restaurant_notes);
 
         return v;
     }
@@ -87,18 +87,58 @@ public class RestaurantFragment extends Fragment {
         super.onPause();
 
         // Save all entered restaurant info to database
-        mRestaurant.setName(mName.getText().toString());
-        mRestaurant.setNotes(mNotes.getText().toString());
-        mRestaurant.setUserRating((int) mRating.getRating());
+        mRestaurant.setName(etName.getText().toString());
+        mRestaurant.setNotes(etNotes.getText().toString());
+        mRestaurant.setUserRating((int) ratingBarUserRating.getRating());
 
         mDatabaseHelper.addRestaurant(mRestaurant);
     }
 
     private void initializeViewContent(){
 
-        mName.setText(mRestaurant.getName());
-        mNotes.setText(mRestaurant.getNotes());
-        mRating.setRating(mRestaurant.getUserRating());
+        etName.setText(mRestaurant.getName());
+        etNotes.setText(mRestaurant.getNotes());
+        ratingBarUserRating.setRating(mRestaurant.getUserRating());
 
+        // Set spinner adapter and initialize
+        String[] genres = getResources().getStringArray(R.array.genres);
+        spinnerGenre.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, genres));
+        spinnerGenre.setSelection(getIndex(spinnerGenre, mRestaurant.getGenre()));
+
+        // Add listener to set genre when changed
+        spinnerGenre.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> spinner, View view, int position, long id) {
+
+                mRestaurant.setGenre((String) spinner.getItemAtPosition(position));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
+    }
+
+    /**
+     * Gets position of genre in spinner
+     * @param spinner
+     * @param genre
+     * @return index of Genre in Spinner, returns index of Other if not found or if genre is null
+     */
+    private int getIndex(Spinner spinner, String genre){
+
+        if(genre != null){
+
+            for(int i = 0; i < spinner.getCount(); i++){
+
+                if(spinner.getItemAtPosition(i).equals(genre)){
+
+                    return i;
+                }
+            }
+        }
+
+        // Item not found, set as 'Other', which is always last position in spinner
+        return spinner.getCount() - 1;
     }
 }
