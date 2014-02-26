@@ -6,6 +6,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.physphil.android.restaurantroulette.models.Restaurant;
+
 /**
  * Created by pshadlyn on 2/24/14.
  */
@@ -20,9 +22,16 @@ public class RestaurantActivity extends ActionBarActivity {
 
         String id = getIntent().getStringExtra(RestaurantFragment.EXTRA_RESTAURANT_ID);
 
+        // Attempt to find previously existing fragment.  If not found create new one.
         FragmentManager fm = getSupportFragmentManager();
+        RestaurantFragment fragment = (RestaurantFragment) fm.findFragmentById(R.id.fragment_container);
+
+        if(fragment == null){
+            fragment = RestaurantFragment.newInstance(id);
+        }
+
         fm.beginTransaction()
-                .replace(R.id.fragment_container, RestaurantFragment.newInstance(id))
+                .replace(R.id.fragment_container, fragment)
                 .commit();
     }
 

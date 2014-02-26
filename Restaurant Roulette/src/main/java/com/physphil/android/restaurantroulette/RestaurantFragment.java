@@ -69,10 +69,16 @@ public class RestaurantFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         mDatabaseHelper = DatabaseHelper.getInstance(getActivity());
+        String id;
 
-        String id = getArguments().getString(EXTRA_RESTAURANT_ID);
+        if(savedInstanceState != null){
+            id = savedInstanceState.getString(EXTRA_RESTAURANT_ID);
+        }
+        else{
+            id = getArguments().getString(EXTRA_RESTAURANT_ID);
+        }
 
-        // A valid restaurant id from the db was passed in, populate views with restaurant info
+        // If a valid restaurant id from the db exists, populate views with restaurant info
         if(id != null){
 
             // Get existing object from database
@@ -93,7 +99,6 @@ public class RestaurantFragment extends Fragment {
         // Save all entered restaurant info to database
         mRestaurant.setName(etName.getText().toString());
         mRestaurant.setNotes(etNotes.getText().toString());
-        mRestaurant.setUserRating((int) ratingBarUserRating.getRating());
 
         mDatabaseHelper.addRestaurant(mRestaurant);
 
@@ -106,15 +111,25 @@ public class RestaurantFragment extends Fragment {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        // Save restaurant id in fragment bundle, to be restored on recreation
-//        getArguments().putString(EXTRA_RESTAURANT_ID, mRestaurant.getId());
+        // Save restaurant id for recreation
+        outState.putString(EXTRA_RESTAURANT_ID, mRestaurant.getId());
     }
 
     private void initializeViewContent(){
 
         etName.setText(mRestaurant.getName());
         etNotes.setText(mRestaurant.getNotes());
+
         ratingBarUserRating.setRating(mRestaurant.getUserRating());
+        ratingBarUserRating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+
+                // Set new rating every time it changes
+                mRestaurant.setUserRating((int) rating);
+            }
+        });
 
         // Set spinner adapter and initialize
         String[] genres = getResources().getStringArray(R.array.genres);
@@ -131,8 +146,7 @@ public class RestaurantFragment extends Fragment {
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
     }
 
