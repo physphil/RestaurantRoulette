@@ -10,16 +10,22 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SpinnerAdapter;
+import android.widget.Toast;
 
 import com.physphil.android.restaurantroulette.data.DatabaseHelper;
 import com.physphil.android.restaurantroulette.models.Restaurant;
 import com.physphil.android.restaurantroulette.ui.RestaurantListAdapter;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -52,9 +58,20 @@ public class RestaurantListFragment extends ListFragment {
         setEmptyText(getString(R.string.empty_listview_restaurants));
 
         updateRestaurantListView();
-//        mRestaurants = mDatabaseHelper.getAllRestaurants();
-//        mAdapter = new RestaurantListAdapter(getActivity(), mRestaurants);
-//        setListAdapter(mAdapter);
+
+//        // Add spinner for filtering in action bar
+//        final SpinnerAdapter adapter = ArrayAdapter.createFromResource(getActivity(), R.array.genres, android.R.layout.simple_spinner_dropdown_item);
+//        ActionBar actionBar = ((MainActivity) getActivity()).getSupportActionBar();
+//        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+//        actionBar.setListNavigationCallbacks(adapter, new ActionBar.OnNavigationListener() {
+//
+//            @Override
+//            public boolean onNavigationItemSelected(int i, long l) {
+//                Toast.makeText(getActivity(), "Filter by " + adapter.getItem(i), Toast.LENGTH_LONG).show();
+//
+//                return true;
+//            }
+//        });
     }
 
     @Override
@@ -189,6 +206,26 @@ public class RestaurantListFragment extends ListFragment {
 
             case R.id.menu_delete_all_restaurants:
                 confirmDeleteAllRestaurants();
+                return true;
+
+            case R.id.menu_test:
+
+                // Add spinner for filtering in action bar
+                List<String> genres = new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.genres)));
+                genres.add(0, "All Restaurants");
+                final SpinnerAdapter adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, genres);
+                ActionBar actionBar = ((MainActivity) getActivity()).getSupportActionBar();
+                actionBar.setDisplayShowTitleEnabled(false);
+                actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+                actionBar.setListNavigationCallbacks(adapter, new ActionBar.OnNavigationListener() {
+
+                    @Override
+                    public boolean onNavigationItemSelected(int i, long l) {
+                        Toast.makeText(getActivity(), "Filter by " + adapter.getItem(i), Toast.LENGTH_LONG).show();
+
+                        return true;
+                    }
+                });
                 return true;
 
             default:
