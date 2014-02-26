@@ -4,22 +4,19 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.media.Image;
+import android.graphics.Typeface;
 import android.support.v4.content.LocalBroadcastManager;
-import android.text.Layout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.physphil.android.restaurantroulette.R;
 import com.physphil.android.restaurantroulette.RestaurantFragment;
 import com.physphil.android.restaurantroulette.models.Restaurant;
+import com.physphil.android.restaurantroulette.util.Constants;
 
 import java.util.List;
 
@@ -65,9 +62,12 @@ public class RestaurantListAdapter extends BaseAdapter {
         TextView tvName = (TextView) convertView.findViewById(R.id.restaurant_name);
         TextView tvGenre = (TextView) convertView.findViewById(R.id.restaurant_genre);
         ImageButton btnDelete = (ImageButton) convertView.findViewById(R.id.restaurant_delete_button);
+        Typeface defaultFont = Typeface.createFromAsset(mContext.getAssets(), Constants.FONT_DEFAULT);
 
         tvName.setText(restaurant.getName());
+        tvName.setTypeface(defaultFont);
         tvGenre.setText(restaurant.getGenre());
+        tvGenre.setTypeface(defaultFont);
 
         btnDelete.setOnClickListener(new View.OnClickListener() {
 

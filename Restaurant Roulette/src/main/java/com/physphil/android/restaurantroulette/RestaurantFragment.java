@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -99,6 +100,14 @@ public class RestaurantFragment extends Fragment {
         // Send broadcast to update listview
         Intent i = new Intent(RestaurantListFragment.ACTION_UPDATE_RESTAURANT_LIST);
         LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(i);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        // Save restaurant id in fragment bundle, to be restored on recreation
+//        getArguments().putString(EXTRA_RESTAURANT_ID, mRestaurant.getId());
     }
 
     private void initializeViewContent(){

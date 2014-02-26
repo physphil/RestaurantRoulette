@@ -2,7 +2,6 @@ package com.physphil.android.restaurantroulette;
 
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -15,14 +14,12 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.physphil.android.restaurantroulette.data.DatabaseHelper;
 import com.physphil.android.restaurantroulette.models.Restaurant;
 import com.physphil.android.restaurantroulette.ui.RestaurantListAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -54,9 +51,10 @@ public class RestaurantListFragment extends ListFragment {
         super.onActivityCreated(savedInstanceState);
         setEmptyText(getString(R.string.empty_listview_restaurants));
 
-        mRestaurants = mDatabaseHelper.getAllRestaurants();
-        mAdapter = new RestaurantListAdapter(getActivity(), mRestaurants);
-        setListAdapter(mAdapter);
+        updateRestaurantListView();
+//        mRestaurants = mDatabaseHelper.getAllRestaurants();
+//        mAdapter = new RestaurantListAdapter(getActivity(), mRestaurants);
+//        setListAdapter(mAdapter);
     }
 
     @Override
@@ -148,7 +146,7 @@ public class RestaurantListFragment extends ListFragment {
     /**
      * Update list of restaurants from database
      */
-    private void updateRestaurants(){
+    private void updateRestaurantListView(){
 
         // Need to replace adapter as mRestaurants is a new object. Adapter is still using old object, which no longer exists.
         mRestaurants = mDatabaseHelper.getAllRestaurants();
@@ -217,7 +215,7 @@ public class RestaurantListFragment extends ListFragment {
             }
             else if(intent.getAction().equals(ACTION_UPDATE_RESTAURANT_LIST)){
 
-                updateRestaurants();
+                updateRestaurantListView();
             }
         }
     };
