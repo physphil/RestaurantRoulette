@@ -73,10 +73,10 @@ public class RestaurantListAdapter extends BaseAdapter {
 
             @Override
             public void onClick(View v) {
-                Log.v("PS", "Delete restaurant " + restaurant.getName());
+
                 new AlertDialog.Builder(mContext)
-                        .setTitle("Delete item?")
-                        .setMessage("Delete restaurant " + restaurant.getName() + "?")
+                        .setTitle(R.string.dialog_delete_restaurant_title)
+                        .setMessage(R.string.dialog_delete_restaurant_message)
                         .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 
                             @Override

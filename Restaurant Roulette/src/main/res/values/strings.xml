@@ -21,6 +21,8 @@
 
     <string name="dialog_delete_all_restaurants_title">Delete All Restaurants?</string>
     <string name="dialog_delete_all_restaurants_message">Are you sure you want to delete all your saved restaurants?</string>
+    <string name="dialog_delete_restaurant_title">Delete Restaurant?</string>
+    <string name="dialog_delete_restaurant_message">Are you sure you want to delete this restaurant?</string>
 
     <string name="empty_listview_restaurants">Touch + in the menu bar to add a restaurant</string>
 

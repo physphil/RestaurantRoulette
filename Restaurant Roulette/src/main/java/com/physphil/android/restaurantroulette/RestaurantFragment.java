@@ -1,9 +1,11 @@
 package com.physphil.android.restaurantroulette;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -93,6 +95,10 @@ public class RestaurantFragment extends Fragment {
         mRestaurant.setUserRating((int) ratingBarUserRating.getRating());
 
         mDatabaseHelper.addRestaurant(mRestaurant);
+
+        // Send broadcast to update listview
+        Intent i = new Intent(RestaurantListFragment.ACTION_UPDATE_RESTAURANT_LIST);
+        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(i);
     }
 
     private void initializeViewContent(){
@@ -116,7 +122,8 @@ public class RestaurantFragment extends Fragment {
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
         });
     }
 

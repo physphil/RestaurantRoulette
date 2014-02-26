@@ -31,6 +31,8 @@ import java.util.List;
  */
 public class RestaurantListFragment extends ListFragment {
 
+    public static final String ACTION_UPDATE_RESTAURANT_LIST = "com.physphil.android.restaurantroulette.ACTION_UPDATE_RESTAURANT_LIST";
+
     private DatabaseHelper mDatabaseHelper;
     private List<Restaurant> mRestaurants;
     private RestaurantListAdapter mAdapter;
@@ -40,6 +42,11 @@ public class RestaurantListFragment extends ListFragment {
         setHasOptionsMenu(true);
 
         mDatabaseHelper = DatabaseHelper.getInstance(getActivity());
+
+        // Register broadcast receivers. Need to happen here as receivers need to be active while detail fragment is updating
+        LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(getActivity());
+        lbm.registerReceiver(mReceiver, new IntentFilter(RestaurantFragment.ACTION_DELETE_RESTAURANT));
+        lbm.registerReceiver(mReceiver, new IntentFilter(ACTION_UPDATE_RESTAURANT_LIST));
     }
 
     @Override
@@ -53,16 +60,8 @@ public class RestaurantListFragment extends ListFragment {
     }
 
     @Override
-    public void onResume(){
-        super.onResume();
-
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mReceiver,
-                new IntentFilter(RestaurantFragment.ACTION_DELETE_RESTAURANT));
-    }
-
-    @Override
-    public void onPause(){
-        super.onPause();
+    public void onDestroy(){
+        super.onDestroy();
 
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mReceiver);
     }
@@ -138,8 +137,23 @@ public class RestaurantListFragment extends ListFragment {
         mDatabaseHelper.deleteRestaurantById(id);
 
         // find in adapter, delete and refresh
-        mRestaurants.remove(getIndex(id));
-        mAdapter.notifyDataSetChanged();
+        int index = getIndex(id);
+
+        if(index >= 0){
+            mRestaurants.remove(index);
+            mAdapter.notifyDataSetChanged();
+        }
+    }
+
+    /**
+     * Update list of restaurants from database
+     */
+    private void updateRestaurants(){
+
+        // Need to replace adapter as mRestaurants is a new object. Adapter is still using old object, which no longer exists.
+        mRestaurants = mDatabaseHelper.getAllRestaurants();
+        mAdapter = new RestaurantListAdapter(getActivity(), mRestaurants);
+        setListAdapter(mAdapter);
     }
 
     /**
@@ -200,6 +214,10 @@ public class RestaurantListFragment extends ListFragment {
 
                     deleteRestaurant(id);
                 }
+            }
+            else if(intent.getAction().equals(ACTION_UPDATE_RESTAURANT_LIST)){
+
+                updateRestaurants();
             }
         }
     };
