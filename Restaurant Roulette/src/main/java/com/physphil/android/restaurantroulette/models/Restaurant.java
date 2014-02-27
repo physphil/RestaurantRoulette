@@ -7,6 +7,7 @@ import java.util.UUID;
  */
 public class Restaurant {
 
+    public static final String GENRE_ALL = "All";
     public static final String GENRE_NORTH_AMERICAN = "North American";
     public static final String GENRE_BREAKFAST = "Breakfast";
     public static final String GENRE_CHINESE = "Chinese";

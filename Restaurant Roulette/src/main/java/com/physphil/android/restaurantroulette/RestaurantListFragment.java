@@ -7,10 +7,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.ListFragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -27,6 +30,7 @@ import com.physphil.android.restaurantroulette.ui.RestaurantListAdapter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.prefs.PreferenceChangeEvent;
 
 /**
  * Show list of restaurants stored in user database
@@ -35,16 +39,21 @@ import java.util.List;
 public class RestaurantListFragment extends ListFragment {
 
     public static final String ACTION_UPDATE_RESTAURANT_LIST = "com.physphil.android.restaurantroulette.ACTION_UPDATE_RESTAURANT_LIST";
+    public static final String PREFS_GENRE_FILTER = "genre_filter";
+    public static final int GENRE_ALL = 0;
 
     private DatabaseHelper mDatabaseHelper;
     private List<Restaurant> mRestaurants;
     private RestaurantListAdapter mAdapter;
+    private int mFilter;
+    private SharedPreferences mPrefs;
 
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
 
         mDatabaseHelper = DatabaseHelper.getInstance(getActivity());
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
         // Register broadcast receivers. Need to happen here as receivers need to be active while detail fragment is updating
         LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(getActivity());
@@ -56,6 +65,8 @@ public class RestaurantListFragment extends ListFragment {
     public void onActivityCreated(Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
         setEmptyText(getString(R.string.empty_listview_restaurants));
+
+        mFilter = mPrefs.getInt(PREFS_GENRE_FILTER, GENRE_ALL);
 
         updateRestaurantListView();
 
@@ -165,10 +176,50 @@ public class RestaurantListFragment extends ListFragment {
      */
     private void updateRestaurantListView(){
 
+        if(mFilter == GENRE_ALL){
+            mRestaurants = mDatabaseHelper.getAllRestaurants();
+        }
+        else{
+            // Filter by genre. Need to subtract 1 from index as index 0 is added to array and reserved for All Restaurants (no filtering)
+            String genres[] = getResources().getStringArray(R.array.genres);
+            mRestaurants = mDatabaseHelper.getRestaurantsByGenre(genres[mFilter - 1]);
+        }
+
         // Need to replace adapter as mRestaurants is a new object. Adapter is still using old object, which no longer exists.
-        mRestaurants = mDatabaseHelper.getAllRestaurants();
         mAdapter = new RestaurantListAdapter(getActivity(), mRestaurants);
         setListAdapter(mAdapter);
+    }
+
+    /**
+     * Set up filtering navigation in action bar, and display list view with results from filtering
+     */
+    public void setupListFiltering(){
+
+        List<String> genres = new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.genres)));
+        genres.add(0, "All Restaurants");
+
+        final SpinnerAdapter adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, genres);
+        ActionBar actionBar = ((MainActivity) getActivity()).getSupportActionBar();
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+        actionBar.setListNavigationCallbacks(adapter, new ActionBar.OnNavigationListener() {
+
+            @Override
+            public boolean onNavigationItemSelected(int i, long l) {
+
+                Toast.makeText(getActivity(), "Filter by " + adapter.getItem(i), Toast.LENGTH_LONG).show();
+                mFilter = i;
+                mPrefs.edit()
+                        .putInt(PREFS_GENRE_FILTER, i)
+                        .commit();
+
+                // Refresh list
+                updateRestaurantListView();
+
+                return true;
+            }
+        });
+        actionBar.setSelectedNavigationItem(mFilter);
     }
 
     /**
@@ -206,26 +257,6 @@ public class RestaurantListFragment extends ListFragment {
 
             case R.id.menu_delete_all_restaurants:
                 confirmDeleteAllRestaurants();
-                return true;
-
-            case R.id.menu_test:
-
-                // Add spinner for filtering in action bar
-                List<String> genres = new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.genres)));
-                genres.add(0, "All Restaurants");
-                final SpinnerAdapter adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, genres);
-                ActionBar actionBar = ((MainActivity) getActivity()).getSupportActionBar();
-                actionBar.setDisplayShowTitleEnabled(false);
-                actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-                actionBar.setListNavigationCallbacks(adapter, new ActionBar.OnNavigationListener() {
-
-                    @Override
-                    public boolean onNavigationItemSelected(int i, long l) {
-                        Toast.makeText(getActivity(), "Filter by " + adapter.getItem(i), Toast.LENGTH_LONG).show();
-
-                        return true;
-                    }
-                });
                 return true;
 
             default:

@@ -145,15 +145,35 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     /**
+     * Get list of all Restaurants stored in database with specified genre, sorted in alphabetical order
+     * @param genre genre to search for
+     * @return list of restaurants
+     */
+    public List<Restaurant> getRestaurantsByGenre(String genre){
+
+        String filter = COLUMN_RESTAURANT_GENRE + " = '" + genre + "'";
+        return getRestaurants(filter);
+    }
+
+    /**
      * Get list of all Restaurants stored in database, sorted in alphabetical order
      * @return list of all restaurants
      */
     public List<Restaurant> getAllRestaurants(){
+        return getRestaurants(null);
+    }
+
+    /**
+     * Get restaurants from database
+     * @param filter selection for query, formatted as SQL string (minus the WHERE clause). Passing in null returns all restaurants with no filter.
+     * @return list of restaurants
+     */
+    private List<Restaurant> getRestaurants(String filter){
 
         List<Restaurant> restaurants = new ArrayList<Restaurant>();
         String[] columns = new String[] {COLUMN_RESTAURANT_ID, COLUMN_RESTAURANT_NAME, COLUMN_RESTAURANT_GENRE, COLUMN_RESTAURANT_USER_RATING};
 
-        Cursor c = mDb.query(TABLE_RESTAURANTS, columns, null, null, null, null, COLUMN_RESTAURANT_NAME);
+        Cursor c = mDb.query(TABLE_RESTAURANTS, columns, filter, null, null, null, COLUMN_RESTAURANT_NAME);
 
         if(c.moveToFirst()){
 
