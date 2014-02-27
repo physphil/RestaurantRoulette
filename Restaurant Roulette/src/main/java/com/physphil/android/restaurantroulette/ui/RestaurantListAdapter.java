@@ -65,9 +65,9 @@ public class RestaurantListAdapter extends BaseAdapter {
         Typeface defaultFont = Typeface.createFromAsset(mContext.getAssets(), Constants.FONT_DEFAULT);
 
         tvName.setText(restaurant.getName());
-        tvName.setTypeface(defaultFont);
+        //tvName.setTypeface(defaultFont);
         tvGenre.setText(restaurant.getGenre());
-        tvGenre.setTypeface(defaultFont);
+        //tvGenre.setTypeface(defaultFont);
 
         btnDelete.setOnClickListener(new View.OnClickListener() {
 

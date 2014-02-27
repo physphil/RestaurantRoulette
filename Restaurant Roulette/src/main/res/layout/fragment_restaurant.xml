@@ -11,6 +11,7 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
+
         <TextView
             android:id="@+id/restaurant_name_text"
             android:layout_width="wrap_content"
@@ -27,53 +28,33 @@
             android:layout_marginLeft="@dimen/margin_editText"
             android:inputType="textCapSentences" />
 
-        <TextView
+        <include
+            android:id="@+id/restaurant_genre_spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/restaurant_genre"
-            android:id="@+id/restaurant_genre_text"
+            layout="@layout/restaurant_genre_spinner"
             android:layout_below="@+id/restaurant_name"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="50dp" />
+            android:layout_marginTop="@dimen/margin_horizontal_restaurant_row"/>
 
-        <Spinner
+        <include
+            android:id="@+id/restaurant_rating_bar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/spinner_restaurant_genre"
-            android:layout_alignTop="@+id/restaurant_genre_text"
-            android:layout_alignLeft="@+id/restaurant_name"
-            android:layout_alignStart="@+id/restaurant_name" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/restaurant_rating"
-            android:id="@+id/restaurant_rating_text"
-            android:layout_below="@+id/spinner_restaurant_genre"
+            layout="@layout/restaurant_rating_bar"
+            android:layout_below="@+id/restaurant_genre_spinner"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="25dp" />
-
-        <RatingBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/rating_bar_restaurant"
-            android:layout_alignTop="@+id/restaurant_rating_text"
-            android:layout_alignLeft="@+id/spinner_restaurant_genre"
-            android:layout_alignStart="@+id/spinner_restaurant_genre"
-            android:rating="3"
-            android:stepSize="1" />
+            android:layout_marginTop="@dimen/margin_horizontal_restaurant_row" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/restaurant_notes"
             android:id="@+id/restaurant_notes_text"
-            android:layout_below="@+id/rating_bar_restaurant"
+            android:layout_below="@+id/restaurant_rating_bar"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="28dp" />
+            android:layout_marginTop="@dimen/margin_horizontal_restaurant_row" />
 
         <EditText
             android:layout_width="wrap_content"

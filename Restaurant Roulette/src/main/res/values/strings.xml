@@ -10,11 +10,16 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_example">Example action</string>
     <string name="action_settings">Settings</string>
+    <string name="all_restaurants">All Restaurants</string>
 
     <string name="restaurant_name">Name:</string>
     <string name="restaurant_genre">Genre:</string>
     <string name="restaurant_rating">Rating:</string>
     <string name="restaurant_notes">Notes:</string>
+    <string name="restaurant_selector_filter">Filter:</string>
+    <string name="restaurant_selector_button">Where should I eat?</string>
+    <string name="restaurant_number_visits">Number of visits:</string>
+    <string name="restaurant_last_time_visited">Last time visited:</string>
 
     <string name="menu_add_restaurant">Add Restaurant</string>
     <string name="menu_delete_all_restaurants">Delete All</string>
