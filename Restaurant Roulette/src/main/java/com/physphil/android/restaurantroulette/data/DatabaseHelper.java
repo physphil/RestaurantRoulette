@@ -5,11 +5,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.support.v7.appcompat.R;
 
 import com.physphil.android.restaurantroulette.models.Restaurant;
+import com.physphil.android.restaurantroulette.models.RestaurantHistory;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -39,6 +40,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_HISTORY_ID = "id";
     public static final String COLUMN_HISTORY_RESTAURANT_ID = "restaurantId";
     public static final String COLUMN_HISTORY_DATE = "date";
+
+    public static final String[] COLUMNS_HISTORY_TABLE = {COLUMN_HISTORY_ID, COLUMN_HISTORY_RESTAURANT_ID, COLUMN_HISTORY_DATE};
 
     // Database creation SQL statements
     private static final String CREATE_TABLE_RESTAURANTS =
@@ -214,6 +217,49 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void deleteAllRestaurants(){
 
         mDb.delete(TABLE_RESTAURANTS, null, null);
+        deleteRestaurantHistory();
+    }
+
+    /**
+     * Add restaurant selection to history
+     * @param id
+     */
+    public void addRestaurantHistory(String id){
+
+        ContentValues cv = new ContentValues();
+        cv.put(COLUMN_HISTORY_RESTAURANT_ID, id);
+        cv.put(COLUMN_HISTORY_DATE, new Date().getTime());
+
+        mDb.insert(TABLE_HISTORY, null, cv);
+    }
+
+    public List<RestaurantHistory> getHistoryByRestaurant(String id){
+
+        List<RestaurantHistory> history = new ArrayList<RestaurantHistory>();
+        String selection = COLUMN_HISTORY_RESTAURANT_ID + " = '" + id + "'";
+
+        Cursor c = mDb.query(TABLE_HISTORY, COLUMNS_HISTORY_TABLE, selection, null, null, null, COLUMN_HISTORY_DATE);
+
+        if(c.moveToFirst()){
+
+            while(!c.isAfterLast()){
+
+                history.add(new RestaurantHistory(
+                        c.getInt(c.getColumnIndex(COLUMN_HISTORY_ID)),
+                        c.getString(c.getColumnIndex(COLUMN_HISTORY_RESTAURANT_ID)),
+                        c.getString(c.getColumnIndex(COLUMN_HISTORY_DATE))));
+
+                c.moveToNext();
+            }
+        }
+
+        c.close();
+        return history;
+    }
+
+    public void deleteRestaurantHistory(){
+
         mDb.delete(TABLE_HISTORY, null, null);
     }
+
 }

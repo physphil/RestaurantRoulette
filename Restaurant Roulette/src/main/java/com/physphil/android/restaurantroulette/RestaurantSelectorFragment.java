@@ -1,9 +1,14 @@
 package com.physphil.android.restaurantroulette;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +21,11 @@ import android.widget.Toast;
 
 import com.physphil.android.restaurantroulette.data.DatabaseHelper;
 import com.physphil.android.restaurantroulette.models.Restaurant;
+import com.physphil.android.restaurantroulette.models.RestaurantHistory;
 import com.physphil.android.restaurantroulette.util.Util;
 
+import java.text.DateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -25,6 +33,9 @@ import java.util.List;
  */
 public class RestaurantSelectorFragment extends Fragment {
 
+    public static String ACTION_HISTORY_CLEARED = "com.physphil.android.restaurantroulette.ACTION_HISTORY_CLEARED";
+    private static String EXTRA_ANSWER = "com.physphil.android.restuarantroulette.EXTRA_ANSWER";
+    private static String EXTRA_SUMMARY = "com.physphil.android.restuarantroulette.EXTRA_SUMMARY";
     public static String PREFS_GENRE_FILTER_SELECTOR = "genre_filter_selector";
 
     private DatabaseHelper mDatabaseHelper;
@@ -55,8 +66,51 @@ public class RestaurantSelectorFragment extends Fragment {
 
         prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         mDatabaseHelper = DatabaseHelper.getInstance(getActivity());
+        mFilter = prefs.getInt(PREFS_GENRE_FILTER_SELECTOR, Restaurant.GENRE_ALL);
 
         initViewContent();
+
+        // Restore answer and summary from before config change
+        if(savedInstanceState != null){
+
+            String answer = savedInstanceState.getString(EXTRA_ANSWER);
+
+            if(answer != null){
+
+                tvAnswer.setText(answer);
+                btnSelectRestaurant.setText(R.string.restaurant_selector_button_pick_another);
+                tvHeader.setText(R.string.restaurant_answer_header);
+
+                String summary = savedInstanceState.getString(EXTRA_SUMMARY);
+
+                if(summary != null){
+                    tvSummary.setText(summary);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mReceiver,
+                new IntentFilter(ACTION_HISTORY_CLEARED));
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mReceiver);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putString(EXTRA_ANSWER, tvAnswer.getText().toString());
+        outState.putString(EXTRA_SUMMARY, tvSummary.getText().toString());
     }
 
     private void initViewContent(){
@@ -72,7 +126,7 @@ public class RestaurantSelectorFragment extends Fragment {
 
         List<String> genres = Util.getGenresForAdapter(getActivity());
         spinnerGenre.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, genres));
-        spinnerGenre.setSelection(prefs.getInt(PREFS_GENRE_FILTER_SELECTOR, Restaurant.GENRE_ALL));
+        spinnerGenre.setSelection(prefs.getInt(PREFS_GENRE_FILTER_SELECTOR, Restaurant.GENRE_ALL), false);  // use false for animate to not trigger listener when setting initial selection. Weird, but works.
         spinnerGenre.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
@@ -91,13 +145,6 @@ public class RestaurantSelectorFragment extends Fragment {
     }
 
     private void selectRestaurant(){
-
-        /**
-         * get current filter
-         * select restaurant
-         * populate views and display
-         * set new button text
-         */
 
         // Get list of restaurants to choose from based on filter
         List<Restaurant> restaurants;
@@ -135,6 +182,19 @@ public class RestaurantSelectorFragment extends Fragment {
             btnSelectRestaurant.setText(R.string.restaurant_selector_button_pick_another);
             tvHeader.setText(R.string.restaurant_answer_header);
             tvAnswer.setText(restaurant.getName());
+
+            List<RestaurantHistory> history = mDatabaseHelper.getHistoryByRestaurant(restaurant.getId());
+
+            if(history.size() > 0){
+
+                tvSummary.setText(getSummaryText(history));
+            }
+            else{
+                // No history info, so no summary to show
+                tvSummary.setText("");
+            }
+
+            mDatabaseHelper.addRestaurantHistory(restaurant.getId());
         }
         else{
 
@@ -145,5 +205,33 @@ public class RestaurantSelectorFragment extends Fragment {
         }
     }
 
+    /**
+     * Produces text to include in the selection summary
+     * @param history RestaurantHistory entry
+     * @return summary text
+     */
+    private String getSummaryText(List<RestaurantHistory> history){
+
+        int numVisit = history.size();
+        Date recentVisit = history.get(0).getDate();
+        DateFormat df = DateFormat.getDateInstance();
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(getString(R.string.restaurant_number_visits))
+                .append(numVisit + "\n")
+                .append(getString(R.string.restaurant_last_time_visited))
+                .append(df.format(recentVisit));
+
+        return sb.toString();
+    }
+
+    private BroadcastReceiver mReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            setAnswer(null);
+        }
+    };
     
 }

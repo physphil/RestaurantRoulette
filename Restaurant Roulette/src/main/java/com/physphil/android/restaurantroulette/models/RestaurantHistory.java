@@ -8,8 +8,21 @@ import java.util.Date;
 public class RestaurantHistory {
 
     private int id;
-    private int restaurantId;
+    private String restaurantId;
     private Date date;
+
+    /**
+     * Create new RestaurantHistory object
+     * @param id id from database
+     * @param restaurantId restaurant id from database
+     * @param date selection date from db, in ms
+     */
+    public RestaurantHistory(int id, String restaurantId, String date){
+
+        this.id = id;
+        this.restaurantId = restaurantId;
+        this.date = new Date(Long.parseLong(date));
+    }
 
     public int getId() {
         return id;
@@ -19,11 +32,11 @@ public class RestaurantHistory {
         this.id = id;
     }
 
-    public int getRestaurantId() {
+    public String getRestaurantId() {
         return restaurantId;
     }
 
-    public void setRestaurantId(int restaurantId) {
+    public void setRestaurantId(String restaurantId) {
         this.restaurantId = restaurantId;
     }
 

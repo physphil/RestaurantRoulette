@@ -1,9 +1,13 @@
 package com.physphil.android.restaurantroulette;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -13,6 +17,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.physphil.android.restaurantroulette.data.DatabaseHelper;
 
 public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
@@ -55,8 +61,14 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 
             case 0:
                 mTitle = getString(R.string.title_restaurant_selector);
+                RestaurantSelectorFragment fragment = (RestaurantSelectorFragment) fm.findFragmentById(R.id.container);
+
+                if(fragment == null){
+                    fragment = new RestaurantSelectorFragment();
+                }
+
                 fm.beginTransaction()
-                        .replace(R.id.container, new RestaurantSelectorFragment())
+                        .replace(R.id.container, fragment)
                         .commit();
                 break;
 
@@ -102,6 +114,34 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         }
     }
 
+    private void confirmClearRestaurantHistory(){
+
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.dialog_delete_history_title)
+                .setMessage(R.string.dialog_delete_history_message)
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        clearRestaurantHistory();
+                    }
+                })
+                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Do nothing
+                    }
+                })
+                .show();
+    }
+
+    private void clearRestaurantHistory(){
+
+        DatabaseHelper.getInstance(this).deleteRestaurantHistory();
+        Intent i = new Intent(RestaurantSelectorFragment.ACTION_HISTORY_CLEARED);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(i);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -121,11 +161,16 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
+
+        switch(item.getItemId()){
+
+            case R.id.menu_clear_restaurant_history:
+                confirmClearRestaurantHistory();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 
     /**
