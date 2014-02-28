@@ -13,6 +13,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.ListFragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -184,11 +185,12 @@ public class RestaurantListFragment extends ListFragment {
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         actionBar.setSelectedNavigationItem(mFilter);
+        Log.v("PS", "mFilter = " + mFilter);
         actionBar.setListNavigationCallbacks(adapter, new ActionBar.OnNavigationListener() {
 
             @Override
             public boolean onNavigationItemSelected(int i, long l) {
-
+                Log.v("PS", "in onNavigationItemSelected, item = " + i);
                 // Save filter
                 mFilter = i;
                 mPrefs.edit()
