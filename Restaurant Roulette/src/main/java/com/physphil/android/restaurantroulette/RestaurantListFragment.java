@@ -24,7 +24,6 @@ import android.widget.SpinnerAdapter;
 import com.physphil.android.restaurantroulette.data.DatabaseHelper;
 import com.physphil.android.restaurantroulette.models.Restaurant;
 import com.physphil.android.restaurantroulette.ui.RestaurantListAdapter;
-import com.physphil.android.restaurantroulette.util.Util;
 
 import java.util.List;
 
@@ -178,7 +177,7 @@ public class RestaurantListFragment extends ListFragment {
 
 //        List<String> genres = new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.genres)));
 //        genres.add(0, "All Restaurants");
-        List<String> genres = Util.getGenresForAdapter(getActivity());
+        List<String> genres = Restaurant.getGenresForAdapter(getActivity());
 
         final SpinnerAdapter adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, genres);
         ActionBar actionBar = ((MainActivity) getActivity()).getSupportActionBar();

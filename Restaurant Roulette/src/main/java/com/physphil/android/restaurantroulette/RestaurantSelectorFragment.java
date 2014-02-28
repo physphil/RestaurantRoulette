@@ -22,7 +22,6 @@ import android.widget.Toast;
 import com.physphil.android.restaurantroulette.data.DatabaseHelper;
 import com.physphil.android.restaurantroulette.models.Restaurant;
 import com.physphil.android.restaurantroulette.models.RestaurantHistory;
-import com.physphil.android.restaurantroulette.util.Util;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -124,7 +123,7 @@ public class RestaurantSelectorFragment extends Fragment {
             }
         });
 
-        List<String> genres = Util.getGenresForAdapter(getActivity());
+        List<String> genres = Restaurant.getGenresForAdapter(getActivity());
         spinnerGenre.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, genres));
         spinnerGenre.setSelection(prefs.getInt(PREFS_GENRE_FILTER_SELECTOR, Restaurant.GENRE_ALL), false);  // use false for animate to not trigger listener when setting initial selection. Weird, but works.
         spinnerGenre.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -155,7 +154,7 @@ public class RestaurantSelectorFragment extends Fragment {
         }
         else{
 
-            String genre = Util.getGenresForAdapter(getActivity()).get(mFilter);
+            String genre = Restaurant.getGenresForAdapter(getActivity()).get(mFilter);
             restaurants = mDatabaseHelper.getRestaurantsByGenre(genre);
         }
 

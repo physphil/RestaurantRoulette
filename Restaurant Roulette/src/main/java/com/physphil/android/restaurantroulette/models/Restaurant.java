@@ -1,5 +1,12 @@
 package com.physphil.android.restaurantroulette.models;
 
+import android.content.Context;
+
+import com.physphil.android.restaurantroulette.R;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -90,5 +97,18 @@ public class Restaurant {
 
     public void setNotes(String notes){
         this.notes = notes;
+    }
+
+    /**
+     * Get list of genres used for filtering. Includes all listed genres, plus All Restaurants inserted at position 0.
+     * @param context context
+     * @return  list of genres to be used for filtering
+     */
+    public static List<String> getGenresForAdapter(Context context){
+
+        List<String> genres = new ArrayList<String>(Arrays.asList(context.getResources().getStringArray(R.array.genres)));
+        genres.add(Restaurant.GENRE_ALL, context.getString(R.string.all_restaurants));
+
+        return genres;
     }
 }
