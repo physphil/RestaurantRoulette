@@ -6,6 +6,7 @@
     <string name="title_section2">Section 2</string>
     <string name="title_section3">Section 3</string>
     <string name="title_restaurant_list">All Restaurants</string>
+    <string name="title_restaurant_selector">Pick A Restaurant</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_example">Example action</string>
@@ -18,8 +19,10 @@
     <string name="restaurant_notes">Notes:</string>
     <string name="restaurant_selector_filter">Filter:</string>
     <string name="restaurant_selector_button">Where should I eat?</string>
+    <string name="restaurant_selector_button_pick_another">Screw that. Pick another one!</string>
     <string name="restaurant_number_visits">Number of visits:</string>
     <string name="restaurant_last_time_visited">Last time visited:</string>
+    <string name="restaurant_answer_header">And the answer is&#8230;</string>
 
     <string name="menu_add_restaurant">Add Restaurant</string>
     <string name="menu_delete_all_restaurants">Delete All</string>
@@ -30,5 +33,7 @@
     <string name="dialog_delete_restaurant_message">Are you sure you want to delete this restaurant?</string>
 
     <string name="empty_listview_restaurants">Touch + in the menu bar to add a restaurant</string>
+
+    <string name="toast_no_restaurants_found">No specified restaurants could be found. Please add one and try again.</string>
 
 </resources>

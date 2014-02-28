@@ -3,7 +3,7 @@ package com.physphil.android.restaurantroulette.util;
 import android.content.Context;
 
 import com.physphil.android.restaurantroulette.R;
-import com.physphil.android.restaurantroulette.RestaurantListFragment;
+import com.physphil.android.restaurantroulette.models.Restaurant;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,7 +23,7 @@ public class Util {
     public static List<String> getGenresForAdapter(Context context){
 
         List<String> genres = new ArrayList<String>(Arrays.asList(context.getResources().getStringArray(R.array.genres)));
-        genres.add(RestaurantListFragment.GENRE_ALL, context.getString(R.string.all_restaurants));
+        genres.add(Restaurant.GENRE_ALL, context.getString(R.string.all_restaurants));
 
         return genres;
     }

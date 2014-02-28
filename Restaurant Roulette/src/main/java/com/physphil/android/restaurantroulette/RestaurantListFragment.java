@@ -35,8 +35,7 @@ import java.util.List;
 public class RestaurantListFragment extends ListFragment {
 
     public static final String ACTION_UPDATE_RESTAURANT_LIST = "com.physphil.android.restaurantroulette.ACTION_UPDATE_RESTAURANT_LIST";
-    public static final String PREFS_GENRE_FILTER = "genre_filter";
-    public static final int GENRE_ALL = 0;
+    public static final String PREFS_GENRE_FILTER_LIST = "genre_filter_list";
 
     private DatabaseHelper mDatabaseHelper;
     private List<Restaurant> mRestaurants;
@@ -62,7 +61,7 @@ public class RestaurantListFragment extends ListFragment {
         super.onActivityCreated(savedInstanceState);
         setEmptyText(getString(R.string.empty_listview_restaurants));
 
-        mFilter = mPrefs.getInt(PREFS_GENRE_FILTER, GENRE_ALL);
+        mFilter = mPrefs.getInt(PREFS_GENRE_FILTER_LIST, Restaurant.GENRE_ALL);
 
         updateRestaurantListView();
     }
@@ -158,7 +157,7 @@ public class RestaurantListFragment extends ListFragment {
      */
     private void updateRestaurantListView(){
 
-        if(mFilter == GENRE_ALL){
+        if(mFilter == Restaurant.GENRE_ALL){
             mRestaurants = mDatabaseHelper.getAllRestaurants();
         }
         else{
@@ -185,6 +184,7 @@ public class RestaurantListFragment extends ListFragment {
         ActionBar actionBar = ((MainActivity) getActivity()).getSupportActionBar();
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+        actionBar.setSelectedNavigationItem(mFilter);
         actionBar.setListNavigationCallbacks(adapter, new ActionBar.OnNavigationListener() {
 
             @Override
@@ -193,7 +193,7 @@ public class RestaurantListFragment extends ListFragment {
                 // Save filter
                 mFilter = i;
                 mPrefs.edit()
-                        .putInt(PREFS_GENRE_FILTER, i)
+                        .putInt(PREFS_GENRE_FILTER_LIST, i)
                         .commit();
 
                 // Refresh list
@@ -202,7 +202,6 @@ public class RestaurantListFragment extends ListFragment {
                 return true;
             }
         });
-        actionBar.setSelectedNavigationItem(mFilter);
     }
 
     /**

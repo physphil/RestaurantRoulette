@@ -14,8 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class MainActivity extends ActionBarActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -48,10 +47,16 @@ public class MainActivity extends ActionBarActivity
 
         switch(position){
 
-            case 0:
             case 2:
                 fm.beginTransaction()
                         .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
+                        .commit();
+                break;
+
+            case 0:
+                mTitle = getString(R.string.title_restaurant_selector);
+                fm.beginTransaction()
+                        .replace(R.id.container, new RestaurantSelectorFragment())
                         .commit();
                 break;
 
@@ -67,7 +72,7 @@ public class MainActivity extends ActionBarActivity
     public void onSectionAttached(int number) {
         switch (number) {
             case 1:
-                mTitle = getString(R.string.title_section1);
+                mTitle = getString(R.string.title_restaurant_selector);
                 break;
             case 2:
                 mTitle = getString(R.string.title_restaurant_list);

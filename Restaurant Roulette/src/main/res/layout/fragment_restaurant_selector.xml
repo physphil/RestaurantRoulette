@@ -9,7 +9,7 @@
     android:paddingBottom="@dimen/activity_vertical_margin">
 
     <RelativeLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <TextView
@@ -42,9 +42,17 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/restaurant_selector_header"
+            android:layout_below="@id/btn_select_restaurant"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/margin_horizontal_restaurant_row"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:id="@+id/restaurant_selector_answer"
-            android:layout_below="@id/btn_select_restaurant"
+            android:layout_below="@id/restaurant_selector_header"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/margin_horizontal_restaurant_row"/>
 
