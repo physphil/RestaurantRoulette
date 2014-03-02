@@ -26,8 +26,6 @@ import java.util.prefs.PreferenceChangeEvent;
 
 public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
-    public static final String PREFS_SELECTION_MAIN_MENU = "selection_main_menu";
-
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
@@ -42,18 +40,16 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
         setContentView(R.layout.activity_main);
 
         mNavigationDrawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
-        prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
-
-
     }
 
     @Override
@@ -163,13 +159,8 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     private void saveMenuSelection(int selection){
 
         prefs.edit()
-                .putInt(PREFS_SELECTION_MAIN_MENU, selection)
+                .putInt(NavigationDrawerFragment.PREF_SELECTED_MENU_ITEM, selection)
                 .commit();
-    }
-
-    private int getSavedMenuSelection(){
-
-        return prefs.getInt(PREFS_SELECTION_MAIN_MENU, 0);
     }
 
     @Override

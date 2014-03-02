@@ -74,6 +74,7 @@ public class RestaurantSelectorFragment extends Fragment {
 
             String answer = savedInstanceState.getString(EXTRA_ANSWER);
 
+            // Only restore if answer is present
             if(answer != null){
 
                 tvAnswer.setText(answer);
@@ -108,8 +109,12 @@ public class RestaurantSelectorFragment extends Fragment {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        outState.putString(EXTRA_ANSWER, tvAnswer.getText().toString());
-        outState.putString(EXTRA_SUMMARY, tvSummary.getText().toString());
+        // Only save answer if an answer is present
+        if(tvAnswer.getText().toString().length() > 0){
+
+            outState.putString(EXTRA_ANSWER, tvAnswer.getText().toString());
+            outState.putString(EXTRA_SUMMARY, tvSummary.getText().toString());
+        }
     }
 
     private void initViewContent(){

@@ -38,6 +38,7 @@ public class NavigationDrawerFragment extends Fragment {
      * expands it. This shared preference tracks this.
      */
     private static final String PREF_USER_LEARNED_DRAWER = "navigation_drawer_learned";
+    public static final String PREF_SELECTED_MENU_ITEM = "selected_menu_item";
 
     /**
      * A pointer to the current callbacks instance (the Activity).
@@ -72,6 +73,9 @@ public class NavigationDrawerFragment extends Fragment {
         if (savedInstanceState != null) {
             mCurrentSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_POSITION);
             mFromSavedInstanceState = true;
+        }
+        else{
+            mCurrentSelectedPosition = sp.getInt(PREF_SELECTED_MENU_ITEM, 0);
         }
 
         // Select either the default item (0) or the last selected item.
