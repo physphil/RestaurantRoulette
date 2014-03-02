@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.LocalBroadcastManager;
@@ -20,7 +22,11 @@ import android.widget.TextView;
 
 import com.physphil.android.restaurantroulette.data.DatabaseHelper;
 
+import java.util.prefs.PreferenceChangeEvent;
+
 public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+
+    public static final String PREFS_SELECTION_MAIN_MENU = "selection_main_menu";
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -31,6 +37,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
     private CharSequence mTitle;
+    private SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,17 +46,21 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 
         mNavigationDrawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+
+
     }
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
         FragmentManager fm = getSupportFragmentManager();
+        Fragment fragment = fm.findFragmentById(R.id.container);
 
         switch(position){
 
@@ -61,9 +72,9 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 
             case 0:
                 mTitle = getString(R.string.title_restaurant_selector);
-                RestaurantSelectorFragment fragment = (RestaurantSelectorFragment) fm.findFragmentById(R.id.container);
+                saveMenuSelection(0);
 
-                if(fragment == null){
+                if(!(fragment instanceof RestaurantSelectorFragment)){
                     fragment = new RestaurantSelectorFragment();
                 }
 
@@ -74,8 +85,14 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 
             case 1:
                 mTitle = getString(R.string.title_restaurant_list);
+                saveMenuSelection(1);
+
+                if(!(fragment instanceof RestaurantListFragment)){
+                    fragment = new RestaurantListFragment();
+                }
+
                 fm.beginTransaction()
-                        .replace(R.id.container, new RestaurantListFragment())
+                        .replace(R.id.container, fragment)
                         .commit();
                 break;
         }
@@ -141,6 +158,18 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         DatabaseHelper.getInstance(this).deleteRestaurantHistory();
         Intent i = new Intent(RestaurantSelectorFragment.ACTION_HISTORY_CLEARED);
         LocalBroadcastManager.getInstance(this).sendBroadcast(i);
+    }
+
+    private void saveMenuSelection(int selection){
+
+        prefs.edit()
+                .putInt(PREFS_SELECTION_MAIN_MENU, selection)
+                .commit();
+    }
+
+    private int getSavedMenuSelection(){
+
+        return prefs.getInt(PREFS_SELECTION_MAIN_MENU, 0);
     }
 
     @Override

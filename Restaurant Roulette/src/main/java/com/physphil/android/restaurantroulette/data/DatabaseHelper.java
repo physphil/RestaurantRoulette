@@ -233,12 +233,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         mDb.insert(TABLE_HISTORY, null, cv);
     }
 
+    /**
+     * Get selection history for an individual restaurant, sorted by date of selection in descending order
+     * @param id restaurant id
+     * @return list of RestaurantHistory objects
+     */
     public List<RestaurantHistory> getHistoryByRestaurant(String id){
 
         List<RestaurantHistory> history = new ArrayList<RestaurantHistory>();
         String selection = COLUMN_HISTORY_RESTAURANT_ID + " = '" + id + "'";
+        String order = COLUMN_HISTORY_DATE + " DESC";
 
-        Cursor c = mDb.query(TABLE_HISTORY, COLUMNS_HISTORY_TABLE, selection, null, null, null, COLUMN_HISTORY_DATE);
+        Cursor c = mDb.query(TABLE_HISTORY, COLUMNS_HISTORY_TABLE, selection, null, null, null, order);
 
         if(c.moveToFirst()){
 

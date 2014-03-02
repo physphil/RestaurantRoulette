@@ -176,21 +176,17 @@ public class RestaurantListFragment extends ListFragment {
      */
     public void setupListFiltering(){
 
-//        List<String> genres = new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.genres)));
-//        genres.add(0, "All Restaurants");
         List<String> genres = Restaurant.getGenresForAdapter(getActivity());
 
         final SpinnerAdapter adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, genres);
         ActionBar actionBar = ((MainActivity) getActivity()).getSupportActionBar();
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-        actionBar.setSelectedNavigationItem(mFilter);
-        Log.v("PS", "mFilter = " + mFilter);
         actionBar.setListNavigationCallbacks(adapter, new ActionBar.OnNavigationListener() {
 
             @Override
             public boolean onNavigationItemSelected(int i, long l) {
-                Log.v("PS", "in onNavigationItemSelected, item = " + i);
+
                 // Save filter
                 mFilter = i;
                 mPrefs.edit()
@@ -203,6 +199,8 @@ public class RestaurantListFragment extends ListFragment {
                 return true;
             }
         });
+
+        actionBar.setSelectedNavigationItem(mFilter);
     }
 
     /**
