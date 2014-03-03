@@ -22,8 +22,6 @@ import android.widget.TextView;
 
 import com.physphil.android.restaurantroulette.data.DatabaseHelper;
 
-import java.util.prefs.PreferenceChangeEvent;
-
 public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
     /**

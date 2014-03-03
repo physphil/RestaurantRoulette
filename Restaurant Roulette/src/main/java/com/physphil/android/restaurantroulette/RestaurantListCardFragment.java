@@ -10,28 +10,35 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.ListFragment;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBar;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.SpinnerAdapter;
 
 import com.physphil.android.restaurantroulette.data.DatabaseHelper;
 import com.physphil.android.restaurantroulette.models.Restaurant;
 import com.physphil.android.restaurantroulette.ui.RestaurantListAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import it.gmariotti.cardslib.library.internal.Card;
+import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
+import it.gmariotti.cardslib.library.view.CardListView;
 
 /**
  * Show list of restaurants stored in user database
  * Created by pshadlyn on 2/24/14.
  */
-public class RestaurantListFragment extends ListFragment {
+public class RestaurantListCardFragment extends Fragment {
 
     public static final String ACTION_UPDATE_RESTAURANT_LIST = "com.physphil.android.restaurantroulette.ACTION_UPDATE_RESTAURANT_LIST";
     public static final String PREFS_GENRE_FILTER_LIST = "genre_filter_list";
@@ -56,10 +63,17 @@ public class RestaurantListFragment extends ListFragment {
     }
 
     @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        View v = inflater.inflate(R.layout.fragment_restaurant_card_list, container, false);
+
+        return v;
+    }
+
+    @Override
     public void onActivityCreated(Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
-        setEmptyText(getString(R.string.empty_listview_restaurants));
-        getListView().setDivider(null);
+        //setEmptyText(getString(R.string.empty_listview_restaurants));
 
         mFilter = mPrefs.getInt(PREFS_GENRE_FILTER_LIST, Restaurant.GENRE_ALL);
 
@@ -73,12 +87,12 @@ public class RestaurantListFragment extends ListFragment {
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mReceiver);
     }
 
-    @Override
-    public void onListItemClick(ListView l, View v, int position, long id){
-
-        String restaurantId = mRestaurants.get(position).getId();
-        viewRestaurantDetail(restaurantId);
-    }
+//    @Override
+//    public void onListItemClick(ListView l, View v, int position, long id){
+//
+//        String restaurantId = mRestaurants.get(position).getId();
+//        viewRestaurantDetail(restaurantId);
+//    }
 
     /**
      * Start activity to view restaurant information
@@ -167,8 +181,30 @@ public class RestaurantListFragment extends ListFragment {
         }
 
         // Need to replace adapter as mRestaurants is a new object. Adapter is still using old object, which no longer exists.
-        mAdapter = new RestaurantListAdapter(getActivity(), mRestaurants);
-        setListAdapter(mAdapter);
+        ArrayList<Card> cards = new ArrayList<Card>();
+
+        for(Restaurant r : mRestaurants){
+
+            Card card = new Card(getActivity());
+            card.setTitle(r.getName());
+            card.setOnClickListener(new Card.OnCardClickListener() {
+
+                @Override
+                public void onClick(Card card, View view) {
+
+                    Log.v("PS", "Clicked card " + card.getTitle());
+                }
+            });
+
+            cards.add(card);
+        }
+
+        CardArrayAdapter adapter = new CardArrayAdapter(getActivity(), cards);
+        CardListView lv = (CardListView) getActivity().findViewById(R.id.cardlistview);
+        lv.setAdapter(adapter);
+
+//        mAdapter = new RestaurantListAdapter(getActivity(), mRestaurants);
+//        setListAdapter(mAdapter);
     }
 
     /**
@@ -176,17 +212,21 @@ public class RestaurantListFragment extends ListFragment {
      */
     public void setupListFiltering(){
 
+//        List<String> genres = new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.genres)));
+//        genres.add(0, "All Restaurants");
         List<String> genres = Restaurant.getGenresForAdapter(getActivity());
 
         final SpinnerAdapter adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, genres);
         ActionBar actionBar = ((MainActivity) getActivity()).getSupportActionBar();
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+        actionBar.setSelectedNavigationItem(mFilter);
+        Log.v("PS", "mFilter = " + mFilter);
         actionBar.setListNavigationCallbacks(adapter, new ActionBar.OnNavigationListener() {
 
             @Override
             public boolean onNavigationItemSelected(int i, long l) {
-
+                Log.v("PS", "in onNavigationItemSelected, item = " + i);
                 // Save filter
                 mFilter = i;
                 mPrefs.edit()
@@ -199,8 +239,6 @@ public class RestaurantListFragment extends ListFragment {
                 return true;
             }
         });
-
-        actionBar.setSelectedNavigationItem(mFilter);
     }
 
     /**

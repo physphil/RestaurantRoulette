@@ -21,4 +21,5 @@ android {
 dependencies {
     compile 'com.android.support:appcompat-v7:19.0.1'
     compile fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
+    compile 'com.github.gabrielemariotti.cards:library:1.4.0'
 }
