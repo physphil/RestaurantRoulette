@@ -4,4 +4,6 @@
     <color name="ics_blue">#33B5E5</color>
     <color name="ics_white">#F9F9F9</color>
     <color name="ics_gray">#E5E5E5</color>
+
+    <color name="shadow_card">#CCCCCC</color>
 </resources>

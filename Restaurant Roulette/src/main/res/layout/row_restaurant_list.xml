@@ -7,8 +7,8 @@
     android:paddingRight="@dimen/margin_horizontal_listitem"
 
     android:paddingTop="@dimen/margin_vertical_listitem"
-    android:descendantFocusability="blocksDescendants"
-    android:background="@color/ics_gray">
+    android:descendantFocusability="blocksDescendants" >
+    <!--android:background="@color/ics_gray">-->
 
     <RelativeLayout
         android:layout_width="match_parent"

@@ -13,10 +13,12 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.ListFragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SpinnerAdapter;
@@ -56,9 +58,14 @@ public class RestaurantListFragment extends ListFragment {
     }
 
     @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_restaurant_list, container, false);
+    }
+
+    @Override
     public void onActivityCreated(Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
-        setEmptyText(getString(R.string.empty_listview_restaurants));
+        // setEmptyText(getString(R.string.empty_listview_restaurants));
         getListView().setDivider(null);
 
         mFilter = mPrefs.getInt(PREFS_GENRE_FILTER_LIST, Restaurant.GENRE_ALL);
