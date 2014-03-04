@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ListFragment;
@@ -22,10 +23,12 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SpinnerAdapter;
+import android.widget.TextView;
 
 import com.physphil.android.restaurantroulette.data.DatabaseHelper;
 import com.physphil.android.restaurantroulette.models.Restaurant;
 import com.physphil.android.restaurantroulette.ui.RestaurantListAdapter;
+import com.physphil.android.restaurantroulette.util.Constants;
 
 import java.util.List;
 
@@ -43,6 +46,7 @@ public class RestaurantListFragment extends ListFragment {
     private RestaurantListAdapter mAdapter;
     private int mFilter;
     private SharedPreferences mPrefs;
+    private Typeface mTf;
 
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -50,6 +54,7 @@ public class RestaurantListFragment extends ListFragment {
 
         mDatabaseHelper = DatabaseHelper.getInstance(getActivity());
         mPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        mTf = Typeface.createFromAsset(getActivity().getAssets(), Constants.FONT_DEFAULT);
 
         // Register broadcast receivers. Need to happen here as receivers need to be active while detail fragment is updating
         LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(getActivity());
@@ -59,7 +64,12 @@ public class RestaurantListFragment extends ListFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_restaurant_list, container, false);
+        View v = inflater.inflate(R.layout.fragment_restaurant_list, container, false);
+
+        // Set font for text when listview is empty
+        ((TextView) v.findViewById(android.R.id.empty)).setTypeface(mTf);
+
+        return v;
     }
 
     @Override
@@ -185,7 +195,24 @@ public class RestaurantListFragment extends ListFragment {
 
         List<String> genres = Restaurant.getGenresForAdapter(getActivity());
 
-        final SpinnerAdapter adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, genres);
+        // Override adapter to set font
+        final SpinnerAdapter adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, genres){
+
+            public View getView(int position, View convertView, ViewGroup parent){
+
+                View v = super.getView(position, convertView, parent);
+                ((TextView) v).setTypeface(mTf);
+                return v;
+            }
+
+            public View getDropDownView(int position, View convertView, ViewGroup parent){
+
+                View v = super.getDropDownView(position, convertView, parent);
+                ((TextView) v).setTypeface(mTf);
+                return v;
+            }
+        };
+
         ActionBar actionBar = ((MainActivity) getActivity()).getSupportActionBar();
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);

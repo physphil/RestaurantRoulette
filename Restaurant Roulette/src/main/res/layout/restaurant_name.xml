@@ -18,6 +18,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/restaurant_name"
         android:layout_marginLeft="@dimen/margin_editText"
-        android:inputType="textCapSentences" />
+        android:inputType="textCapSentences|textMultiLine" />
 
 </LinearLayout>

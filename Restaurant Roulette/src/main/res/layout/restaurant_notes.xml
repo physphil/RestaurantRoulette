@@ -4,8 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/card_background_normal">
+    android:layout_height="match_parent">
 
     <TextView
         android:layout_width="wrap_content"
@@ -13,8 +12,7 @@
         android:text="@string/restaurant_notes"
         android:id="@+id/restaurant_notes_text"
         android:layout_below="@+id/restaurant_rating_bar"
-        android:layout_alignParentLeft="true"
-        android:layout_marginTop="@dimen/margin_horizontal_restaurant_row" />
+        android:layout_alignParentLeft="true" />
 
     <EditText
         android:layout_width="match_parent"

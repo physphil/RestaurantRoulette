@@ -12,7 +12,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,8 +20,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.physphil.android.restaurantroulette.data.DatabaseHelper;
+import com.physphil.android.restaurantroulette.util.Constants;
 
-public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+public class MainActivity extends RRActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -40,6 +40,8 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         super.onCreate(savedInstanceState);
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
         setContentView(R.layout.activity_main);
+
+        setActionBarFont(Constants.FONT_DEFAULT);
 
         mNavigationDrawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();

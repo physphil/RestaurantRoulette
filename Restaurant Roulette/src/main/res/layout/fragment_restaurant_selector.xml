@@ -27,7 +27,7 @@
             layout="@layout/restaurant_genre_spinner"
             android:layout_below="@+id/selector_filter_text"
             android:layout_alignParentLeft="true"
-            android:layout_marginTop="@dimen/margin_horizontal_restaurant_row"
+            android:layout_marginTop="@dimen/margin_vertical_restaurant_row"
             android:layout_marginLeft="@dimen/margin_horizontal_filter_indent"/>
 
         <Button
@@ -37,7 +37,7 @@
             android:id="@+id/btn_select_restaurant"
             android:layout_below="@+id/restaurant_genre_spinner"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/margin_horizontal_restaurant_row"/>
+            android:layout_marginTop="@dimen/margin_vertical_restaurant_row"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -45,7 +45,7 @@
             android:id="@+id/restaurant_selector_header"
             android:layout_below="@id/btn_select_restaurant"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/margin_horizontal_restaurant_row"/>
+            android:layout_marginTop="@dimen/margin_vertical_restaurant_row"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -54,7 +54,7 @@
             android:id="@+id/restaurant_selector_answer"
             android:layout_below="@id/restaurant_selector_header"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/margin_horizontal_restaurant_row"/>
+            android:layout_marginTop="@dimen/margin_vertical_restaurant_row"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -62,7 +62,7 @@
             android:id="@+id/restaurant_selector_summary"
             android:layout_below="@id/restaurant_selector_answer"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/margin_horizontal_restaurant_row"/>
+            android:layout_marginTop="@dimen/margin_vertical_restaurant_row"/>
 
     </RelativeLayout>
 
