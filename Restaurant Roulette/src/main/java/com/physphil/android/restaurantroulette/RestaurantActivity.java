@@ -2,16 +2,14 @@ package com.physphil.android.restaurantroulette;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.ActionBarActivity;
-import android.view.Menu;
 import android.view.MenuItem;
 
-import com.physphil.android.restaurantroulette.models.Restaurant;
+import com.physphil.android.restaurantroulette.util.Constants;
 
 /**
  * Created by pshadlyn on 2/24/14.
  */
-public class RestaurantActivity extends ActionBarActivity {
+public class RestaurantActivity extends RRActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -19,6 +17,7 @@ public class RestaurantActivity extends ActionBarActivity {
         setContentView(R.layout.activity_host_fragment);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setActionBarFont(Constants.FONT_DEFAULT);
 
         String id = getIntent().getStringExtra(RestaurantFragment.EXTRA_RESTAURANT_ID);
 

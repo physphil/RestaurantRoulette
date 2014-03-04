@@ -2,6 +2,7 @@ package com.physphil.android.restaurantroulette;
 
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
@@ -13,9 +14,11 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.physphil.android.restaurantroulette.data.DatabaseHelper;
 import com.physphil.android.restaurantroulette.models.Restaurant;
+import com.physphil.android.restaurantroulette.util.Constants;
 
 /**
  * Created by pshadlyn on 2/24/14.
@@ -31,6 +34,7 @@ public class RestaurantFragment extends Fragment {
     private Spinner spinnerGenre;
     private RatingBar ratingBarUserRating;
     private EditText etNotes;
+    private Typeface mTf;
 
     public RestaurantFragment(){}
 
@@ -53,10 +57,14 @@ public class RestaurantFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View v = inflater.inflate(R.layout.fragment_restaurant, container, false);
 
+        mTf = Typeface.createFromAsset(getActivity().getAssets(), Constants.FONT_DEFAULT);
+
         etName = (EditText) v.findViewById(R.id.restaurant_name);
         spinnerGenre = (Spinner) v.findViewById(R.id.spinner_restaurant_genre);
         ratingBarUserRating = (RatingBar) v.findViewById(R.id.rating_bar_restaurant);
         etNotes = (EditText) v.findViewById(R.id.restaurant_notes);
+
+        setFonts(v);
 
         return v;
     }
@@ -112,6 +120,23 @@ public class RestaurantFragment extends Fragment {
         outState.putString(EXTRA_RESTAURANT_ID, mRestaurant.getId());
     }
 
+    /**
+     * Set default font for all views
+     * @param v parent view containing all views which require font to be set
+     */
+    private void setFonts(View v){
+
+        // Set font for text fields
+        etName.setTypeface(mTf);
+        etNotes.setTypeface(mTf);
+
+        // Set font for static text
+        ((TextView) v.findViewById(R.id.restaurant_name_text)).setTypeface(mTf);
+        ((TextView) v.findViewById(R.id.restaurant_genre_text)).setTypeface(mTf);
+        ((TextView) v.findViewById(R.id.restaurant_rating_text)).setTypeface(mTf);
+        ((TextView) v.findViewById(R.id.restaurant_notes_text)).setTypeface(mTf);
+    }
+
     private void initializeViewContent(){
 
         etName.setText(mRestaurant.getName());
@@ -129,9 +154,26 @@ public class RestaurantFragment extends Fragment {
             }
         });
 
-        // Set spinner adapter and initialize
+        // Set spinner adapter and initialize. Override default adapter to set font
         String[] genres = getResources().getStringArray(R.array.genres);
-        spinnerGenre.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, genres));
+        spinnerGenre.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, genres){
+
+            public View getView(int position, View convertView, ViewGroup parent){
+
+                View v = super.getView(position, convertView, parent);
+                ((TextView) v).setTypeface(mTf);
+                return v;
+            }
+
+            public View getDropDownView(int position, View convertView, ViewGroup parent){
+
+                View v = super.getDropDownView(position, convertView, parent);
+                ((TextView) v).setTypeface(mTf);
+                return v;
+            }
+        });
+
+
         spinnerGenre.setSelection(getIndex(spinnerGenre, mRestaurant.getGenre()));
 
         // Add listener to set genre when changed

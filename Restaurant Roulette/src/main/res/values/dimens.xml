@@ -10,6 +10,8 @@
     <dimen name="margin_editText">8dp</dimen>
     <dimen name="margin_horizontal_listitem">8dp</dimen>
     <dimen name="margin_vertical_listitem">8dp</dimen>
+    <dimen name="margin_vertical_card">8dp</dimen>
+    <dimen name="margin_horizontal_card">8dp</dimen>
     <dimen name="margin_horizontal_restaurant_row">20dp</dimen>
     <dimen name="margin_horizontal_filter_indent">30dp</dimen>
 </resources>

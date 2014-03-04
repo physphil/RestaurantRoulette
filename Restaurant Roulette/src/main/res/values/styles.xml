@@ -6,4 +6,8 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="TextAppearanceListviewHeader" parent="@android:style/TextAppearance.Medium">
+
+    </style>
+
 </resources>

@@ -6,5 +6,6 @@ package com.physphil.android.restaurantroulette.util;
 public class Constants {
 
     public static final String FONT_ROBOTO_THIN = "roboto_thin.ttf";
-    public static final String FONT_DEFAULT = FONT_ROBOTO_THIN;
+    public static final String FONT_ROBOTO_LIGHT = "roboto_light.ttf";
+    public static final String FONT_DEFAULT = FONT_ROBOTO_LIGHT;
 }
