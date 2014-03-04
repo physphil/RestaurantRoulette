@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.Spinner;
@@ -18,6 +17,7 @@ import android.widget.TextView;
 
 import com.physphil.android.restaurantroulette.data.DatabaseHelper;
 import com.physphil.android.restaurantroulette.models.Restaurant;
+import com.physphil.android.restaurantroulette.ui.CustomFontSpinnerAdapter;
 import com.physphil.android.restaurantroulette.util.Constants;
 
 /**
@@ -154,26 +154,9 @@ public class RestaurantFragment extends Fragment {
             }
         });
 
-        // Set spinner adapter and initialize. Override default adapter to set font
+        // Set spinner adapter and initialize.
         String[] genres = getResources().getStringArray(R.array.genres);
-        spinnerGenre.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, genres){
-
-            public View getView(int position, View convertView, ViewGroup parent){
-
-                View v = super.getView(position, convertView, parent);
-                ((TextView) v).setTypeface(mTf);
-                return v;
-            }
-
-            public View getDropDownView(int position, View convertView, ViewGroup parent){
-
-                View v = super.getDropDownView(position, convertView, parent);
-                ((TextView) v).setTypeface(mTf);
-                return v;
-            }
-        });
-
-
+        spinnerGenre.setAdapter(new CustomFontSpinnerAdapter(getActivity(), android.R.layout.simple_spinner_dropdown_item, genres));
         spinnerGenre.setSelection(getIndex(spinnerGenre, mRestaurant.getGenre()));
 
         // Add listener to set genre when changed

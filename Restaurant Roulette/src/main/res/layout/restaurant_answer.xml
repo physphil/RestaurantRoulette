@@ -9,9 +9,11 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
         android:id="@+id/restaurant_selector_header"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/margin_vertical_restaurant_row"/>
+        android:layout_marginTop="@dimen/margin_vertical_restaurant_row"
+        android:text="@string/restaurant_answer_header"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -20,14 +22,38 @@
         android:id="@+id/restaurant_selector_answer"
         android:layout_below="@id/restaurant_selector_header"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/margin_vertical_restaurant_row"/>
+        android:layout_marginTop="@dimen/margin_vertical_restaurant_row"
+        android:text="Restaurant Name"/>
 
-    <TextView
+    <include
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/restaurant_selector_summary"
+        layout="@layout/answer_summary_rating"
+        android:id="@+id/answer_summary_rating_layout"
         android:layout_below="@id/restaurant_selector_answer"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/margin_vertical_restaurant_row"/>
+        android:layout_marginTop="@dimen/margin_vertical_restaurant_row"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"/>
+
+    <include
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        layout="@layout/answer_summary_number_visits"
+        android:id="@+id/answer_summary_number_visits_layout"
+        android:layout_below="@id/answer_summary_rating_layout"
+        android:layout_marginTop="@dimen/margin_vertical_restaurant_row"
+        android:layout_alignLeft="@id/answer_summary_rating_layout"
+        android:layout_alignRight="@id/answer_summary_rating_layout"/>
+
+    <include
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        layout="@layout/answer_summary_last_visit"
+        android:id="@+id/answer_summary_last_visit_layout"
+        android:layout_below="@id/answer_summary_number_visits_layout"
+        android:layout_marginTop="@dimen/margin_vertical_restaurant_row"
+        android:layout_alignLeft="@id/answer_summary_rating_layout"
+        android:layout_alignRight="@id/answer_summary_rating_layout"/>
+
 
 </RelativeLayout>

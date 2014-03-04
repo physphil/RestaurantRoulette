@@ -46,7 +46,7 @@
             android:id="@+id/btn_select_restaurant"
             android:layout_below="@id/filter_layout"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/margin_vertical_restaurant_row"
+            android:layout_marginTop="@dimen/margin_vertical_card"
             android:background="@drawable/button_background"
             android:textColor="@color/ics_white"/>
 
@@ -56,7 +56,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/restaurant_answer_layout"
             android:layout_below="@id/btn_select_restaurant"
-            android:layout_marginTop="@dimen/margin_vertical_restaurant_row" />
+            android:layout_marginTop="@dimen/margin_vertical_card" />
+
 
     </RelativeLayout>
 

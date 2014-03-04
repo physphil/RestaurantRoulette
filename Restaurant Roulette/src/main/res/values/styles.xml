@@ -20,4 +20,9 @@
         <item name="android:isIndicator">true</item>
     </style>
 
+    <style name="summary_ratingbar" parent="listview_ratingbar">
+        <item name="android:minHeight">18dip</item>
+        <item name="android:maxHeight">18dip</item>
+    </style>
+
 </resources>

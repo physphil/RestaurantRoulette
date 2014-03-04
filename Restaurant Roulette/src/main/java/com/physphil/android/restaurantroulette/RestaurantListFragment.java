@@ -20,13 +20,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import com.physphil.android.restaurantroulette.data.DatabaseHelper;
 import com.physphil.android.restaurantroulette.models.Restaurant;
+import com.physphil.android.restaurantroulette.ui.CustomFontSpinnerAdapter;
 import com.physphil.android.restaurantroulette.ui.RestaurantListAdapter;
 import com.physphil.android.restaurantroulette.util.Constants;
 
@@ -196,22 +196,7 @@ public class RestaurantListFragment extends ListFragment {
         List<String> genres = Restaurant.getGenresForAdapter(getActivity());
 
         // Override adapter to set font
-        final SpinnerAdapter adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, genres){
-
-            public View getView(int position, View convertView, ViewGroup parent){
-
-                View v = super.getView(position, convertView, parent);
-                ((TextView) v).setTypeface(mTf);
-                return v;
-            }
-
-            public View getDropDownView(int position, View convertView, ViewGroup parent){
-
-                View v = super.getDropDownView(position, convertView, parent);
-                ((TextView) v).setTypeface(mTf);
-                return v;
-            }
-        };
+        final SpinnerAdapter adapter = new CustomFontSpinnerAdapter(getActivity(), android.R.layout.simple_spinner_dropdown_item, genres);
 
         ActionBar actionBar = ((MainActivity) getActivity()).getSupportActionBar();
         actionBar.setDisplayShowTitleEnabled(false);
