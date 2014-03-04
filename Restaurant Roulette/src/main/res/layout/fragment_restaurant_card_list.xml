@@ -9,7 +9,7 @@
     <it.gmariotti.cardslib.library.view.CardListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/cardlistview"
-        card:list_card_layout_resourceID="@layout/list_card_thumbnail_layout" />
+        android:id="@+id/cardlistview" />
+        <!--card:list_card_layout_resourceID="@layout/list_card_thumbnail_layout" />-->
 
 </FrameLayout>

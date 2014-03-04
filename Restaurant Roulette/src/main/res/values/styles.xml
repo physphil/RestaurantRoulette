@@ -10,4 +10,14 @@
 
     </style>
 
+    <style name="listview_ratingbar"  >
+        <item name="android:indeterminateOnly">false</item>
+        <item name="android:progressDrawable">@drawable/ratingbar_small_holo_dark</item>
+        <item name="android:indeterminateDrawable">@drawable/ratingbar_small_holo_dark</item>
+        <item name="android:minHeight">12dip</item>
+        <item name="android:maxHeight">12dip</item>
+        <item name="android:thumb">@null</item>
+        <item name="android:isIndicator">true</item>
+    </style>
+
 </resources>

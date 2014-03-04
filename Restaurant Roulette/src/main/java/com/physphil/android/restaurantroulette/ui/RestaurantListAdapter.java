@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.physphil.android.restaurantroulette.R;
@@ -61,6 +62,7 @@ public class RestaurantListAdapter extends BaseAdapter {
 
         TextView tvName = (TextView) convertView.findViewById(R.id.restaurant_name);
         TextView tvGenre = (TextView) convertView.findViewById(R.id.restaurant_genre);
+        RatingBar rbRating = (RatingBar) convertView.findViewById(R.id.restaurant_rating);
         ImageButton btnDelete = (ImageButton) convertView.findViewById(R.id.restaurant_delete_button);
         Typeface defaultFont = Typeface.createFromAsset(mContext.getAssets(), Constants.FONT_DEFAULT);
 
@@ -68,6 +70,7 @@ public class RestaurantListAdapter extends BaseAdapter {
         tvName.setTypeface(defaultFont);
         tvGenre.setText(restaurant.getGenre());
         tvGenre.setTypeface(defaultFont);
+        rbRating.setRating(restaurant.getUserRating());
 
         btnDelete.setOnClickListener(new View.OnClickListener() {
 
