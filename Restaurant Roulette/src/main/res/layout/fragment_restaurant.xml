@@ -32,12 +32,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 layout="@layout/restaurant_genre_spinner"
-                android:layout_marginBottom="@dimen/margin_vertical_restaurant_row"/>
+                android:layout_marginBottom="@dimen/margin_vertical_line_spacing"/>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider" />
+            <include
+                layout="@layout/horizontal_bar"
+                android:layout_alignLeft="@id/restaurant_genre_spinner_layout"
+                android:layout_alignRight="@id/restaurant_genre_spinner_layout"/>
 
             <include
                 android:id="@+id/restaurant_rating_bar_layout"
@@ -45,12 +45,10 @@
                 android:layout_height="wrap_content"
                 layout="@layout/restaurant_rating_bar"
                 android:layout_marginTop="@dimen/margin_vertical_restaurant_row"
-                android:layout_marginBottom="@dimen/margin_vertical_restaurant_row" />
+                android:layout_marginBottom="@dimen/margin_vertical_line_spacing" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider" />
+            <include
+                layout="@layout/horizontal_bar" />
 
             <include
                 android:id="@+id/restaurant_notes_layout"

@@ -37,8 +37,6 @@ import java.util.List;
 public class RestaurantSelectorFragment extends Fragment {
 
     public static String ACTION_HISTORY_CLEARED = "com.physphil.android.restaurantroulette.ACTION_HISTORY_CLEARED";
-    private static String EXTRA_ANSWER = "com.physphil.android.restuarantroulette.EXTRA_ANSWER";
-    private static String EXTRA_SUMMARY = "com.physphil.android.restuarantroulette.EXTRA_SUMMARY";
     public static String PREFS_GENRE_FILTER_SELECTOR = "genre_filter_selector";
 
     private Restaurant mRestaurant;
@@ -46,7 +44,6 @@ public class RestaurantSelectorFragment extends Fragment {
     private DatabaseHelper mDatabaseHelper;
     private Spinner spinnerGenre;
     private RelativeLayout rlAnswer;
-    private RelativeLayout rlRating;
     private RelativeLayout rlNumberVisits;
     private RelativeLayout rlLastVisit;
     private Button btnSelectRestaurant;
@@ -57,7 +54,6 @@ public class RestaurantSelectorFragment extends Fragment {
     private TextView tvNumberOfVisits;
     private int mFilter;
     private SharedPreferences prefs;
-    private Typeface mTf;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -66,7 +62,6 @@ public class RestaurantSelectorFragment extends Fragment {
         rlAnswer = (RelativeLayout) v.findViewById(R.id.restaurant_answer_layout);
         rlLastVisit = (RelativeLayout) v.findViewById(R.id.answer_summary_last_visit_layout);
         rlNumberVisits = (RelativeLayout) v.findViewById(R.id.answer_summary_number_visits_layout);
-        rlRating = (RelativeLayout) v.findViewById(R.id.answer_summary_rating_layout);
         btnSelectRestaurant = (Button) v.findViewById(R.id.btn_select_restaurant);
         spinnerGenre = (Spinner) v.findViewById(R.id.spinner_restaurant_genre);
         tvHeader = (TextView) v.findViewById(R.id.restaurant_selector_header);
@@ -93,32 +88,6 @@ public class RestaurantSelectorFragment extends Fragment {
 
         // Set answer through fragment objects mRestaurant and mHistory. Don't save to history as no new selection was made
         setAnswer(false);
-
-//        // Restore answer and summary from before config change
-//        if(savedInstanceState != null){
-//
-//            String answer = savedInstanceState.getString(EXTRA_ANSWER);
-//
-//            // Only restore if answer is present
-//            if(answer != null){
-//
-//                tvAnswer.setText(answer);
-//                btnSelectRestaurant.setText(R.string.restaurant_selector_button_pick_another);
-//                tvHeader.setText(R.string.restaurant_answer_header);
-//
-//                String summary = savedInstanceState.getString(EXTRA_SUMMARY);
-//
-//                if(summary != null){
-//
-//                }
-//            }
-//            else{
-//                setAnswer(null);
-//            }
-//        }
-//        else{
-//            setAnswer(null);
-//        }
     }
 
     @Override
@@ -136,18 +105,6 @@ public class RestaurantSelectorFragment extends Fragment {
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mReceiver);
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        // Only save answer if an answer is present
-        if(tvAnswer.getText().toString().length() > 0){
-
-            outState.putString(EXTRA_ANSWER, tvAnswer.getText().toString());
-
-        }
-    }
-
     private void initViewContent(){
 
         btnSelectRestaurant.setOnClickListener(new View.OnClickListener() {
@@ -162,7 +119,6 @@ public class RestaurantSelectorFragment extends Fragment {
         List<String> genres = Restaurant.getGenresForAdapter(getActivity());
 
         // Override adapter to set font
-//        spinnerGenre.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, genres));
         spinnerGenre.setAdapter(new CustomFontSpinnerAdapter(getActivity(), android.R.layout.simple_spinner_dropdown_item, genres));
         spinnerGenre.setSelection(prefs.getInt(PREFS_GENRE_FILTER_SELECTOR, Restaurant.GENRE_ALL), false);  // use false for animate to not trigger listener when setting initial selection. Weird, but works.
         spinnerGenre.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -188,20 +144,20 @@ public class RestaurantSelectorFragment extends Fragment {
      */
     private void setFonts(View v){
 
-        mTf = Typeface.createFromAsset(getActivity().getAssets(), Constants.FONT_DEFAULT);
-        btnSelectRestaurant.setTypeface(mTf);
+        Typeface tf = Typeface.createFromAsset(getActivity().getAssets(), Constants.FONT_DEFAULT);
+        btnSelectRestaurant.setTypeface(tf);
 
-        tvHeader.setTypeface(mTf);
-        tvAnswer.setTypeface(mTf);
-        tvLastVisit.setTypeface(mTf);
-        tvNumberOfVisits.setTypeface(mTf);
+        tvHeader.setTypeface(tf);
+        tvAnswer.setTypeface(tf);
+        tvLastVisit.setTypeface(tf);
+        tvNumberOfVisits.setTypeface(tf);
 
         // change font of static text
-        ((TextView) v.findViewById(R.id.selector_filter_text)).setTypeface(mTf);
-        ((TextView) v.findViewById(R.id.restaurant_genre_text)).setTypeface(mTf);
-        ((TextView) v.findViewById(R.id.answer_summary_last_visit_text)).setTypeface(mTf);
-        ((TextView) v.findViewById(R.id.answer_summary_number_visits_text)).setTypeface(mTf);
-        ((TextView) v.findViewById(R.id.answer_summary_rating_text)).setTypeface(mTf);
+        ((TextView) v.findViewById(R.id.selector_filter_text)).setTypeface(tf);
+        ((TextView) v.findViewById(R.id.restaurant_genre_text)).setTypeface(tf);
+        ((TextView) v.findViewById(R.id.answer_summary_last_visit_text)).setTypeface(tf);
+        ((TextView) v.findViewById(R.id.answer_summary_number_visits_text)).setTypeface(tf);
+        ((TextView) v.findViewById(R.id.answer_summary_rating_text)).setTypeface(tf);
     }
 
     private void selectRestaurant(){
@@ -294,42 +250,6 @@ public class RestaurantSelectorFragment extends Fragment {
     }
 
     /**
-     * Sets all views with result of selection. Passing in null clears all views.
-     * @param restaurant Restaurant that was selected
-     */
-    private void setAnswer(Restaurant restaurant){
-
-        if(restaurant != null){
-
-            rlAnswer.setVisibility(View.VISIBLE);
-            btnSelectRestaurant.setText(R.string.restaurant_selector_button_pick_another);
-            tvHeader.setText(R.string.restaurant_answer_header);
-            tvAnswer.setText(restaurant.getName());
-
-            mHistory = mDatabaseHelper.getHistoryByRestaurant(restaurant.getId());
-
-            if(mHistory.size() > 0){
-
-                //tvSummary.setText(getSummaryText(history));
-            }
-            else{
-                // No history info, so no summary to show
-                //tvSummary.setText("");
-            }
-
-            mDatabaseHelper.addRestaurantHistory(restaurant.getId());
-        }
-        else{
-
-            tvAnswer.setText("");
-
-            tvHeader.setText("");
-            btnSelectRestaurant.setText(R.string.restaurant_selector_button);
-            rlAnswer.setVisibility(View.GONE);
-        }
-    }
-
-    /**
      * Reset restaurant selection
      */
     private void clearAnswer(){
@@ -339,33 +259,16 @@ public class RestaurantSelectorFragment extends Fragment {
         setAnswer(false);
     }
 
-    /**
-     * Produces text to include in the selection summary
-     * @param history RestaurantHistory entry
-     * @return summary text
-     */
-    private String getSummaryText(List<RestaurantHistory> history){
-
-        int numVisit = history.size();
-        Date recentVisit = history.get(0).getDate();
-        DateFormat df = DateFormat.getDateInstance();
-
-        StringBuilder sb = new StringBuilder();
-        sb.append(getString(R.string.restaurant_number_visits))
-                .append(numVisit + "\n")
-                .append(getString(R.string.restaurant_last_time_visited))
-                .append(df.format(recentVisit));
-
-        return sb.toString();
-    }
-
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
 
         @Override
         public void onReceive(Context context, Intent intent) {
 
-            clearAnswer();
-            //setAnswer(null);
+            if(intent.getAction().equals(ACTION_HISTORY_CLEARED)){
+
+                // Clear answer if restaurant history has been erased
+                clearAnswer();
+            }
         }
     };
     
