@@ -18,7 +18,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/rating_bar_restaurant"
         android:layout_gravity="center_horizontal"
-        android:rating="3"
-        android:stepSize="1" />
+        android:rating="@integer/user_rating_default"
+        android:numStars="@integer/user_rating_max"
+        android:stepSize="@integer/user_rating_step_size" />
 
 </LinearLayout>
