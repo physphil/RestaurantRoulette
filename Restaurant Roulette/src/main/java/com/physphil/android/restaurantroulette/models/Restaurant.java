@@ -35,6 +35,7 @@ public class Restaurant {
     private String name;
     private String genre;
     private int userRating;
+    private int priceLevel;
     private String notes;
 
     public Restaurant(){
@@ -42,21 +43,13 @@ public class Restaurant {
         this.id = UUID.randomUUID().toString();
     }
 
-    public Restaurant(String name, String genre, int userRating, String notes){
+    public Restaurant(String name, String genre, int userRating, int priceLevel){
 
         this.id = UUID.randomUUID().toString();
         this.name = name;
         this.genre = genre;
         this.userRating = userRating;
-        this.notes = notes;
-    }
-
-    public Restaurant(String name, String genre, int userRating){
-
-        this.id = UUID.randomUUID().toString();
-        this.name = name;
-        this.genre = genre;
-        this.userRating = userRating;
+        this.priceLevel = priceLevel;
     }
 
     public String getId() {
@@ -89,6 +82,14 @@ public class Restaurant {
 
     public void setUserRating(int userRating) {
         this.userRating = userRating;
+    }
+
+    public int getPriceLevel() {
+        return priceLevel;
+    }
+
+    public void setPriceLevel(int priceLevel) {
+        this.priceLevel = priceLevel;
     }
 
     public String getNotes(){

@@ -35,9 +35,7 @@
                 android:layout_marginBottom="@dimen/margin_vertical_line_spacing"/>
 
             <include
-                layout="@layout/horizontal_bar"
-                android:layout_alignLeft="@id/restaurant_genre_spinner_layout"
-                android:layout_alignRight="@id/restaurant_genre_spinner_layout"/>
+                layout="@layout/horizontal_bar" />
 
             <include
                 android:id="@+id/restaurant_rating_bar_layout"

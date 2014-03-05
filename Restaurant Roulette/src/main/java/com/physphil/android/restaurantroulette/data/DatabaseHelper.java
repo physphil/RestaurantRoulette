@@ -32,9 +32,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_RESTAURANT_NAME = "name";
     public static final String COLUMN_RESTAURANT_GENRE = "genre";
     public static final String COLUMN_RESTAURANT_USER_RATING = "userRating";
+    public static final String COLUMN_RESTAURANT_PRICE_LEVEL = "priceLevel";
     public static final String COLUMN_RESTAURANT_NOTES = "notes";
 
-    public static final String[] COLUMNS_RESTAURANT_TABLE = {COLUMN_RESTAURANT_ID, COLUMN_RESTAURANT_NAME, COLUMN_RESTAURANT_GENRE, COLUMN_RESTAURANT_USER_RATING, COLUMN_RESTAURANT_NOTES};
+    public static final String[] COLUMNS_RESTAURANT_TABLE = {COLUMN_RESTAURANT_ID, COLUMN_RESTAURANT_NAME, COLUMN_RESTAURANT_GENRE, COLUMN_RESTAURANT_USER_RATING, COLUMN_RESTAURANT_PRICE_LEVEL, COLUMN_RESTAURANT_NOTES};
 
     // History Table columns
     public static final String COLUMN_HISTORY_ID = "id";
@@ -49,6 +50,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 COLUMN_RESTAURANT_NAME + " TEXT, " +
                 COLUMN_RESTAURANT_GENRE + " TEXT, " +
                 COLUMN_RESTAURANT_USER_RATING + " INTEGER, " +
+                    COLUMN_RESTAURANT_PRICE_LEVEL + " INTEGER, " +
                 COLUMN_RESTAURANT_NOTES + " TEXT);";
 
     private static final String CREATE_TABLE_HISTORY =
@@ -91,14 +93,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
     private void insertInitialData(SQLiteDatabase db){
 
-        addRestaurant(db, new Restaurant("Burger King", Restaurant.GENRE_FAST_FOOD, 3));
-        addRestaurant(db, new Restaurant("McDonald's", Restaurant.GENRE_FAST_FOOD, 3));
-        addRestaurant(db, new Restaurant("Wendy's", Restaurant.GENRE_FAST_FOOD, 3));
-        addRestaurant(db, new Restaurant("Pizza Hut", Restaurant.GENRE_PIZZA, 3));
-        addRestaurant(db, new Restaurant("Olive Garden", Restaurant.GENRE_ITALIAN, 3));
-        addRestaurant(db, new Restaurant("East Side Mario's", Restaurant.GENRE_ITALIAN, 3));
-        addRestaurant(db, new Restaurant("Cheesecake Factory", Restaurant.GENRE_NORTH_AMERICAN, 3));
-        addRestaurant(db, new Restaurant("Red Lobster", Restaurant.GENRE_SEAFOOD, 3));
+        addRestaurant(db, new Restaurant("Burger King", Restaurant.GENRE_FAST_FOOD, 3, 1));
+        addRestaurant(db, new Restaurant("McDonald's", Restaurant.GENRE_FAST_FOOD, 3, 1));
+        addRestaurant(db, new Restaurant("Wendy's", Restaurant.GENRE_FAST_FOOD, 3, 1));
+        addRestaurant(db, new Restaurant("Pizza Hut", Restaurant.GENRE_PIZZA, 3, 2));
+        addRestaurant(db, new Restaurant("Olive Garden", Restaurant.GENRE_ITALIAN, 3, 1));
+        addRestaurant(db, new Restaurant("East Side Mario's", Restaurant.GENRE_ITALIAN, 3, 2));
+        addRestaurant(db, new Restaurant("Cheesecake Factory", Restaurant.GENRE_NORTH_AMERICAN, 3, 2));
+        addRestaurant(db, new Restaurant("Red Lobster", Restaurant.GENRE_SEAFOOD, 3, 2));
     }
 
     /**
@@ -113,6 +115,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_RESTAURANT_NAME, restaurant.getName());
         cv.put(COLUMN_RESTAURANT_GENRE, restaurant.getGenre());
         cv.put(COLUMN_RESTAURANT_USER_RATING, restaurant.getUserRating());
+        cv.put(COLUMN_RESTAURANT_PRICE_LEVEL, restaurant.getPriceLevel());
         cv.put(COLUMN_RESTAURANT_NOTES, restaurant.getNotes());
 
         db.replace(TABLE_RESTAURANTS, null, cv);
@@ -140,6 +143,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             r.setName(c.getString(c.getColumnIndex(COLUMN_RESTAURANT_NAME)));
             r.setGenre(c.getString(c.getColumnIndex(COLUMN_RESTAURANT_GENRE)));
             r.setUserRating(c.getInt(c.getColumnIndex(COLUMN_RESTAURANT_USER_RATING)));
+            r.setPriceLevel(c.getInt(c.getColumnIndex(COLUMN_RESTAURANT_PRICE_LEVEL)));
             r.setNotes(c.getString(c.getColumnIndex(COLUMN_RESTAURANT_NOTES)));
         }
 
@@ -174,7 +178,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private List<Restaurant> getRestaurants(String filter){
 
         List<Restaurant> restaurants = new ArrayList<Restaurant>();
-        String[] columns = new String[] {COLUMN_RESTAURANT_ID, COLUMN_RESTAURANT_NAME, COLUMN_RESTAURANT_GENRE, COLUMN_RESTAURANT_USER_RATING};
+        String[] columns = new String[] {COLUMN_RESTAURANT_ID, COLUMN_RESTAURANT_NAME, COLUMN_RESTAURANT_GENRE, COLUMN_RESTAURANT_USER_RATING, COLUMN_RESTAURANT_PRICE_LEVEL};
 
         Cursor c = mDb.query(TABLE_RESTAURANTS, columns, filter, null, null, null, COLUMN_RESTAURANT_NAME);
 
@@ -187,6 +191,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 r.setName(c.getString(c.getColumnIndex(COLUMN_RESTAURANT_NAME)));
                 r.setGenre(c.getString(c.getColumnIndex(COLUMN_RESTAURANT_GENRE)));
                 r.setUserRating(c.getInt(c.getColumnIndex(COLUMN_RESTAURANT_USER_RATING)));
+                r.setPriceLevel(c.getInt(c.getColumnIndex(COLUMN_RESTAURANT_PRICE_LEVEL)));
 
                 restaurants.add(r);
 

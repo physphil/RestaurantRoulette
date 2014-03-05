@@ -11,6 +11,9 @@ public class RestaurantHistory {
     private String restaurantId;
     private Date date;
 
+    // convenience fields
+    private String name;
+
     /**
      * Create new RestaurantHistory object
      * @param id id from database
@@ -46,5 +49,13 @@ public class RestaurantHistory {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
