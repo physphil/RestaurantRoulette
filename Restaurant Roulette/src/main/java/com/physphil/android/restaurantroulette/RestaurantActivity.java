@@ -17,6 +17,7 @@ public class RestaurantActivity extends RRActivity {
         setContentView(R.layout.activity_host_fragment);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(R.string.title_edit_restaurant);
         setActionBarFont(Constants.FONT_DEFAULT);
 
         String id = getIntent().getStringExtra(RestaurantFragment.EXTRA_RESTAURANT_ID);

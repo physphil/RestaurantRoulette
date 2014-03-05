@@ -4,6 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/activity_vertical_margin"
     android:background="@drawable/card_background_normal">
 
     <TextView
@@ -12,7 +13,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:id="@+id/restaurant_selector_header"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/margin_vertical_restaurant_row"
+        android:layout_marginTop="@dimen/margin_vertical_card"
         android:text="@string/restaurant_answer_header"/>
 
     <TextView
@@ -53,7 +54,7 @@
         android:layout_below="@id/answer_summary_number_visits_layout"
         android:layout_marginTop="@dimen/margin_vertical_restaurant_row"
         android:layout_alignLeft="@id/answer_summary_rating_layout"
-        android:layout_alignRight="@id/answer_summary_rating_layout"/>
+        android:layout_alignRight="@id/answer_summary_rating_layout" />
 
 
 </RelativeLayout>

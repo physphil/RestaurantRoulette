@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/answer_summary_last_visit_text"
         android:layout_alignParentLeft="true"
-        android:layout_marginBottom="@dimen/margin_vertical_card"
+        android:layout_marginBottom="@dimen/margin_vertical_line_spacing"
         android:text="@string/restaurant_last_time_visited"/>
 
     <TextView

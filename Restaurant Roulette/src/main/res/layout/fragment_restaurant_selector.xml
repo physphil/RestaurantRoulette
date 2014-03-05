@@ -34,8 +34,8 @@
             layout="@layout/restaurant_genre_spinner"
             android:layout_below="@+id/selector_filter_text"
             android:layout_alignParentLeft="true"
-            android:layout_marginTop="@dimen/margin_vertical_restaurant_row"
-            android:layout_marginLeft="@dimen/margin_horizontal_filter_indent"/>
+            android:layout_marginTop="@dimen/margin_vertical_card"
+            android:layout_marginLeft="@dimen/margin_horizontal_card_indent"/>
 
         </RelativeLayout>
 
@@ -57,7 +57,6 @@
             android:id="@+id/restaurant_answer_layout"
             android:layout_below="@id/btn_select_restaurant"
             android:layout_marginTop="@dimen/margin_vertical_card" />
-
 
     </RelativeLayout>
 

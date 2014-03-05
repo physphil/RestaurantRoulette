@@ -90,7 +90,9 @@ public class RestaurantSelectorFragment extends Fragment {
         mFilter = prefs.getInt(PREFS_GENRE_FILTER_SELECTOR, Restaurant.GENRE_ALL);
 
         initViewContent();
-        setAnswer();
+
+        // Set answer through fragment objects mRestaurant and mHistory. Don't save to history as no new selection was made
+        setAnswer(false);
 
 //        // Restore answer and summary from before config change
 //        if(savedInstanceState != null){
@@ -172,7 +174,7 @@ public class RestaurantSelectorFragment extends Fragment {
                 prefs.edit()
                         .putInt(PREFS_GENRE_FILTER_SELECTOR, position)
                         .commit();
-                setAnswer(null); // TODO - fix this, need a way to clear everything. call clear method, makes objects null?
+                clearAnswer();
             }
 
             @Override
@@ -222,7 +224,7 @@ public class RestaurantSelectorFragment extends Fragment {
             int randomIndex = (int) (Math.floor(Math.random() * restaurants.size()));
             mRestaurant = restaurants.get(randomIndex);
             mHistory = mDatabaseHelper.getHistoryByRestaurant(mRestaurant.getId());
-            setAnswer();
+            setAnswer(true);
         }
         else{
 
@@ -232,20 +234,21 @@ public class RestaurantSelectorFragment extends Fragment {
 
     /**
      * Use values of mRestaurant and mHistory to set answer.  If objects are null then answer fields are hidden
+     * @param addToHistory whether to add this selection to selection history
      */
-    private void setAnswer(){
+    private void setAnswer(boolean addToHistory){
 
         if(mRestaurant != null){
 
             rlAnswer.setVisibility(View.VISIBLE);
             btnSelectRestaurant.setText(R.string.restaurant_selector_button_pick_another);
             tvAnswer.setText(mRestaurant.getName());
+            rbRating.setRating(mRestaurant.getUserRating());
 
             if(mHistory.size() > 0){
 
                 // set summary fields
                 setSummaryFieldsVisibility(true);
-                rbRating.setRating(mRestaurant.getUserRating());
                 tvNumberOfVisits.setText(Integer.toString(mHistory.size()));
 
                 // Objects returned from db sorted by date. Entry 0 is the most recent
@@ -260,12 +263,15 @@ public class RestaurantSelectorFragment extends Fragment {
             }
 
             // Add selection to history
-            mDatabaseHelper.addRestaurantHistory(mRestaurant.getId());  //TODO - only do this when button is clicked, not when restoring fragment on config change. have addtohistory flag
+            if(addToHistory){
+                mDatabaseHelper.addRestaurantHistory(mRestaurant.getId());
+            }
         }
         else{
 
             // No answer
             rlAnswer.setVisibility(View.GONE);
+            btnSelectRestaurant.setText(R.string.restaurant_selector_button);
         }
     }
 
@@ -278,12 +284,12 @@ public class RestaurantSelectorFragment extends Fragment {
         if(isVisible){
             rlNumberVisits.setVisibility(View.VISIBLE);
             rlLastVisit.setVisibility(View.VISIBLE);
-            rlRating.setVisibility(View.VISIBLE);
+//            rlRating.setVisibility(View.VISIBLE);
         }
         else{
             rlNumberVisits.setVisibility(View.GONE);
             rlLastVisit.setVisibility(View.GONE);
-            rlRating.setVisibility(View.GONE);
+//            rlRating.setVisibility(View.GONE);
         }
     }
 
@@ -324,6 +330,16 @@ public class RestaurantSelectorFragment extends Fragment {
     }
 
     /**
+     * Reset restaurant selection
+     */
+    private void clearAnswer(){
+
+        mRestaurant = null;
+        mHistory = null;
+        setAnswer(false);
+    }
+
+    /**
      * Produces text to include in the selection summary
      * @param history RestaurantHistory entry
      * @return summary text
@@ -348,7 +364,8 @@ public class RestaurantSelectorFragment extends Fragment {
         @Override
         public void onReceive(Context context, Intent intent) {
 
-            setAnswer(null);
+            clearAnswer();
+            //setAnswer(null);
         }
     };
     
