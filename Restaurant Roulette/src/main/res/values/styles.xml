@@ -10,12 +10,12 @@
 
     </style>
 
-    <style name="listview_ratingbar"  >
+    <style name="listview_ratingbar" parent="@android:style/Widget.RatingBar" >
         <item name="android:indeterminateOnly">false</item>
-        <item name="android:progressDrawable">@drawable/ratingbar_small_holo_dark</item>
-        <item name="android:indeterminateDrawable">@drawable/ratingbar_small_holo_dark</item>
-        <item name="android:minHeight">12dp</item>
-        <item name="android:maxHeight">12dip</item>
+        <item name="android:progressDrawable">@drawable/ratingbar_small_holo_light</item>
+        <item name="android:indeterminateDrawable">@drawable/ratingbar_small_holo_light</item>
+        <item name="android:minHeight">18dp</item>
+        <item name="android:maxHeight">18dip</item>
         <item name="android:thumb">@null</item>
         <item name="android:isIndicator">true</item>
     </style>

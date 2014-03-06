@@ -15,7 +15,7 @@
     <RatingBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/answer_summary_rating_bar"
+        android:id="@+id/answer_summary_price_bar"
         style="@style/summary_price_level"
         android:layout_alignParentRight="true"
         android:layout_alignBottom="@id/answer_summary_price_text"/>
@@ -24,6 +24,6 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="?android:attr/listDivider"
-        android:layout_below="@id/answer_summary_rating_text"/>
+        android:layout_below="@id/answer_summary_price_text"/>
 
 </RelativeLayout>

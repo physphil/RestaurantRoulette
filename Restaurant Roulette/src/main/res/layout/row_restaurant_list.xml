@@ -41,11 +41,11 @@
             android:layout_alignParentStart="true"
             android:layout_toLeftOf="@+id/restaurant_delete_button"/>
 
-        <RatingBar
+        <include
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/restaurant_rating"
-            style="@style/listview_ratingbar"
+            layout="@layout/rating_bar_small"
             android:layout_below="@id/restaurant_genre"
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="-2dp"
