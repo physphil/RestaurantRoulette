@@ -19,54 +19,62 @@
             android:layout_height="wrap_content"
             layout="@layout/restaurant_name" />
 
-        <LinearLayout
+        <include
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_below="@id/restaurant_name_layout"
-            android:layout_marginTop="@dimen/margin_vertical_card"
-            android:background="@drawable/card_background_normal">
+            layout="@layout/restaurant_edit_details"
+            android:layout_below="@+id/restaurant_name_layout"
+            android:layout_marginTop="@dimen/margin_vertical_card" />
 
-            <include
-                android:id="@+id/restaurant_genre_spinner_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                layout="@layout/restaurant_genre_spinner"
-                android:layout_marginBottom="@dimen/margin_vertical_line_spacing"/>
 
-            <include
-                layout="@layout/horizontal_bar" />
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="vertical"-->
+            <!--android:layout_below="@id/restaurant_name_layout"-->
+            <!--android:layout_marginTop="@dimen/margin_vertical_card"-->
+            <!--android:background="@drawable/card_background_normal">-->
 
-            <include
-                android:id="@+id/restaurant_rating_bar_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                layout="@layout/restaurant_rating_bar"
-                android:layout_marginTop="@dimen/margin_vertical_restaurant_row"
-                android:layout_marginBottom="@dimen/margin_vertical_line_spacing" />
+            <!--<include-->
+                <!--android:id="@+id/restaurant_genre_spinner_layout"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--layout="@layout/restaurant_genre_spinner"-->
+                <!--android:layout_marginBottom="@dimen/margin_vertical_line_spacing"/>-->
 
-            <include
-                layout="@layout/horizontal_bar" />
+            <!--<include-->
+                <!--layout="@layout/horizontal_bar" />-->
 
-            <include
-                android:id="@+id/restaurant_rating_bar_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                layout="@layout/restaurant_price_level"
-                android:layout_marginTop="@dimen/margin_vertical_restaurant_row"
-                android:layout_marginBottom="@dimen/margin_vertical_line_spacing" />
+            <!--<include-->
+                <!--android:id="@+id/restaurant_rating_bar_layout"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--layout="@layout/restaurant_rating_bar"-->
+                <!--android:layout_marginTop="@dimen/margin_vertical_restaurant_row"-->
+                <!--android:layout_marginBottom="@dimen/margin_vertical_line_spacing" />-->
 
-            <include
-                layout="@layout/horizontal_bar" />
+            <!--<include-->
+                <!--layout="@layout/horizontal_bar" />-->
 
-            <include
-                android:id="@+id/restaurant_notes_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                layout="@layout/restaurant_notes"
-                android:layout_marginTop="@dimen/margin_vertical_restaurant_row" />
+            <!--<include-->
+                <!--android:id="@+id/restaurant_rating_bar_layout"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--layout="@layout/restaurant_price_level"-->
+                <!--android:layout_marginTop="@dimen/margin_vertical_restaurant_row"-->
+                <!--android:layout_marginBottom="@dimen/margin_vertical_line_spacing" />-->
 
-        </LinearLayout>
+            <!--<include-->
+                <!--layout="@layout/horizontal_bar" />-->
+
+            <!--<include-->
+                <!--android:id="@+id/restaurant_notes_layout"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--layout="@layout/restaurant_notes"-->
+                <!--android:layout_marginTop="@dimen/margin_vertical_restaurant_row" />-->
+
+        <!--</LinearLayout>-->
 
     </RelativeLayout>
 

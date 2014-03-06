@@ -4,9 +4,9 @@
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
     style="?android:attr/ratingBarStyleSmall"
-    android:progressDrawable="@drawable/ratingbar_small_holo_dark"
-    android:indeterminateDrawable="@drawable/ratingbar_small_holo_dark"
-    android:numStars="@integer/user_rating_max"
-    android:stepSize="@integer/user_rating_step_size" >
+    android:progressDrawable="@drawable/ratingbar_price_level_small"
+    android:indeterminateDrawable="@drawable/ratingbar_price_level_small"
+    android:numStars="@integer/price_level_max"
+    android:stepSize="@integer/price_level_step_size" >
 
 </RatingBar>

@@ -39,9 +39,19 @@
     <include
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        layout="@layout/answer_summary_price"
+        android:id="@+id/answer_summary_price_layout"
+        android:layout_below="@id/answer_summary_rating_layout"
+        android:layout_marginTop="@dimen/margin_vertical_restaurant_row"
+        android:layout_marginLeft="@dimen/margin_horizontal_card_indent"
+        android:layout_marginRight="@dimen/margin_horizontal_card_indent"/>
+
+    <include
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         layout="@layout/answer_summary_number_visits"
         android:id="@+id/answer_summary_number_visits_layout"
-        android:layout_below="@id/answer_summary_rating_layout"
+        android:layout_below="@id/answer_summary_price_layout"
         android:layout_marginTop="@dimen/margin_vertical_restaurant_row"
         android:layout_alignLeft="@id/answer_summary_rating_layout"
         android:layout_alignRight="@id/answer_summary_rating_layout"/>

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/card_background_normal">
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TableRow
+            android:id="@+id/table_row_genre">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/restaurant_genre"
+                android:id="@+id/restaurant_genre_text"
+                android:layout_marginRight="@dimen/margin_editText"
+                android:layout_gravity="center_vertical" />
+
+            <Spinner
+                android:layout_height="wrap_content"
+                android:id="@+id/spinner_restaurant_genre"
+                android:layout_gravity="center_vertical"/>
+
+        </TableRow>
+
+        <include
+            layout="@layout/horizontal_bar"
+            android:layout_height="@dimen/horizontal_bar_height" />
+
+        <TableRow
+            android:id="@+id/table_row_rating"
+            android:layout_marginTop="@dimen/margin_vertical_restaurant_row" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/restaurant_rating"
+                android:id="@+id/restaurant_rating_text"
+                android:layout_marginRight="@dimen/margin_editText"
+                android:layout_gravity="center_vertical" />
+
+            <RatingBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/rating_bar_restaurant"
+                android:layout_gravity="center_horizontal"
+                android:rating="@integer/user_rating_default"
+                android:numStars="@integer/user_rating_max"
+                android:stepSize="@integer/user_rating_step_size" />
+
+        </TableRow>
+
+        <include
+            layout="@layout/horizontal_bar"
+            android:layout_height="@dimen/horizontal_bar_height" />
+
+        <TableRow
+            android:id="@+id/table_row_price"
+            android:layout_marginTop="@dimen/margin_vertical_restaurant_row" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/restaurant_price"
+                android:id="@+id/restaurant_price_text"
+                android:layout_marginRight="@dimen/margin_editText"
+                android:layout_gravity="center_vertical"/>
+
+            <RatingBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/price_restaurant"
+                style="@style/price_level_rating_bar"
+                android:rating="@integer/price_level_default"
+                android:numStars="@integer/price_level_max"
+                android:stepSize="@integer/price_level_step_size" />
+
+        </TableRow>
+
+        <include
+            layout="@layout/horizontal_bar"
+            android:layout_height="@dimen/horizontal_bar_height" />
+
+    </TableLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/restaurant_notes"
+        android:id="@+id/restaurant_notes_text"
+        android:layout_marginTop="@dimen/margin_vertical_restaurant_row"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine|textCapSentences"
+        android:id="@+id/restaurant_notes" />
+
+</LinearLayout>

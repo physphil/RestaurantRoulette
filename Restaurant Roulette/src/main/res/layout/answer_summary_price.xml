@@ -12,17 +12,17 @@
         android:layout_marginBottom="@dimen/margin_vertical_line_spacing"
         android:text="@string/restaurant_price"/>
 
-    <RatingBar
+    <include
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/answer_summary_price_bar"
-        style="@style/summary_price_level"
+        layout="@layout/price_level_bar_small"
         android:layout_alignParentRight="true"
         android:layout_alignBottom="@id/answer_summary_price_text"/>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="@dimen/horizontal_bar_height"
         android:background="?android:attr/listDivider"
         android:layout_below="@id/answer_summary_price_text"/>
 

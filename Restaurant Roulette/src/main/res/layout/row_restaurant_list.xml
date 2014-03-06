@@ -48,9 +48,7 @@
             layout="@layout/rating_bar_small"
             android:layout_below="@id/restaurant_genre"
             android:layout_alignParentLeft="true"
-            android:layout_marginLeft="-2dp"
-            android:numStars="@integer/user_rating_max"
-            android:stepSize="@integer/user_rating_step_size"/>
+            android:layout_marginLeft="-2dp" />
 
         <ImageButton
             android:layout_width="wrap_content"
