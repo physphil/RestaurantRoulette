@@ -14,15 +14,25 @@
         <item name="android:indeterminateOnly">false</item>
         <item name="android:progressDrawable">@drawable/ratingbar_small_holo_dark</item>
         <item name="android:indeterminateDrawable">@drawable/ratingbar_small_holo_dark</item>
-        <item name="android:minHeight">12dip</item>
+        <item name="android:minHeight">12dp</item>
         <item name="android:maxHeight">12dip</item>
         <item name="android:thumb">@null</item>
         <item name="android:isIndicator">true</item>
     </style>
 
     <style name="summary_ratingbar" parent="listview_ratingbar">
-        <item name="android:minHeight">18dip</item>
-        <item name="android:maxHeight">18dip</item>
+        <item name="android:minHeight">18dp</item>
+        <item name="android:maxHeight">18dp</item>
+    </style>
+
+    <style name="price_level_rating_bar" >
+        <item name="android:progressDrawable">@drawable/ratingbar_price_level</item>
+        <item name="android:indeterminateDrawable">@drawable/ratingbar_price_level</item>
+    </style>
+
+    <style name="summary_price_level" parent="summary_ratingbar">
+        <item name="android:progressDrawable">@drawable/ratingbar_price_level</item>
+        <item name="android:indeterminateDrawable">@drawable/ratingbar_price_level</item>
     </style>
 
 </resources>

@@ -32,7 +32,8 @@ public class RestaurantFragment extends Fragment {
     private Restaurant mRestaurant;
     private EditText etName;
     private Spinner spinnerGenre;
-    private RatingBar ratingBarUserRating;
+    private RatingBar rbUserRating;
+    private RatingBar rbPriceLevel;
     private EditText etNotes;
     private Typeface mTf;
 
@@ -61,7 +62,8 @@ public class RestaurantFragment extends Fragment {
 
         etName = (EditText) v.findViewById(R.id.restaurant_name);
         spinnerGenre = (Spinner) v.findViewById(R.id.spinner_restaurant_genre);
-        ratingBarUserRating = (RatingBar) v.findViewById(R.id.rating_bar_restaurant);
+        rbUserRating = (RatingBar) v.findViewById(R.id.rating_bar_restaurant);
+        rbPriceLevel = (RatingBar) v.findViewById(R.id.price_restaurant);
         etNotes = (EditText) v.findViewById(R.id.restaurant_notes);
 
         setFonts(v);
@@ -134,6 +136,7 @@ public class RestaurantFragment extends Fragment {
         ((TextView) v.findViewById(R.id.restaurant_name_text)).setTypeface(mTf);
         ((TextView) v.findViewById(R.id.restaurant_genre_text)).setTypeface(mTf);
         ((TextView) v.findViewById(R.id.restaurant_rating_text)).setTypeface(mTf);
+        ((TextView) v.findViewById(R.id.restaurant_price_text)).setTypeface(mTf);
         ((TextView) v.findViewById(R.id.restaurant_notes_text)).setTypeface(mTf);
     }
 
@@ -143,14 +146,25 @@ public class RestaurantFragment extends Fragment {
         etName.setSelection(etName.getText().length());
         etNotes.setText(mRestaurant.getNotes());
 
-        ratingBarUserRating.setRating(mRestaurant.getUserRating());
-        ratingBarUserRating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+        rbUserRating.setRating(mRestaurant.getUserRating());
+        rbUserRating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
 
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
 
                 // Set new rating every time it changes
                 mRestaurant.setUserRating((int) rating);
+            }
+        });
+
+        rbPriceLevel.setRating(mRestaurant.getPriceLevel());
+        rbPriceLevel.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+
+                // Set new price level every time it changes
+                mRestaurant.setPriceLevel((int) rating);
             }
         });
 

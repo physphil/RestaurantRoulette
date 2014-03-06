@@ -17,6 +17,7 @@
     <string name="restaurant_name">Name:</string>
     <string name="restaurant_genre">Genre:</string>
     <string name="restaurant_rating">Rating:</string>
+    <string name="restaurant_price">Price:</string>
     <string name="restaurant_notes">Notes:</string>
     <string name="restaurant_selector_filter">Filter by:</string>
     <string name="restaurant_selector_button">Where should I eat?</string>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/answer_summary_price_text"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="@dimen/margin_vertical_line_spacing"
+        android:text="@string/restaurant_price"/>
+
+    <RatingBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/answer_summary_rating_bar"
+        style="@style/summary_price_level"
+        android:layout_alignParentRight="true"
+        android:layout_alignBottom="@id/answer_summary_price_text"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider"
+        android:layout_below="@id/answer_summary_rating_text"/>
+
+</RelativeLayout>

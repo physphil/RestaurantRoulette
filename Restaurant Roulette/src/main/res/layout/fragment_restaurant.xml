@@ -49,6 +49,17 @@
                 layout="@layout/horizontal_bar" />
 
             <include
+                android:id="@+id/restaurant_rating_bar_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/restaurant_price_level"
+                android:layout_marginTop="@dimen/margin_vertical_restaurant_row"
+                android:layout_marginBottom="@dimen/margin_vertical_line_spacing" />
+
+            <include
+                layout="@layout/horizontal_bar" />
+
+            <include
                 android:id="@+id/restaurant_notes_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

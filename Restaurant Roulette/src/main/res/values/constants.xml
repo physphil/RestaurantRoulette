@@ -4,7 +4,8 @@
     <integer name="user_rating_max">5</integer>
     <integer name="user_rating_step_size">1</integer>
     <integer name="user_rating_default">3</integer>
-    <integer name="price_level_max">5</integer>
+    <integer name="price_level_max">4</integer>
     <integer name="price_level_step_size">1</integer>
+    <integer name="price_level_default">2</integer>
     
 </resources>
