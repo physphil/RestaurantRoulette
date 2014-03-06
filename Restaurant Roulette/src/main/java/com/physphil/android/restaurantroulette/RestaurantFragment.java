@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 import com.physphil.android.restaurantroulette.data.DatabaseHelper;
 import com.physphil.android.restaurantroulette.models.Restaurant;
-import com.physphil.android.restaurantroulette.ui.CustomFontSpinnerAdapter;
+import com.physphil.android.restaurantroulette.ui.CustomFontArrayAdapter;
 import com.physphil.android.restaurantroulette.util.Constants;
 
 /**
@@ -156,7 +156,7 @@ public class RestaurantFragment extends Fragment {
 
         // Set spinner adapter and initialize.
         String[] genres = getResources().getStringArray(R.array.genres);
-        spinnerGenre.setAdapter(new CustomFontSpinnerAdapter(getActivity(), android.R.layout.simple_spinner_dropdown_item, genres));
+        spinnerGenre.setAdapter(new CustomFontArrayAdapter(getActivity(), android.R.layout.simple_spinner_dropdown_item, genres));
         spinnerGenre.setSelection(getIndex(spinnerGenre, mRestaurant.getGenre()));
 
         // Add listener to set genre when changed

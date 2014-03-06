@@ -24,7 +24,7 @@ import android.widget.Toast;
 import com.physphil.android.restaurantroulette.data.DatabaseHelper;
 import com.physphil.android.restaurantroulette.models.Restaurant;
 import com.physphil.android.restaurantroulette.models.RestaurantHistory;
-import com.physphil.android.restaurantroulette.ui.CustomFontSpinnerAdapter;
+import com.physphil.android.restaurantroulette.ui.CustomFontArrayAdapter;
 import com.physphil.android.restaurantroulette.util.Constants;
 
 import java.text.DateFormat;
@@ -119,7 +119,7 @@ public class RestaurantSelectorFragment extends Fragment {
         List<String> genres = Restaurant.getGenresForAdapter(getActivity());
 
         // Override adapter to set font
-        spinnerGenre.setAdapter(new CustomFontSpinnerAdapter(getActivity(), android.R.layout.simple_spinner_dropdown_item, genres));
+        spinnerGenre.setAdapter(new CustomFontArrayAdapter(getActivity(), android.R.layout.simple_spinner_dropdown_item, genres));
         spinnerGenre.setSelection(prefs.getInt(PREFS_GENRE_FILTER_SELECTOR, Restaurant.GENRE_ALL), false);  // use false for animate to not trigger listener when setting initial selection. Weird, but works.
         spinnerGenre.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
@@ -134,7 +134,8 @@ public class RestaurantSelectorFragment extends Fragment {
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
         });
     }
 

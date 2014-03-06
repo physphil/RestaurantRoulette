@@ -26,7 +26,7 @@ import android.widget.TextView;
 
 import com.physphil.android.restaurantroulette.data.DatabaseHelper;
 import com.physphil.android.restaurantroulette.models.Restaurant;
-import com.physphil.android.restaurantroulette.ui.CustomFontSpinnerAdapter;
+import com.physphil.android.restaurantroulette.ui.CustomFontArrayAdapter;
 import com.physphil.android.restaurantroulette.ui.RestaurantListAdapter;
 import com.physphil.android.restaurantroulette.util.Constants;
 
@@ -196,7 +196,7 @@ public class RestaurantListFragment extends ListFragment {
         List<String> genres = Restaurant.getGenresForAdapter(getActivity());
 
         // Override adapter to set font
-        final SpinnerAdapter adapter = new CustomFontSpinnerAdapter(getActivity(), android.R.layout.simple_spinner_dropdown_item, genres);
+        final SpinnerAdapter adapter = new CustomFontArrayAdapter(getActivity(), android.R.layout.simple_spinner_dropdown_item, genres);
 
         ActionBar actionBar = ((MainActivity) getActivity()).getSupportActionBar();
         actionBar.setDisplayShowTitleEnabled(false);

@@ -18,8 +18,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import com.physphil.android.restaurantroulette.ui.CustomFontArrayAdapter;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -100,9 +101,19 @@ public class NavigationDrawerFragment extends Fragment {
                 selectItem(position);
             }
         });
-        mDrawerListView.setAdapter(new ArrayAdapter<String>(
+//        mDrawerListView.setAdapter(new ArrayAdapter<String>(
+//                getActionBar().getThemedContext(),
+//                android.R.layout.simple_list_item_1,
+//                android.R.id.text1,
+//                new String[]{
+//                        getString(R.string.title_restaurant_selector),
+//                        getString(R.string.title_restaurant_list),
+//                        getString(R.string.title_section3),
+//                }));
+
+        mDrawerListView.setAdapter(new CustomFontArrayAdapter(
                 getActionBar().getThemedContext(),
-                android.R.layout.simple_list_item_1,
+                R.layout.row_navigation_drawer,
                 android.R.id.text1,
                 new String[]{
                         getString(R.string.title_restaurant_selector),

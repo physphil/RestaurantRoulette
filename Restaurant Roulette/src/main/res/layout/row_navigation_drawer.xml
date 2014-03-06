@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- This is based off of android.R.layout.simple_list_item_1.xml -->
+
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@android:id/text1"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:textAppearance="?android:attr/textAppearanceMedium"
+    android:gravity="center_vertical"
+    android:paddingLeft="@dimen/margin_horizontal_listitem"
+    android:paddingRight="@dimen/margin_horizontal_listitem"
+    android:minHeight="?android:attr/listPreferredItemHeight"
+    />
