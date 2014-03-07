@@ -283,6 +283,9 @@ public class RestaurantListFragment extends ListFragment {
             }
             else if(intent.getAction().equals(ACTION_UPDATE_RESTAURANT_LIST)){
 
+                /** Need to reset list adapter as projects are filtered and sorted alphabetically. Can't just add to adapter and call
+                 * onNotifyDataSetChanged, as new entries would be out of place.
+                 */
                 updateRestaurantListView();
             }
         }

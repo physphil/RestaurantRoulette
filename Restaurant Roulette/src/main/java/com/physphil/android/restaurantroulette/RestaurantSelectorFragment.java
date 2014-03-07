@@ -50,6 +50,7 @@ public class RestaurantSelectorFragment extends Fragment {
     private TextView tvHeader;
     private TextView tvAnswer;
     private RatingBar rbRating;
+    private RatingBar rbPrice;
     private TextView tvLastVisit;
     private TextView tvNumberOfVisits;
     private int mFilter;
@@ -67,6 +68,7 @@ public class RestaurantSelectorFragment extends Fragment {
         tvHeader = (TextView) v.findViewById(R.id.restaurant_selector_header);
         tvAnswer = (TextView) v.findViewById(R.id.restaurant_selector_answer);
         rbRating = (RatingBar) v.findViewById(R.id.answer_summary_rating_bar);
+        rbPrice = (RatingBar) v.findViewById(R.id.answer_summary_price_bar);
         tvLastVisit = (TextView) v.findViewById(R.id.answer_summary_last_visit);
         tvNumberOfVisits = (TextView) v.findViewById(R.id.answer_summary_number_visits);
 
@@ -159,6 +161,7 @@ public class RestaurantSelectorFragment extends Fragment {
         ((TextView) v.findViewById(R.id.answer_summary_last_visit_text)).setTypeface(tf);
         ((TextView) v.findViewById(R.id.answer_summary_number_visits_text)).setTypeface(tf);
         ((TextView) v.findViewById(R.id.answer_summary_rating_text)).setTypeface(tf);
+        ((TextView) v.findViewById(R.id.answer_summary_price_text)).setTypeface(tf);
     }
 
     private void selectRestaurant(){
@@ -201,6 +204,7 @@ public class RestaurantSelectorFragment extends Fragment {
             btnSelectRestaurant.setText(R.string.restaurant_selector_button_pick_another);
             tvAnswer.setText(mRestaurant.getName());
             rbRating.setRating(mRestaurant.getUserRating());
+            rbPrice.setRating(mRestaurant.getPriceLevel());
 
             if(mHistory.size() > 0){
 
@@ -227,7 +231,7 @@ public class RestaurantSelectorFragment extends Fragment {
         else{
 
             // No answer
-            rlAnswer.setVisibility(View.GONE);
+            rlAnswer.setVisibility(View.INVISIBLE);
             btnSelectRestaurant.setText(R.string.restaurant_selector_button);
         }
     }

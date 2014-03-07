@@ -23,7 +23,7 @@
     <string name="restaurant_selector_button">Where should I eat?</string>
     <string name="restaurant_selector_button_pick_another">Screw that. Pick another one!</string>
     <string name="restaurant_number_visits">Number of visits: </string>
-    <string name="restaurant_last_time_visited">Last time visited: </string>
+    <string name="restaurant_last_time_visited">Last visit: </string>
     <string name="restaurant_answer_header">And the answer is&#8230;</string>
 
     <string name="menu_add_restaurant">Add Restaurant</string>

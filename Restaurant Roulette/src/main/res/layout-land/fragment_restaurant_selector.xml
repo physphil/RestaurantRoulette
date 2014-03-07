@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/margin_horizontal_card"
+    android:paddingRight="@dimen/margin_horizontal_card"
+    android:paddingTop="@dimen/margin_vertical_card"
+    android:paddingBottom="@dimen/margin_vertical_card"
+    android:background="@color/ics_gray">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginRight="@dimen/margin_horizontal_card"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/filter_layout"
+                android:background="@drawable/card_background_normal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/restaurant_selector_filter"
+                    android:id="@+id/selector_filter_text"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"/>
+
+                <include
+                    android:id="@+id/restaurant_genre_spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    layout="@layout/restaurant_genre_spinner"
+                    android:layout_below="@+id/selector_filter_text"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginTop="@dimen/margin_vertical_card"
+                    android:layout_marginLeft="@dimen/margin_horizontal_card_indent"/>
+
+            </RelativeLayout>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/restaurant_selector_button"
+                android:id="@+id/btn_select_restaurant"
+                android:layout_below="@id/filter_layout"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/margin_vertical_card"
+                android:background="@drawable/button_background"
+                android:textColor="@color/ics_white"/>
+
+        </LinearLayout>
+
+        <include
+            layout="@layout/restaurant_answer"
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/restaurant_answer_layout"
+            android:layout_below="@id/btn_select_restaurant"/>
+
+    </LinearLayout>
+
+</ScrollView>

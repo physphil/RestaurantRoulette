@@ -6,6 +6,9 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +30,7 @@ public class RestaurantFragment extends Fragment {
 
     public static final String ACTION_DELETE_RESTAURANT = "com.physphil.android.restaurantroulette.ACTION_DELETE_RESTAURANT";
     public static final String EXTRA_RESTAURANT_ID = "com.physphil.android.restaurantroulette.EXTRA_RESTAURANT_ID";
+    public static final String EXTRA_UPDATED = "com.physphil.android.restaurantroulette.EXTRA_UPDATED";
 
     private DatabaseHelper mDatabaseHelper;
     private Restaurant mRestaurant;
@@ -36,6 +40,10 @@ public class RestaurantFragment extends Fragment {
     private RatingBar rbPriceLevel;
     private EditText etNotes;
     private Typeface mTf;
+    /**
+     * Keeps track of if restaurant entry was modified by user
+     */
+    private boolean mUpdated;
 
     public RestaurantFragment(){}
 
@@ -80,9 +88,11 @@ public class RestaurantFragment extends Fragment {
 
         if(savedInstanceState != null){
             id = savedInstanceState.getString(EXTRA_RESTAURANT_ID);
+            mUpdated = savedInstanceState.getBoolean(EXTRA_UPDATED, false);
         }
         else{
             id = getArguments().getString(EXTRA_RESTAURANT_ID);
+            mUpdated = false;
         }
 
         // If a valid restaurant id from the db exists, populate views with restaurant info
@@ -104,14 +114,19 @@ public class RestaurantFragment extends Fragment {
         super.onPause();
 
         // Save all entered restaurant info to database
-        mRestaurant.setName(etName.getText().toString());
-        mRestaurant.setNotes(etNotes.getText().toString());
+//        mRestaurant.setName(etName.getText().toString());
+//        mRestaurant.setNotes(etNotes.getText().toString());
 
-        mDatabaseHelper.addRestaurant(mRestaurant);
+        // Only save to db if entry was updated by user
+        if(mUpdated){
 
-        // Send broadcast to update listview
-        Intent i = new Intent(RestaurantListFragment.ACTION_UPDATE_RESTAURANT_LIST);
-        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(i);
+            // Save all entered restaurant info to db
+            mDatabaseHelper.addRestaurant(mRestaurant);
+
+            // Send broadcast to update listview
+            Intent i = new Intent(RestaurantListFragment.ACTION_UPDATE_RESTAURANT_LIST);
+            LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(i);
+        }
     }
 
     @Override
@@ -120,6 +135,7 @@ public class RestaurantFragment extends Fragment {
 
         // Save restaurant id for recreation
         outState.putString(EXTRA_RESTAURANT_ID, mRestaurant.getId());
+        outState.putBoolean(EXTRA_UPDATED, mUpdated);
     }
 
     /**
@@ -146,6 +162,40 @@ public class RestaurantFragment extends Fragment {
         etName.setSelection(etName.getText().length());
         etNotes.setText(mRestaurant.getNotes());
 
+        // Add text watchers to update mRestaurant object when edited by user
+        etName.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                mRestaurant.setName(s.toString());
+                mUpdated = true;
+                Log.v("PS", "name changed");
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
+        etNotes.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                mRestaurant.setNotes(s.toString());
+                mUpdated = true;
+                Log.v("PS", "notes changed");
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
         rbUserRating.setRating(mRestaurant.getUserRating());
         rbUserRating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
 
@@ -154,6 +204,8 @@ public class RestaurantFragment extends Fragment {
 
                 // Set new rating every time it changes
                 mRestaurant.setUserRating((int) rating);
+                mUpdated = true;
+                Log.v("PS", "rating changed");
             }
         });
 
@@ -165,13 +217,15 @@ public class RestaurantFragment extends Fragment {
 
                 // Set new price level every time it changes
                 mRestaurant.setPriceLevel((int) rating);
+                mUpdated = true;
+                Log.v("PS", "price changed");
             }
         });
 
         // Set spinner adapter and initialize.
         String[] genres = getResources().getStringArray(R.array.genres);
         spinnerGenre.setAdapter(new CustomFontArrayAdapter(getActivity(), android.R.layout.simple_spinner_dropdown_item, genres));
-        spinnerGenre.setSelection(getIndex(spinnerGenre, mRestaurant.getGenre()));
+        spinnerGenre.setSelection(getIndex(spinnerGenre, mRestaurant.getGenre()), false);
 
         // Add listener to set genre when changed
         spinnerGenre.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -180,6 +234,8 @@ public class RestaurantFragment extends Fragment {
             public void onItemSelected(AdapterView<?> spinner, View view, int position, long id) {
 
                 mRestaurant.setGenre((String) spinner.getItemAtPosition(position));
+                mUpdated = true;
+                Log.v("PS", "genre changed");
             }
 
             @Override
