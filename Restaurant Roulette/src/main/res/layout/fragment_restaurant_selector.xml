@@ -47,8 +47,9 @@
             android:layout_below="@id/filter_layout"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/margin_vertical_card"
-            android:background="@drawable/button_background"
-            android:textColor="@color/ics_white"/>
+            style="@style/button_blue" />
+            <!--android:background="@drawable/button_background"-->
+            <!--android:textColor="@color/ics_white"/>-->
 
         <include
             layout="@layout/restaurant_answer"

@@ -25,6 +25,7 @@
     <string name="restaurant_number_visits">Number of visits: </string>
     <string name="restaurant_last_time_visited">Last visit: </string>
     <string name="restaurant_answer_header">And the answer is&#8230;</string>
+    <string name="restaurant_get_directions">Get Directions</string>
 
     <string name="menu_add_restaurant">Add Restaurant</string>
     <string name="menu_delete_all_restaurants">Delete All</string>
@@ -41,5 +42,6 @@
     <string name="empty_listview_restaurants">Touch + in the menu bar to add a restaurant</string>
 
     <string name="toast_no_restaurants_found">No specified restaurants could be found. Please add one and try again.</string>
+    <string name="toast_no_restaurant_name">Please enter a name for the restaurant before searching</string>
 
 </resources>

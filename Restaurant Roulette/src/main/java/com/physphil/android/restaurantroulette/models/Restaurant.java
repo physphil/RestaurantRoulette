@@ -112,4 +112,13 @@ public class Restaurant {
 
         return genres;
     }
+
+    /**
+     * Does the restaurant have a valid, non-zero length name entered by the user
+     * @return If the restaurant has a name
+     */
+    public boolean hasName(){
+
+        return((name != null) && (name.length() >0));
+    }
 }

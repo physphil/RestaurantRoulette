@@ -35,4 +35,9 @@
         <item name="android:indeterminateDrawable">@drawable/ratingbar_price_level</item>
     </style>
 
+    <style name="button_blue" >
+        <item name="android:background">@drawable/button_background</item>
+        <item name="android:textColor">@color/ics_white</item>
+    </style>
+
 </resources>

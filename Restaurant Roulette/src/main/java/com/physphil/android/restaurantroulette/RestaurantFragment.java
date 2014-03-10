@@ -3,6 +3,7 @@ package com.physphil.android.restaurantroulette;
 
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
@@ -13,15 +14,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.physphil.android.restaurantroulette.data.DatabaseHelper;
 import com.physphil.android.restaurantroulette.models.Restaurant;
 import com.physphil.android.restaurantroulette.ui.CustomFontArrayAdapter;
 import com.physphil.android.restaurantroulette.util.Constants;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 /**
  * Created by pshadlyn on 2/24/14.
@@ -39,6 +45,7 @@ public class RestaurantFragment extends Fragment {
     private RatingBar rbUserRating;
     private RatingBar rbPriceLevel;
     private EditText etNotes;
+    private Button btnDirections;
     private Typeface mTf;
     /**
      * Keeps track of if restaurant entry was modified by user
@@ -73,6 +80,7 @@ public class RestaurantFragment extends Fragment {
         rbUserRating = (RatingBar) v.findViewById(R.id.rating_bar_restaurant);
         rbPriceLevel = (RatingBar) v.findViewById(R.id.price_restaurant);
         etNotes = (EditText) v.findViewById(R.id.restaurant_notes);
+        btnDirections = (Button) v.findViewById(R.id.btn_get_directions);
 
         setFonts(v);
 
@@ -147,6 +155,7 @@ public class RestaurantFragment extends Fragment {
         // Set font for text fields
         etName.setTypeface(mTf);
         etNotes.setTypeface(mTf);
+        btnDirections.setTypeface(mTf);
 
         // Set font for static text
         ((TextView) v.findViewById(R.id.restaurant_name_text)).setTypeface(mTf);
@@ -241,6 +250,16 @@ public class RestaurantFragment extends Fragment {
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
         });
+
+        // Get directions button
+        btnDirections.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+               showOnMap();
+            }
+        });
     }
 
     /**
@@ -264,5 +283,32 @@ public class RestaurantFragment extends Fragment {
 
         // Item not found, set as 'Other', which is always last position in spinner
         return spinner.getCount() - 1;
+    }
+
+    /**
+     * Search for restaurant on map based on entered name
+     */
+    private void showOnMap(){
+
+        if(mRestaurant.hasName()){
+
+            try{
+                // Encode restaurant name and generate maps URI
+                String encodedName = URLEncoder.encode(mRestaurant.getName(), "UTF-8");
+                Uri mapUri = Uri.parse("geo:0,0?q=" + encodedName);
+
+                // Launch maps application and search by restaurant name
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(mapUri);
+                startActivity(i);
+            }
+            catch(UnsupportedEncodingException e){
+                // This shouldn't happen, do nothing.
+            }
+        }
+        else{
+
+            Toast.makeText(getActivity(), R.string.toast_no_restaurant_name, Toast.LENGTH_SHORT).show();
+        }
     }
 }
