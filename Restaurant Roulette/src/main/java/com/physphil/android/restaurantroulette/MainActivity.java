@@ -80,19 +80,18 @@ public class MainActivity extends RRActivity implements NavigationDrawerFragment
                         .replace(R.id.container, fragment)
                         .commit();
                 break;
-        }
-    }
 
-    public void onSectionAttached(int number) {
-        switch (number) {
-            case 1:
-                mTitle = getString(R.string.title_restaurant_selector);
-                break;
             case 2:
-                mTitle = getString(R.string.title_restaurant_list);
-                break;
-            case 3:
-                mTitle = getString(R.string.title_section3);
+                mTitle = getString(R.string.title_restaurant_history);
+                saveMenuSelection(2);
+
+                if(!(fragment instanceof HistoryListFragment)){
+                    fragment = new HistoryListFragment();
+                }
+
+                fm.beginTransaction()
+                        .replace(R.id.container, fragment)
+                        .commit();
                 break;
         }
     }
@@ -141,7 +140,7 @@ public class MainActivity extends RRActivity implements NavigationDrawerFragment
     private void clearRestaurantHistory(){
 
         DatabaseHelper.getInstance(this).deleteRestaurantHistory();
-        Intent i = new Intent(RestaurantSelectorFragment.ACTION_HISTORY_CLEARED);
+        Intent i = new Intent(HistoryListFragment.ACTION_HISTORY_CLEARED);
         LocalBroadcastManager.getInstance(this).sendBroadcast(i);
     }
 

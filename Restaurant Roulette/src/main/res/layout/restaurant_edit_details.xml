@@ -34,7 +34,7 @@
 
         <TableRow
             android:id="@+id/table_row_rating"
-            android:layout_marginTop="@dimen/margin_vertical_restaurant_row" >
+            android:layout_marginTop="@dimen/margin_vertical_row" >
 
             <TextView
                 android:layout_width="wrap_content"
@@ -61,7 +61,7 @@
 
         <TableRow
             android:id="@+id/table_row_price"
-            android:layout_marginTop="@dimen/margin_vertical_restaurant_row" >
+            android:layout_marginTop="@dimen/margin_vertical_row" >
 
             <TextView
                 android:layout_width="wrap_content"
@@ -93,7 +93,7 @@
         android:layout_height="wrap_content"
         android:text="@string/restaurant_notes"
         android:id="@+id/restaurant_notes_text"
-        android:layout_marginTop="@dimen/margin_vertical_restaurant_row"/>
+        android:layout_marginTop="@dimen/margin_vertical_row"/>
 
     <EditText
         android:layout_width="match_parent"

@@ -39,7 +39,6 @@ import java.util.List;
  */
 public class RestaurantSelectorFragment extends Fragment {
 
-    public static String ACTION_HISTORY_CLEARED = "com.physphil.android.restaurantroulette.ACTION_HISTORY_CLEARED";
     public static String PREFS_GENRE_FILTER_SELECTOR = "genre_filter_selector";
 
     private Restaurant mRestaurant;
@@ -102,7 +101,7 @@ public class RestaurantSelectorFragment extends Fragment {
         super.onResume();
 
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mReceiver,
-                new IntentFilter(ACTION_HISTORY_CLEARED));
+                new IntentFilter(HistoryListFragment.ACTION_HISTORY_CLEARED));
     }
 
     @Override
@@ -314,7 +313,7 @@ public class RestaurantSelectorFragment extends Fragment {
         @Override
         public void onReceive(Context context, Intent intent) {
 
-            if(intent.getAction().equals(ACTION_HISTORY_CLEARED)){
+            if(intent.getAction().equals(HistoryListFragment.ACTION_HISTORY_CLEARED)){
 
                 // Clear answer if restaurant history has been erased
                 clearAnswer();

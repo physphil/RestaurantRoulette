@@ -277,4 +277,43 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         mDb.delete(TABLE_HISTORY, null, null);
     }
 
+    public List<RestaurantHistory> getAllHistory(){
+
+        List<RestaurantHistory> historyList = new ArrayList<RestaurantHistory>();
+        String query =
+                "SELECT " +
+                    "h." + COLUMN_HISTORY_ID + ", " +
+                    "h." + COLUMN_HISTORY_DATE + ", " +
+                    "h." + COLUMN_HISTORY_RESTAURANT_ID + ", " +
+                    "r." + COLUMN_RESTAURANT_NAME + " " +
+                "FROM " +
+                    TABLE_HISTORY + " as h " +
+                "INNER JOIN " +
+                    TABLE_RESTAURANTS + " as r " +
+                "ON " +
+                    "h." + COLUMN_HISTORY_RESTAURANT_ID + " = r." + COLUMN_RESTAURANT_ID + " " +
+                "ORDER BY " +
+                    COLUMN_HISTORY_DATE + " DESC";
+
+        Cursor c = mDb.rawQuery(query, null);
+
+        if(c.moveToFirst()){
+
+            while(!c.isAfterLast()){
+
+                RestaurantHistory history = new RestaurantHistory(
+                        c.getInt(c.getColumnIndex(COLUMN_HISTORY_ID)),
+                        c.getString(c.getColumnIndex(COLUMN_HISTORY_RESTAURANT_ID)),
+                        c.getString(c.getColumnIndex(COLUMN_HISTORY_DATE)));
+                history.setName(c.getString(c.getColumnIndex(COLUMN_RESTAURANT_NAME)));
+
+                historyList.add(history);
+                c.moveToNext();
+            }
+        }
+        c.close();
+
+        return historyList;
+    }
+
 }

@@ -8,6 +8,7 @@
     <string name="title_restaurant_list">All Restaurants</string>
     <string name="title_restaurant_selector">Pick A Restaurant</string>
     <string name="title_edit_restaurant">Edit Restaurant</string>
+    <string name="title_restaurant_history">Where I\'ve Eaten</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_example">Example action</string>
@@ -40,6 +41,7 @@
     <string name="dialog_delete_history_message">Are you sure you want to clear your restaurant selection history?</string>
 
     <string name="empty_listview_restaurants">Touch + in the menu bar to add a restaurant</string>
+    <string name="empty_listview_history">Your restaurant history is empty</string>
 
     <string name="toast_no_restaurants_found">No specified restaurants could be found. Please add one and try again.</string>
     <string name="toast_no_restaurant_name">Please enter a name for the restaurant before searching</string>

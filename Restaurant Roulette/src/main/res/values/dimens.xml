@@ -13,7 +13,7 @@
     <dimen name="margin_vertical_card">8dp</dimen>
     <dimen name="margin_horizontal_card">8dp</dimen>
     <dimen name="margin_vertical_line_spacing">5dp</dimen>
-    <dimen name="margin_vertical_restaurant_row">20dp</dimen>
+    <dimen name="margin_vertical_row">20dp</dimen>
     <dimen name="margin_horizontal_card_indent">16dp</dimen>
 
     <dimen name="horizontal_bar_height">1dp</dimen>
