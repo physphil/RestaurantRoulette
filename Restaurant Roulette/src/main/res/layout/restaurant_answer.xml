@@ -14,7 +14,8 @@
         android:id="@+id/restaurant_selector_header"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/margin_vertical_card"
-        android:text="@string/restaurant_answer_header"/>
+        android:text="@string/restaurant_answer_header"
+        android:visibility="gone"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -23,7 +24,7 @@
         android:id="@+id/restaurant_selector_answer"
         android:layout_below="@id/restaurant_selector_header"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/margin_vertical_restaurant_row"
+        android:layout_marginTop="@dimen/margin_vertical_card"
         android:text="Restaurant Name"/>
 
     <include

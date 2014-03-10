@@ -52,11 +52,16 @@
                 android:layout_height="wrap_content"
                 android:text="@string/restaurant_selector_button"
                 android:id="@+id/btn_select_restaurant"
-                android:layout_below="@id/filter_layout"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/margin_vertical_card"
-                android:background="@drawable/button_background"
-                android:textColor="@color/ics_white"/>
+                style="@style/button_blue"
+                android:layout_marginTop="@dimen/margin_vertical_card" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/restaurant_get_directions"
+                android:id="@+id/btn_get_directions"
+                style="@style/button_blue"
+                android:layout_marginTop="@dimen/margin_vertical_card" />
 
         </LinearLayout>
 

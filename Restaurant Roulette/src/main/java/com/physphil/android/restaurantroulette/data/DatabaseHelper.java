@@ -34,6 +34,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_RESTAURANT_USER_RATING = "userRating";
     public static final String COLUMN_RESTAURANT_PRICE_LEVEL = "priceLevel";
     public static final String COLUMN_RESTAURANT_NOTES = "notes";
+    public static final String COLUMN_RESTAURANT_ADDRESS = "address";
+    public static final String COLUMN_RESTAURANT_PHONE = "phone";
 
     public static final String[] COLUMNS_RESTAURANT_TABLE = {COLUMN_RESTAURANT_ID, COLUMN_RESTAURANT_NAME, COLUMN_RESTAURANT_GENRE, COLUMN_RESTAURANT_USER_RATING, COLUMN_RESTAURANT_PRICE_LEVEL, COLUMN_RESTAURANT_NOTES};
 
@@ -50,8 +52,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 COLUMN_RESTAURANT_NAME + " TEXT, " +
                 COLUMN_RESTAURANT_GENRE + " TEXT, " +
                 COLUMN_RESTAURANT_USER_RATING + " INTEGER, " +
-                    COLUMN_RESTAURANT_PRICE_LEVEL + " INTEGER, " +
-                COLUMN_RESTAURANT_NOTES + " TEXT);";
+                COLUMN_RESTAURANT_PRICE_LEVEL + " INTEGER, " +
+                COLUMN_RESTAURANT_NOTES + " TEXT, " +
+                COLUMN_RESTAURANT_ADDRESS + " TEXT, " +
+                COLUMN_RESTAURANT_PHONE + " TEXT);";
 
     private static final String CREATE_TABLE_HISTORY =
             "CREATE table " + TABLE_HISTORY + " (" + COLUMN_HISTORY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +

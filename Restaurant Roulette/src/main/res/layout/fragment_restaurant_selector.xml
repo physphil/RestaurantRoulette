@@ -48,8 +48,6 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/margin_vertical_card"
             style="@style/button_blue" />
-            <!--android:background="@drawable/button_background"-->
-            <!--android:textColor="@color/ics_white"/>-->
 
         <include
             layout="@layout/restaurant_answer"
@@ -58,6 +56,15 @@
             android:id="@+id/restaurant_answer_layout"
             android:layout_below="@id/btn_select_restaurant"
             android:layout_marginTop="@dimen/margin_vertical_card" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/restaurant_get_directions"
+            android:id="@+id/btn_get_directions"
+            android:layout_below="@id/restaurant_answer_layout"
+            android:layout_marginTop="@dimen/margin_vertical_card"
+            style="@style/button_blue" />
 
     </RelativeLayout>
 

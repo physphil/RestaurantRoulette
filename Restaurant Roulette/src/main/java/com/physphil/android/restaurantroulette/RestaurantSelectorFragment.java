@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -27,6 +28,8 @@ import com.physphil.android.restaurantroulette.models.RestaurantHistory;
 import com.physphil.android.restaurantroulette.ui.CustomFontArrayAdapter;
 import com.physphil.android.restaurantroulette.util.Constants;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
@@ -47,6 +50,7 @@ public class RestaurantSelectorFragment extends Fragment {
     private RelativeLayout rlNumberVisits;
     private RelativeLayout rlLastVisit;
     private Button btnSelectRestaurant;
+    private Button btnGetDirections;
     private TextView tvHeader;
     private TextView tvAnswer;
     private RatingBar rbRating;
@@ -64,6 +68,7 @@ public class RestaurantSelectorFragment extends Fragment {
         rlLastVisit = (RelativeLayout) v.findViewById(R.id.answer_summary_last_visit_layout);
         rlNumberVisits = (RelativeLayout) v.findViewById(R.id.answer_summary_number_visits_layout);
         btnSelectRestaurant = (Button) v.findViewById(R.id.btn_select_restaurant);
+        btnGetDirections = (Button) v.findViewById(R.id.btn_get_directions);
         spinnerGenre = (Spinner) v.findViewById(R.id.spinner_restaurant_genre);
         tvHeader = (TextView) v.findViewById(R.id.restaurant_selector_header);
         tvAnswer = (TextView) v.findViewById(R.id.restaurant_selector_answer);
@@ -118,6 +123,14 @@ public class RestaurantSelectorFragment extends Fragment {
             }
         });
 
+        btnGetDirections.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                showOnMap();
+            }
+        });
+
         List<String> genres = Restaurant.getGenresForAdapter(getActivity());
 
         // Override adapter to set font
@@ -149,7 +162,7 @@ public class RestaurantSelectorFragment extends Fragment {
 
         Typeface tf = Typeface.createFromAsset(getActivity().getAssets(), Constants.FONT_DEFAULT);
         btnSelectRestaurant.setTypeface(tf);
-
+        btnGetDirections.setTypeface(tf);
         tvHeader.setTypeface(tf);
         tvAnswer.setTypeface(tf);
         tvLastVisit.setTypeface(tf);
@@ -206,6 +219,14 @@ public class RestaurantSelectorFragment extends Fragment {
             rbRating.setRating(mRestaurant.getUserRating());
             rbPrice.setRating(mRestaurant.getPriceLevel());
 
+            // Only show Get Directions button if restaurant has a valid name to search for
+            if(mRestaurant.hasName()){
+                btnGetDirections.setVisibility(View.VISIBLE);
+            }
+            else{
+                btnGetDirections.setVisibility(View.GONE);
+            }
+
             if(mHistory.size() > 0){
 
                 // set summary fields
@@ -232,6 +253,7 @@ public class RestaurantSelectorFragment extends Fragment {
 
             // No answer
             rlAnswer.setVisibility(View.INVISIBLE);
+            btnGetDirections.setVisibility(View.GONE);
             btnSelectRestaurant.setText(R.string.restaurant_selector_button);
         }
     }
@@ -262,6 +284,29 @@ public class RestaurantSelectorFragment extends Fragment {
         mRestaurant = null;
         mHistory = null;
         setAnswer(false);
+    }
+
+    /**
+     * Open maps and search for restaurant by name
+     */
+    private void showOnMap(){
+
+        if(mRestaurant.hasName()){
+
+            try{
+                // Encode restaurant name and generate maps URI
+                String encodedName = URLEncoder.encode(mRestaurant.getName(), "UTF-8");
+                Uri mapUri = Uri.parse("geo:0,0?q=" + encodedName);
+
+                // Launch maps application and search by restaurant name
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(mapUri);
+                startActivity(i);
+            }
+            catch(UnsupportedEncodingException e){
+                // This shouldn't happen, do nothing.
+            }
+        }
     }
 
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
