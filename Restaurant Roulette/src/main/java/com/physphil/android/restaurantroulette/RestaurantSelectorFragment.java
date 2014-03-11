@@ -296,7 +296,7 @@ public class RestaurantSelectorFragment extends Fragment {
                 // Encode restaurant name and generate maps URI
                 String encodedName = URLEncoder.encode(mRestaurant.getName(), "UTF-8");
                 // TODO - replace with actual coordinates
-                Uri mapUri = Uri.parse("geo:43.7065663226002,-79.3989553674835?q=" + encodedName);
+                Uri mapUri = Uri.parse("geo:0,0?q=" + encodedName);
 
                 // Launch maps application and search by restaurant name
                 Intent i = new Intent(Intent.ACTION_VIEW);
