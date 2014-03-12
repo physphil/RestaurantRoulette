@@ -71,6 +71,10 @@
                 android:layout_marginRight="@dimen/margin_editText"
                 android:layout_gravity="center_vertical"/>
 
+            <!--<include-->
+                <!--layout="@layout/price_level_bar"-->
+                <!--android:id="@+id/price_restaurant" />-->
+
             <RatingBar
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

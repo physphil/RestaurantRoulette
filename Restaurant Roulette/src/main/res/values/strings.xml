@@ -5,7 +5,7 @@
     <string name="title_section1">Section 1</string>
     <string name="title_section2">Section 2</string>
     <string name="title_section3">Section 3</string>
-    <string name="title_restaurant_list">All Restaurants</string>
+    <string name="title_restaurant_list">Restaurant List</string>
     <string name="title_restaurant_selector">Pick A Restaurant</string>
     <string name="title_edit_restaurant">Edit Restaurant</string>
     <string name="title_restaurant_history">Where I\'ve Eaten</string>
@@ -45,5 +45,6 @@
 
     <string name="toast_no_restaurants_found">No specified restaurants could be found. Please add one and try again.</string>
     <string name="toast_no_restaurant_name">Please enter a name for the restaurant before searching</string>
+    <string name="toast_no_maps_app">Sorry, you do not have a mapping application installed</string>
 
 </resources>

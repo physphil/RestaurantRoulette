@@ -1,5 +1,6 @@
 package com.physphil.android.restaurantroulette;
 
+import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -305,6 +306,9 @@ public class RestaurantSelectorFragment extends Fragment {
             }
             catch(UnsupportedEncodingException e){
                 // This shouldn't happen, do nothing.
+            }
+            catch(ActivityNotFoundException e){
+                Toast.makeText(getActivity(), R.string.toast_no_maps_app, Toast.LENGTH_SHORT).show();
             }
         }
     }

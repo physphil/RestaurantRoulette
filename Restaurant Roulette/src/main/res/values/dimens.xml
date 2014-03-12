@@ -16,6 +16,7 @@
     <dimen name="margin_vertical_row">20dp</dimen>
     <dimen name="margin_horizontal_card_indent">16dp</dimen>
 
+    <dimen name="minimum_button_height">40dp</dimen>
     <dimen name="horizontal_bar_height">1dp</dimen>
     <dimen name="rating_bar_height_edit_restaurant">12dp</dimen>
 </resources>

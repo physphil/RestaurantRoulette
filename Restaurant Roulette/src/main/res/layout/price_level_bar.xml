@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RatingBar xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:progressDrawable="@drawable/ratingbar_price_level"
+    android:indeterminateDrawable="@drawable/ratingbar_price_level"
+    android:numStars="@integer/price_level_max"
+    android:stepSize="@integer/price_level_step_size" >
+
+</RatingBar>
