@@ -5,8 +5,8 @@
     android:layout_height="match_parent"
     android:paddingLeft="@dimen/margin_horizontal_listitem"
     android:paddingRight="@dimen/margin_horizontal_listitem"
-
-    android:paddingTop="@dimen/margin_vertical_listitem"
+    android:paddingBottom="4dp"
+    android:paddingTop="4dp"
     android:descendantFocusability="blocksDescendants" >
     <!--android:background="@color/ics_gray">-->
 

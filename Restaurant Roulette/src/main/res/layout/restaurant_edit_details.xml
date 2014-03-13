@@ -8,7 +8,7 @@
 
     <TableLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content" >
 
         <TableRow
             android:id="@+id/table_row_genre">
@@ -24,7 +24,7 @@
             <Spinner
                 android:layout_height="wrap_content"
                 android:id="@+id/spinner_restaurant_genre"
-                android:layout_gravity="center_vertical"/>
+                android:layout_gravity="center_vertical|left"/>
 
         </TableRow>
 
@@ -48,7 +48,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/rating_bar_restaurant"
-                android:layout_gravity="center_horizontal"
+                android:layout_gravity="left"
                 android:rating="@integer/user_rating_default"
                 android:numStars="@integer/user_rating_max"
                 android:stepSize="@integer/user_rating_step_size" />
@@ -71,15 +71,12 @@
                 android:layout_marginRight="@dimen/margin_editText"
                 android:layout_gravity="center_vertical"/>
 
-            <!--<include-->
-                <!--layout="@layout/price_level_bar"-->
-                <!--android:id="@+id/price_restaurant" />-->
-
             <RatingBar
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/price_restaurant"
                 style="@style/price_level_rating_bar"
+                android:layout_gravity="left"
                 android:rating="@integer/price_level_default"
                 android:numStars="@integer/price_level_max"
                 android:stepSize="@integer/price_level_step_size" />
