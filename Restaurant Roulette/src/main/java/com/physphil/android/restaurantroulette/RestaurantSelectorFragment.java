@@ -28,6 +28,7 @@ import com.physphil.android.restaurantroulette.models.Restaurant;
 import com.physphil.android.restaurantroulette.models.RestaurantHistory;
 import com.physphil.android.restaurantroulette.ui.CustomFontArrayAdapter;
 import com.physphil.android.restaurantroulette.util.Constants;
+import com.physphil.android.restaurantroulette.util.Util;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -127,7 +128,8 @@ public class RestaurantSelectorFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                showOnMap();
+//                showOnMap();
+                Util.showOnMap(getActivity(), mRestaurant.getName());
             }
         });
 
@@ -149,8 +151,7 @@ public class RestaurantSelectorFragment extends Fragment {
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
     }
 

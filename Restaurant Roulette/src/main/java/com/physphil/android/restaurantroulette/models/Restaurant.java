@@ -119,6 +119,16 @@ public class Restaurant {
      */
     public boolean hasName(){
 
-        return((name != null) && (name.length() >0));
+        return hasName(this.name);
+    }
+
+    /**
+     * Does the restaurant have a valid, non-zero length name entered by the user
+     * @param name Restaurant name
+     * @return If the restaurant has a name
+     */
+    public static boolean hasName(String name){
+
+        return((name != null) && (name.length() > 0));
     }
 }

@@ -1,10 +1,12 @@
 package com.physphil.android.restaurantroulette;
 
 
-import android.content.ActivityNotFoundException;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Typeface;
-import android.net.Uri;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
@@ -20,15 +22,13 @@ import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.physphil.android.restaurantroulette.data.DatabaseHelper;
 import com.physphil.android.restaurantroulette.models.Restaurant;
 import com.physphil.android.restaurantroulette.ui.CustomFontArrayAdapter;
 import com.physphil.android.restaurantroulette.util.Constants;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
+import com.physphil.android.restaurantroulette.util.LocationHelper;
+import com.physphil.android.restaurantroulette.util.Util;
 
 /**
  * Created by pshadlyn on 2/24/14.
@@ -48,6 +48,8 @@ public class RestaurantFragment extends Fragment {
     private EditText etNotes;
     private Button btnDirections;
     private Typeface mTf;
+    private LocationHelper mLocationHelper;
+
     /**
      * Keeps track of if restaurant entry was modified by user
      */
@@ -119,6 +121,14 @@ public class RestaurantFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mReceiver,
+                new IntentFilter(LocationHelper.ACTION_LOCATION_SERVICES_CONNECTED));
+    }
+
+    @Override
     public void onPause(){
         super.onPause();
 
@@ -136,6 +146,8 @@ public class RestaurantFragment extends Fragment {
             Intent i = new Intent(RestaurantListFragment.ACTION_UPDATE_RESTAURANT_LIST);
             LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(i);
         }
+
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mReceiver);
     }
 
     @Override
@@ -258,7 +270,10 @@ public class RestaurantFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-               showOnMap();
+                //showOnMap();
+                //Util.showOnMap(getActivity(), mRestaurant.getName());
+                mLocationHelper = new LocationHelper(getActivity());
+                mLocationHelper.connect();
             }
         });
     }
@@ -286,33 +301,26 @@ public class RestaurantFragment extends Fragment {
         return spinner.getCount() - 1;
     }
 
-    /**
-     * Search for restaurant on map based on entered name
-     */
-    private void showOnMap(){
+    private BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
 
-        if(mRestaurant.hasName()){
+            if(intent.getAction().equals(LocationHelper.ACTION_LOCATION_SERVICES_CONNECTED)){
 
-            try{
-                // Encode restaurant name and generate maps URI
-                String encodedName = URLEncoder.encode(mRestaurant.getName(), "UTF-8");
-                Uri mapUri = Uri.parse("geo:0,0?q=" + encodedName);
+                if(intent.getBooleanExtra(LocationHelper.EXTRA_PLAY_SERVICES_AVAILABLE, false)) {
 
-                // Launch maps application and search by restaurant name
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(mapUri);
-                startActivity(i);
-            }
-            catch(UnsupportedEncodingException e){
-                // This shouldn't happen, do nothing.
-            }
-            catch(ActivityNotFoundException e){
-                Toast.makeText(getActivity(), R.string.toast_no_maps_app, Toast.LENGTH_SHORT).show();
+                    // GPS available, search on map for restaurant
+                    Location location = intent.getParcelableExtra(LocationHelper.EXTRA_LOCATION);
+                    Util.showOnMap(getActivity(), mRestaurant.getName(), location);
+                }
+                else{
+
+                    // Attempt to search on map without precise location info TODO - add toast or indicator to user saying couldn't get exact location?
+                    Util.showOnMap(getActivity(), mRestaurant.getName());
+                }
             }
         }
-        else{
+    };
 
-            Toast.makeText(getActivity(), R.string.toast_no_restaurant_name, Toast.LENGTH_SHORT).show();
-        }
-    }
+
 }
