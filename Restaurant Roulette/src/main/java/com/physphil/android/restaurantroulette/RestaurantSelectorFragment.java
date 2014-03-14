@@ -1,13 +1,12 @@
 package com.physphil.android.restaurantroulette;
 
-import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
-import android.net.Uri;
+import android.location.Location;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -28,10 +27,9 @@ import com.physphil.android.restaurantroulette.models.Restaurant;
 import com.physphil.android.restaurantroulette.models.RestaurantHistory;
 import com.physphil.android.restaurantroulette.ui.CustomFontArrayAdapter;
 import com.physphil.android.restaurantroulette.util.Constants;
+import com.physphil.android.restaurantroulette.util.LocationHelper;
 import com.physphil.android.restaurantroulette.util.Util;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
@@ -46,6 +44,7 @@ public class RestaurantSelectorFragment extends Fragment {
     private Restaurant mRestaurant;
     private List<RestaurantHistory> mHistory;
     private DatabaseHelper mDatabaseHelper;
+    private LocationHelper mLocationHelper;
     private Spinner spinnerGenre;
     private RelativeLayout rlAnswer;
     private RelativeLayout rlNumberVisits;
@@ -90,6 +89,7 @@ public class RestaurantSelectorFragment extends Fragment {
 
         prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         mDatabaseHelper = DatabaseHelper.getInstance(getActivity());
+        mLocationHelper = new LocationHelper(getActivity());
         mFilter = prefs.getInt(PREFS_GENRE_FILTER_SELECTOR, Restaurant.GENRE_ALL);
 
         initViewContent();
@@ -102,8 +102,10 @@ public class RestaurantSelectorFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mReceiver,
-                new IntentFilter(HistoryListFragment.ACTION_HISTORY_CLEARED));
+        LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(getActivity());
+
+        lbm.registerReceiver(mReceiver, new IntentFilter(HistoryListFragment.ACTION_HISTORY_CLEARED));
+        lbm.registerReceiver(mReceiver, new IntentFilter(LocationHelper.ACTION_LOCATION_RETRIEVED));
     }
 
     @Override
@@ -128,8 +130,9 @@ public class RestaurantSelectorFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-//                showOnMap();
-                Util.showOnMap(getActivity(), mRestaurant.getName());
+
+//                Util.showOnMap(getActivity(), mRestaurant.getName());
+                mLocationHelper.connectAndGetLocation();
             }
         });
 
@@ -287,33 +290,6 @@ public class RestaurantSelectorFragment extends Fragment {
         setAnswer(false);
     }
 
-    /**
-     * Open maps and search for restaurant by name
-     */
-    private void showOnMap(){
-
-        if(mRestaurant.hasName()){
-
-            try{
-                // Encode restaurant name and generate maps URI
-                String encodedName = URLEncoder.encode(mRestaurant.getName(), "UTF-8");
-                // TODO - replace with actual coordinates
-                Uri mapUri = Uri.parse("geo:0,0?q=" + encodedName);
-
-                // Launch maps application and search by restaurant name
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(mapUri);
-                startActivity(i);
-            }
-            catch(UnsupportedEncodingException e){
-                // This shouldn't happen, do nothing.
-            }
-            catch(ActivityNotFoundException e){
-                Toast.makeText(getActivity(), R.string.toast_no_maps_app, Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
 
         @Override
@@ -323,6 +299,12 @@ public class RestaurantSelectorFragment extends Fragment {
 
                 // Clear answer if restaurant history has been erased
                 clearAnswer();
+            }
+            else if(intent.getAction().equals(LocationHelper.ACTION_LOCATION_RETRIEVED)){
+
+                Location location = intent.getParcelableExtra(LocationHelper.EXTRA_LOCATION);
+                Util.showOnMap(getActivity(), mRestaurant.getName(), location);
+                mLocationHelper.disconnect();
             }
         }
     };
