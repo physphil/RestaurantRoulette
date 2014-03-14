@@ -7,7 +7,7 @@ import android.widget.TextView;
 /**
  * Created by pshadlyn on 3/4/14.
  */
-public class RRActivity extends ActionBarActivity {
+public class BaseActivity extends ActionBarActivity {
 
     /**
      * Sets font in action bar to font specified

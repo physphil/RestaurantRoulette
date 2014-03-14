@@ -95,6 +95,7 @@ public class RestaurantFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         mDatabaseHelper = DatabaseHelper.getInstance(getActivity());
+        mLocationHelper = new LocationHelper(getActivity());
         String id;
 
         if(savedInstanceState != null){
@@ -125,7 +126,7 @@ public class RestaurantFragment extends Fragment {
         super.onResume();
 
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mReceiver,
-                new IntentFilter(LocationHelper.ACTION_LOCATION_SERVICES_CONNECTED));
+                new IntentFilter(LocationHelper.ACTION_LOCATION_RETRIEVED));
     }
 
     @Override
@@ -195,7 +196,7 @@ public class RestaurantFragment extends Fragment {
 
                 mRestaurant.setName(s.toString());
                 mUpdated = true;
-                Log.v("PS", "name changed");
+                Log.d("PS", "name changed");
             }
 
             @Override
@@ -211,7 +212,7 @@ public class RestaurantFragment extends Fragment {
 
                 mRestaurant.setNotes(s.toString());
                 mUpdated = true;
-                Log.v("PS", "notes changed");
+                Log.d("PS", "notes changed");
             }
 
             @Override
@@ -227,7 +228,7 @@ public class RestaurantFragment extends Fragment {
                 // Set new rating every time it changes
                 mRestaurant.setUserRating((int) rating);
                 mUpdated = true;
-                Log.v("PS", "rating changed");
+                Log.d("PS", "rating changed");
             }
         });
 
@@ -240,7 +241,7 @@ public class RestaurantFragment extends Fragment {
                 // Set new price level every time it changes
                 mRestaurant.setPriceLevel((int) rating);
                 mUpdated = true;
-                Log.v("PS", "price changed");
+                Log.d("PS", "price changed");
             }
         });
 
@@ -257,7 +258,7 @@ public class RestaurantFragment extends Fragment {
 
                 mRestaurant.setGenre((String) spinner.getItemAtPosition(position));
                 mUpdated = true;
-                Log.v("PS", "genre changed");
+                Log.d("PS", "genre changed");
             }
 
             @Override
@@ -272,8 +273,7 @@ public class RestaurantFragment extends Fragment {
 
                 //showOnMap();
                 //Util.showOnMap(getActivity(), mRestaurant.getName());
-                mLocationHelper = new LocationHelper(getActivity());
-                mLocationHelper.connect();
+                mLocationHelper.connectAndGetLocation();
             }
         });
     }
@@ -305,19 +305,12 @@ public class RestaurantFragment extends Fragment {
         @Override
         public void onReceive(Context context, Intent intent) {
 
-            if(intent.getAction().equals(LocationHelper.ACTION_LOCATION_SERVICES_CONNECTED)){
+            if (intent.getAction().equals(LocationHelper.ACTION_LOCATION_RETRIEVED)) {
 
-                if(intent.getBooleanExtra(LocationHelper.EXTRA_PLAY_SERVICES_AVAILABLE, false)) {
-
-                    // GPS available, search on map for restaurant
-                    Location location = intent.getParcelableExtra(LocationHelper.EXTRA_LOCATION);
-                    Util.showOnMap(getActivity(), mRestaurant.getName(), location);
-                }
-                else{
-
-                    // Attempt to search on map without precise location info TODO - add toast or indicator to user saying couldn't get exact location?
-                    Util.showOnMap(getActivity(), mRestaurant.getName());
-                }
+                // Search on map for restaurant. Location will be null if not contained in intent
+                Location location = intent.getParcelableExtra(LocationHelper.EXTRA_LOCATION);
+                Util.showOnMap(getActivity(), mRestaurant.getName(), location);
+                mLocationHelper.disconnect();
             }
         }
     };

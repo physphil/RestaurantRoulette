@@ -9,7 +9,7 @@ import com.physphil.android.restaurantroulette.util.Constants;
 /**
  * Created by pshadlyn on 2/24/14.
  */
-public class RestaurantActivity extends RRActivity {
+public class RestaurantActivity extends BaseActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState){

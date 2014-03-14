@@ -59,9 +59,17 @@ public class Util {
             try{
                 // Encode restaurant name and generate maps URI
                 String encodedName = URLEncoder.encode(name, "UTF-8");
-                Log.v("PS", "Latitude = " + location.getLatitude() + ", Longitude = " + location.getLongitude());
-                Uri mapUri = Uri.parse("geo:" + location.getLatitude() + "," + location.getLongitude() +
-                        "+?q=" + encodedName + "&z=13");
+                Uri mapUri;
+
+                if(location != null) {
+                    Log.d("PS", "Latitude = " + location.getLatitude() + ", Longitude = " + location.getLongitude());
+                    mapUri = Uri.parse("geo:" + location.getLatitude() + "," + location.getLongitude() +
+                            "+?q=" + encodedName + "&z=13");
+                }
+                else{
+                    Log.d("PS", "No Location Available");
+                    mapUri = Uri.parse("geo:0,0?q=" + encodedName + "&z=13");
+                }
 
                 // Launch maps application and search by restaurant name
                 Intent i = new Intent(Intent.ACTION_VIEW);

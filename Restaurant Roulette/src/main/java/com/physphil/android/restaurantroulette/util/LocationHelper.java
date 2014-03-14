@@ -18,21 +18,23 @@ import com.google.android.gms.location.LocationClient;
  */
 public class LocationHelper implements GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnectionFailedListener {
 
-    public static final String ACTION_LOCATION_SERVICES_CONNECTED = "com.physphil.android.restaurantroulette.ACTION_LOCATION_SERVICES_CONNECTED";
+    public static final String ACTION_LOCATION_RETRIEVED = "com.physphil.android.restaurantroulette.ACTION_LOCATION_RETRIEVED";
+    public static final String ACTION_LOCATION_SERVICES_DISCONNECTED = "com.physphil.android.restaurantroulette.ACTION_LOCATION_SERVICES_DISCONNECTED";
     public static final String EXTRA_PLAY_SERVICES_AVAILABLE = "com.physphil.android.restaurantroulette.EXTRA_PLAY_SERVICES_CONNECTED";
     public static final String EXTRA_LOCATION = "com.physphil.android.restaurantroulette.EXTRA_LOCATION";
 
     private Context mContext;
     private Location mLocation;
     private LocationClient mLocationClient;
+    private LocalBroadcastManager mBroadcastManager;
 
     public LocationHelper(Context context){
 
         mContext = context;
-        mLocationClient = new LocationClient(mContext, this, this);
+        mBroadcastManager = LocalBroadcastManager.getInstance(mContext);
     }
 
-    public boolean servicesConnected(){
+    private boolean googlePlayServicesAvailable(){
 
         // Check that Google Play Services is available on device
         int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(mContext);
@@ -42,13 +44,15 @@ public class LocationHelper implements GooglePlayServicesClient.ConnectionCallba
     }
 
     /**
-     * Connect to Location Services.  Once connected, ACTION_LOCATION_SERVICES_CONNECTED broadcast is sent
+     * Connect to Location Services and retrieve location.  Once connected, ACTION_LOCATION_RETRIEVED broadcast is sent
      * and location info is sent in EXTRA_LOCATION. Boolean EXTRA_PLAY_SERVICES_AVAILABLE contains if Google
      * Play Services is available on device
      */
-    public void connect(){
+    public void connectAndGetLocation(){
 
-        if(servicesConnected()){
+        mLocationClient = new LocationClient(mContext, this, this);
+
+        if(googlePlayServicesAvailable()){
 
             mLocationClient.connect();
         }
@@ -59,7 +63,17 @@ public class LocationHelper implements GooglePlayServicesClient.ConnectionCallba
     }
 
     /**
-     * Get curent location object
+     * Disconnect from Location Services
+     */
+    public void disconnect(){
+
+        if(mLocationClient != null) {
+            mLocationClient.disconnect();
+        }
+    }
+
+    /**
+     * Get current Location object
      * @return current location, null if location not available
      */
     public Location getLocation(){
@@ -78,33 +92,34 @@ public class LocationHelper implements GooglePlayServicesClient.ConnectionCallba
      */
     private void sendFailureBroadcast(){
 
-        Intent i = new Intent(ACTION_LOCATION_SERVICES_CONNECTED);
+        Intent i = new Intent(ACTION_LOCATION_RETRIEVED);
         i.putExtra(EXTRA_PLAY_SERVICES_AVAILABLE, false);
-        LocalBroadcastManager.getInstance(mContext).sendBroadcast(i);
+        mBroadcastManager.sendBroadcast(i);
     }
 
     // When LocationClient is connected to Location Services
     @Override
     public void onConnected(Bundle bundle) {
 
-        Log.v("PS", "Location Services connected");
+        Log.d("PS", "Location Services connected");
         mLocation = mLocationClient.getLastLocation();
 
-        Intent i = new Intent(ACTION_LOCATION_SERVICES_CONNECTED);
+        Intent i = new Intent(ACTION_LOCATION_RETRIEVED);
         i.putExtra(EXTRA_PLAY_SERVICES_AVAILABLE, true);
         i.putExtra(EXTRA_LOCATION, mLocation);
-        LocalBroadcastManager.getInstance(mContext).sendBroadcast(i);
+        mBroadcastManager.sendBroadcast(i);
     }
 
     // When LocationClient disconnects from Location Services
     @Override
     public void onDisconnected() {
-        Log.v("PS", "Location Services disconnected");
+        Log.d("PS", "Location Services disconnected");
+        mBroadcastManager.sendBroadcast(new Intent(ACTION_LOCATION_SERVICES_DISCONNECTED));
     }
 
     // If connection to LocationServices drops
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-        Log.v("PS", "Location Services connection failed");
+        Log.d("PS", "Location Services connection failed");
     }
 }
