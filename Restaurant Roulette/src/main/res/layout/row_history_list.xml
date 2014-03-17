@@ -1,37 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="@dimen/margin_vertical_listitem"
-    android:paddingBottom="@dimen/margin_vertical_listitem">
+    android:paddingLeft="@dimen/margin_horizontal_listitem"
+    android:paddingRight="@dimen/margin_horizontal_listitem"
+    android:paddingBottom="4dp"
+    android:paddingTop="4dp"
+    android:descendantFocusability="blocksDescendants" >
+    <!--android:background="@color/ics_gray">-->
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Date"
-        style="@style/TextAppearanceListviewHeader"
-        android:id="@+id/history_date"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Restaurant Name"
-        android:id="@+id/history_name"
-        style="@style/TextAppearanceListviewHeader"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_toLeftOf="@id/history_date"
-        android:layout_marginBottom="@dimen/margin_vertical_line_spacing"/>
+        android:paddingLeft="@dimen/margin_horizontal_listitem"
+        android:paddingRight="@dimen/margin_horizontal_listitem"
+        android:paddingBottom="@dimen/margin_vertical_listitem"
+        android:paddingTop="@dimen/margin_vertical_listitem"
+        android:background="@drawable/card_background">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/horizontal_bar_height"
-        android:background="?android:attr/listDivider"
-        android:layout_below="@id/history_name"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Restaurant Title"
+            style="@style/TextAppearanceListviewHeader"
+            android:id="@+id/restaurant_name"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_toLeftOf="@+id/restaurant_date"
+            android:layout_marginRight="@dimen/margin_editText"/>
 
-</RelativeLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Genre"
+            android:id="@+id/restaurant_genre"
+            android:layout_below="@+id/restaurant_name"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_toLeftOf="@+id/restaurant_date"
+            android:layout_marginRight="@dimen/margin_editText" />
+
+        <include
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/restaurant_rating"
+            layout="@layout/rating_bar_small"
+            android:layout_below="@id/restaurant_genre"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="-2dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Mar 13, 2014"
+            android:id="@+id/restaurant_date"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true" />
+
+    </RelativeLayout>
+
+</FrameLayout>

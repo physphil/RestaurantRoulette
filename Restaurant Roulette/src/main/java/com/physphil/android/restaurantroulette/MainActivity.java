@@ -29,6 +29,7 @@ public class MainActivity extends BaseActivity implements NavigationDrawerFragme
      */
     private CharSequence mTitle;
     private SharedPreferences prefs;
+    private boolean newListFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,9 +72,11 @@ public class MainActivity extends BaseActivity implements NavigationDrawerFragme
             case 1:
                 mTitle = getString(R.string.title_restaurant_list);
                 saveMenuSelection(1);
+                newListFragment = false;
 
                 if(!(fragment instanceof RestaurantListFragment)){
                     fragment = new RestaurantListFragment();
+                    newListFragment = true;
                 }
 
                 fm.beginTransaction()

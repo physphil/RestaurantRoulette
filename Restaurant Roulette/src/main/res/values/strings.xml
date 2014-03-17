@@ -8,7 +8,7 @@
     <string name="title_restaurant_list">Restaurant List</string>
     <string name="title_restaurant_selector">Pick A Restaurant</string>
     <string name="title_edit_restaurant">Edit Restaurant</string>
-    <string name="title_restaurant_history">Where I\'ve Eaten</string>
+    <string name="title_restaurant_history">History</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_example">Example action</string>

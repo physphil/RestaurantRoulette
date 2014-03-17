@@ -52,6 +52,16 @@ public class Restaurant {
         this.priceLevel = priceLevel;
     }
 
+    public Restaurant(String name, String genre, int userRating, int priceLevel, String notes){
+
+        this.id = UUID.randomUUID().toString();
+        this.name = name;
+        this.genre = genre;
+        this.userRating = userRating;
+        this.priceLevel = priceLevel;
+        this.notes = notes;
+    }
+
     public String getId() {
         return id;
     }

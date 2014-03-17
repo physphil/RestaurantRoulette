@@ -51,7 +51,7 @@ public class RestaurantHistoryListAdapter extends BaseAdapter {
 
         if(convertView == null){
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.row_history_list, parent, false);
+            convertView = inflater.inflate(R.layout.row_history_list_old, parent, false);
         }
 
         TextView tvName = (TextView) convertView.findViewById(R.id.history_name);
