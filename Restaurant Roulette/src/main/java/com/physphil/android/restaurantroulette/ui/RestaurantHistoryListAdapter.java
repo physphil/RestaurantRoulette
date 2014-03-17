@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.physphil.android.restaurantroulette.R;
@@ -51,15 +52,22 @@ public class RestaurantHistoryListAdapter extends BaseAdapter {
 
         if(convertView == null){
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.row_history_list_old, parent, false);
+            convertView = inflater.inflate(R.layout.row_history_list, parent, false);
         }
 
         TextView tvName = (TextView) convertView.findViewById(R.id.history_name);
+        TextView tvGenre = (TextView) convertView.findViewById(R.id.history_genre);
+        RatingBar rbRating = (RatingBar) convertView.findViewById(R.id.history_rating);
         TextView tvDate = (TextView) convertView.findViewById(R.id.history_date);
         Typeface tf = Typeface.createFromAsset(mContext.getAssets(), Constants.FONT_DEFAULT);
 
         tvName.setText(history.getName());
         tvName.setTypeface(tf);
+
+        tvGenre.setText(history.getGenre());
+        tvGenre.setTypeface(tf);
+
+        rbRating.setRating(history.getUserRating());
 
         DateFormat df = DateFormat.getDateInstance();
         tvDate.setText(df.format(history.getDate()));

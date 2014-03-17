@@ -87,7 +87,7 @@ public class RestaurantListAdapter extends BaseAdapter {
 
                                 // Send broadcast to hosting fragment to delete restaurant from database
                                 Intent i = new Intent(RestaurantFragment.ACTION_DELETE_RESTAURANT);
-                                i.putExtra(RestaurantFragment.EXTRA_RESTAURANT_ID, restaurant.getId());
+                                i.putExtra(RestaurantFragment.EXTRA_RESTAURANT_ID, restaurant.getRestaurantId());
                                 LocalBroadcastManager.getInstance(mContext).sendBroadcast(i);
                             }
                         })

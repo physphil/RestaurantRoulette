@@ -200,7 +200,7 @@ public class RestaurantSelectorFragment extends Fragment {
         if(restaurants.size() > 0){
             int randomIndex = (int) (Math.floor(Math.random() * restaurants.size()));
             mRestaurant = restaurants.get(randomIndex);
-            mHistory = mDatabaseHelper.getHistoryByRestaurant(mRestaurant.getId());
+            mHistory = mDatabaseHelper.getHistoryByRestaurant(mRestaurant.getRestaurantId());
             setAnswer(true);
         }
         else{
@@ -250,7 +250,7 @@ public class RestaurantSelectorFragment extends Fragment {
 
             // Add selection to history
             if(addToHistory){
-                mDatabaseHelper.addRestaurantHistory(mRestaurant.getId());
+                mDatabaseHelper.addRestaurantHistory(mRestaurant.getRestaurantId());
             }
         }
         else{

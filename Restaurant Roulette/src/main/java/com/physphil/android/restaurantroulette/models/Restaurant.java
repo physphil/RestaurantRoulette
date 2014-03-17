@@ -62,11 +62,11 @@ public class Restaurant {
         this.notes = notes;
     }
 
-    public String getId() {
+    public String getRestaurantId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setRestaurantId(String id) {
         this.id = id;
     }
 

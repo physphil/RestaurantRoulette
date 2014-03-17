@@ -11,6 +11,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.physphil.android.restaurantroulette.data.DatabaseHelper;
@@ -36,9 +37,11 @@ public class HistoryListFragment extends ListFragment {
         super.onCreate(savedInstanceState);
 
         mDatabaseHelper = DatabaseHelper.getInstance(getActivity());
-        mHistory = mDatabaseHelper.getAllHistory();
-        mAdapter = new RestaurantHistoryListAdapter(getActivity(), mHistory);
-        setListAdapter(mAdapter);
+        updateHistoryList();
+
+        LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(getActivity());
+        lbm.registerReceiver(mReceiver, new IntentFilter(RestaurantFragment.ACTION_RESTAURANT_UPDATED));
+        lbm.registerReceiver(mReceiver, new IntentFilter(ACTION_HISTORY_CLEARED));
     }
 
     @Override
@@ -60,18 +63,38 @@ public class HistoryListFragment extends ListFragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onDestroy() {
+        super.onDestroy();
 
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mReceiver,
-                new IntentFilter(ACTION_HISTORY_CLEARED));
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mReceiver);
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
+    public void onListItemClick(ListView l, View v, int position, long id){
 
-        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mReceiver);
+        String restaurantId = mHistory.get(position).getRestaurantId();
+        viewRestaurantDetail(restaurantId);
+    }
+
+    /**
+     * Start activity to view restaurant information
+     * @param id database id of restaurant to view, or null if a new restaurant
+     */
+    private void viewRestaurantDetail(String id){
+
+        Intent i = new Intent(getActivity(), RestaurantActivity.class);
+
+        if(id != null){
+            i.putExtra(RestaurantFragment.EXTRA_RESTAURANT_ID, id);
+        }
+
+        startActivity(i);
+    }
+
+    private void updateHistoryList(){
+        mHistory = mDatabaseHelper.getAllHistory();
+        mAdapter = new RestaurantHistoryListAdapter(getActivity(), mHistory);
+        setListAdapter(mAdapter);
     }
 
     private BroadcastReceiver mReceiver = new BroadcastReceiver(){
@@ -84,6 +107,11 @@ public class HistoryListFragment extends ListFragment {
                 // Refresh adapter as history data has been cleared
                 mHistory.clear();
                 mAdapter.notifyDataSetChanged();
+            }
+            else if(intent.getAction().equals(RestaurantFragment.ACTION_RESTAURANT_UPDATED)){
+
+                // Refresh history list to capture updated info
+                updateHistoryList();
             }
         }
     };

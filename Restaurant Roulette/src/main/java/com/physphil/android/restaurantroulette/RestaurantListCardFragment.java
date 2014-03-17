@@ -90,7 +90,7 @@
 ////    @Override
 ////    public void onListItemClick(ListView l, View v, int position, long id){
 ////
-////        String restaurantId = mRestaurants.get(position).getId();
+////        String restaurantId = mRestaurants.get(position).getRestaurantId();
 ////        viewRestaurantDetail(restaurantId);
 ////    }
 //
@@ -250,7 +250,7 @@
 //
 //        for(int i = 0; i < mRestaurants.size(); i++){
 //
-//            if(mRestaurants.get(i).getId().equals(id)){
+//            if(mRestaurants.get(i).getRestaurantId().equals(id)){
 //
 //                return i;
 //            }

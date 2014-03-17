@@ -36,6 +36,7 @@ import com.physphil.android.restaurantroulette.util.Util;
 public class RestaurantFragment extends Fragment {
 
     public static final String ACTION_DELETE_RESTAURANT = "com.physphil.android.restaurantroulette.ACTION_DELETE_RESTAURANT";
+    public static final String ACTION_RESTAURANT_UPDATED = "com.physphil.android.restaurantroulette.ACTION_RESTAURANT_UPDATED";
     public static final String EXTRA_RESTAURANT_ID = "com.physphil.android.restaurantroulette.EXTRA_RESTAURANT_ID";
     public static final String EXTRA_UPDATED = "com.physphil.android.restaurantroulette.EXTRA_UPDATED";
 
@@ -144,7 +145,7 @@ public class RestaurantFragment extends Fragment {
             mDatabaseHelper.addRestaurant(mRestaurant);
 
             // Send broadcast to update listview
-            Intent i = new Intent(RestaurantListFragment.ACTION_UPDATE_RESTAURANT_LIST);
+            Intent i = new Intent(ACTION_RESTAURANT_UPDATED);
             LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(i);
         }
 
@@ -156,7 +157,7 @@ public class RestaurantFragment extends Fragment {
         super.onSaveInstanceState(outState);
 
         // Save restaurant id for recreation
-        outState.putString(EXTRA_RESTAURANT_ID, mRestaurant.getId());
+        outState.putString(EXTRA_RESTAURANT_ID, mRestaurant.getRestaurantId());
         outState.putBoolean(EXTRA_UPDATED, mUpdated);
     }
 

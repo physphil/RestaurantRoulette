@@ -24,11 +24,11 @@
             android:layout_height="wrap_content"
             android:text="Restaurant Title"
             style="@style/TextAppearanceListviewHeader"
-            android:id="@+id/restaurant_name"
+            android:id="@+id/history_name"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_toLeftOf="@+id/restaurant_date"
+            android:layout_toLeftOf="@+id/history_date"
             android:layout_marginRight="@dimen/margin_editText"/>
 
         <TextView
@@ -36,19 +36,19 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Genre"
-            android:id="@+id/restaurant_genre"
-            android:layout_below="@+id/restaurant_name"
+            android:id="@+id/history_genre"
+            android:layout_below="@+id/history_name"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_toLeftOf="@+id/restaurant_date"
+            android:layout_toLeftOf="@+id/history_date"
             android:layout_marginRight="@dimen/margin_editText" />
 
         <include
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/restaurant_rating"
+            android:id="@+id/history_rating"
             layout="@layout/rating_bar_small"
-            android:layout_below="@id/restaurant_genre"
+            android:layout_below="@id/history_genre"
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="-2dp" />
 
@@ -57,7 +57,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Mar 13, 2014"
-            android:id="@+id/restaurant_date"
+            android:id="@+id/history_date"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true" />
 

@@ -119,7 +119,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void addRestaurant(SQLiteDatabase db, Restaurant restaurant){
 
         ContentValues cv = new ContentValues();
-        cv.put(COLUMN_RESTAURANT_ID, restaurant.getId());
+        cv.put(COLUMN_RESTAURANT_ID, restaurant.getRestaurantId());
         cv.put(COLUMN_RESTAURANT_NAME, restaurant.getName());
         cv.put(COLUMN_RESTAURANT_GENRE, restaurant.getGenre());
         cv.put(COLUMN_RESTAURANT_USER_RATING, restaurant.getUserRating());
@@ -147,7 +147,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         if(c.moveToFirst()){
 
-            r.setId(c.getString(c.getColumnIndex(COLUMN_RESTAURANT_ID)));
+            r.setRestaurantId(c.getString(c.getColumnIndex(COLUMN_RESTAURANT_ID)));
             r.setName(c.getString(c.getColumnIndex(COLUMN_RESTAURANT_NAME)));
             r.setGenre(c.getString(c.getColumnIndex(COLUMN_RESTAURANT_GENRE)));
             r.setUserRating(c.getInt(c.getColumnIndex(COLUMN_RESTAURANT_USER_RATING)));
@@ -195,7 +195,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             while(!c.isAfterLast()){
 
                 Restaurant r = new Restaurant();
-                r.setId(c.getString(c.getColumnIndex(COLUMN_RESTAURANT_ID)));
+                r.setRestaurantId(c.getString(c.getColumnIndex(COLUMN_RESTAURANT_ID)));
                 r.setName(c.getString(c.getColumnIndex(COLUMN_RESTAURANT_NAME)));
                 r.setGenre(c.getString(c.getColumnIndex(COLUMN_RESTAURANT_GENRE)));
                 r.setUserRating(c.getInt(c.getColumnIndex(COLUMN_RESTAURANT_USER_RATING)));
@@ -289,7 +289,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     "h." + COLUMN_HISTORY_ID + ", " +
                     "h." + COLUMN_HISTORY_DATE + ", " +
                     "h." + COLUMN_HISTORY_RESTAURANT_ID + ", " +
-                    "r." + COLUMN_RESTAURANT_NAME + " " +
+                    "r." + COLUMN_RESTAURANT_NAME + ", " +
+                    "r." + COLUMN_RESTAURANT_GENRE + ", " +
+                    "r." + COLUMN_RESTAURANT_USER_RATING + " " +
                 "FROM " +
                     TABLE_HISTORY + " as h " +
                 "INNER JOIN " +
@@ -305,11 +307,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
             while(!c.isAfterLast()){
 
+                Restaurant r = new Restaurant();
+                r.setRestaurantId(c.getString(c.getColumnIndex(COLUMN_HISTORY_RESTAURANT_ID)));
+                r.setName(c.getString(c.getColumnIndex(COLUMN_RESTAURANT_NAME)));
+                r.setGenre(c.getString(c.getColumnIndex(COLUMN_RESTAURANT_GENRE)));
+                r.setUserRating(c.getInt(c.getColumnIndex(COLUMN_RESTAURANT_USER_RATING)));
+
                 RestaurantHistory history = new RestaurantHistory(
                         c.getInt(c.getColumnIndex(COLUMN_HISTORY_ID)),
-                        c.getString(c.getColumnIndex(COLUMN_HISTORY_RESTAURANT_ID)),
-                        c.getString(c.getColumnIndex(COLUMN_HISTORY_DATE)));
-                history.setName(c.getString(c.getColumnIndex(COLUMN_RESTAURANT_NAME)));
+                        c.getString(c.getColumnIndex(COLUMN_HISTORY_DATE)),
+                        r);
 
                 historyList.add(history);
                 c.moveToNext();
