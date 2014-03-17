@@ -29,6 +29,7 @@ import com.physphil.android.restaurantroulette.models.Restaurant;
 import com.physphil.android.restaurantroulette.ui.CustomFontArrayAdapter;
 import com.physphil.android.restaurantroulette.ui.RestaurantListAdapter;
 import com.physphil.android.restaurantroulette.util.Constants;
+import com.physphil.android.restaurantroulette.util.Util;
 
 import java.util.List;
 
@@ -40,6 +41,7 @@ public class RestaurantListFragment extends ListFragment {
 
 //    public static final String ACTION_UPDATE_RESTAURANT_LIST = "com.physphil.android.restaurantroulette.ACTION_UPDATE_RESTAURANT_LIST";
     public static final String PREFS_GENRE_FILTER_LIST = "genre_filter_list";
+    public static final String PREFS_SHOW_HELP_RESTAURANT_LIST = "show_help_restaurant_list";
 
     private DatabaseHelper mDatabaseHelper;
     private List<Restaurant> mRestaurants;
@@ -81,6 +83,17 @@ public class RestaurantListFragment extends ListFragment {
         mFilter = mPrefs.getInt(PREFS_GENRE_FILTER_LIST, Restaurant.GENRE_ALL);
 
         updateRestaurantListView();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        boolean showHelp = mPrefs.getBoolean(PREFS_SHOW_HELP_RESTAURANT_LIST, true);
+        if(showHelp){
+
+            showHelpDialog();
+        }
     }
 
     @Override
@@ -240,6 +253,11 @@ public class RestaurantListFragment extends ListFragment {
         return -1;
     }
 
+    private void showHelpDialog(){
+
+        Util.showHelpDialog(getActivity(), R.string.title_restaurant_list, R.string.dialog_restaurant_list_help, PREFS_SHOW_HELP_RESTAURANT_LIST);
+    }
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){
         super.onCreateOptionsMenu(menu, inflater);
@@ -257,6 +275,10 @@ public class RestaurantListFragment extends ListFragment {
 
             case R.id.menu_delete_all_restaurants:
                 confirmDeleteAllRestaurants();
+                return true;
+
+            case R.id.menu_help:
+                showHelpDialog();
                 return true;
 
             default:

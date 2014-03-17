@@ -4,11 +4,14 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.ListFragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
@@ -18,6 +21,7 @@ import com.physphil.android.restaurantroulette.data.DatabaseHelper;
 import com.physphil.android.restaurantroulette.models.RestaurantHistory;
 import com.physphil.android.restaurantroulette.ui.RestaurantHistoryListAdapter;
 import com.physphil.android.restaurantroulette.util.Constants;
+import com.physphil.android.restaurantroulette.util.Util;
 
 import java.util.List;
 
@@ -26,7 +30,8 @@ import java.util.List;
  */
 public class HistoryListFragment extends ListFragment {
 
-    public static String ACTION_HISTORY_CLEARED = "com.physphil.android.restaurantroulette.ACTION_HISTORY_CLEARED";
+    public static final String ACTION_HISTORY_CLEARED = "com.physphil.android.restaurantroulette.ACTION_HISTORY_CLEARED";
+    private static final String PREFS_SHOW_HELP_HISTORY = "show_help_history";
 
     private List<RestaurantHistory> mHistory;
     private DatabaseHelper mDatabaseHelper;
@@ -35,6 +40,7 @@ public class HistoryListFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
 
         mDatabaseHelper = DatabaseHelper.getInstance(getActivity());
         updateHistoryList();
@@ -60,6 +66,18 @@ public class HistoryListFragment extends ListFragment {
         super.onActivityCreated(savedInstanceState);
 
         getListView().setDivider(null);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        boolean showHelp = prefs.getBoolean(PREFS_SHOW_HELP_HISTORY, true);
+        if(showHelp){
+
+            showHelpDialog();
+        }
     }
 
     @Override
@@ -95,6 +113,25 @@ public class HistoryListFragment extends ListFragment {
         mHistory = mDatabaseHelper.getAllHistory();
         mAdapter = new RestaurantHistoryListAdapter(getActivity(), mHistory);
         setListAdapter(mAdapter);
+    }
+
+    private void showHelpDialog(){
+
+        Util.showHelpDialog(getActivity(), R.string.title_restaurant_history, R.string.dialog_restaurant_history_help, PREFS_SHOW_HELP_HISTORY);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch(item.getItemId()){
+
+            case R.id.menu_help:
+                showHelpDialog();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private BroadcastReceiver mReceiver = new BroadcastReceiver(){

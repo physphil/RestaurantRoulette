@@ -12,6 +12,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -40,6 +41,7 @@ import java.util.List;
 public class RestaurantSelectorFragment extends Fragment {
 
     public static String PREFS_GENRE_FILTER_SELECTOR = "genre_filter_selector";
+    public static String PREFS_SHOW_HELP_RESTAURANT_SELECTOR = "show_help_selector";
 
     private Restaurant mRestaurant;
     private List<RestaurantHistory> mHistory;
@@ -86,6 +88,7 @@ public class RestaurantSelectorFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setRetainInstance(true);
+        setHasOptionsMenu(true);
 
         prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         mDatabaseHelper = DatabaseHelper.getInstance(getActivity());
@@ -106,6 +109,13 @@ public class RestaurantSelectorFragment extends Fragment {
 
         lbm.registerReceiver(mReceiver, new IntentFilter(HistoryListFragment.ACTION_HISTORY_CLEARED));
         lbm.registerReceiver(mReceiver, new IntentFilter(LocationHelper.ACTION_LOCATION_RETRIEVED));
+
+        // Show help menu if never been shown
+        boolean showHelp = prefs.getBoolean(PREFS_SHOW_HELP_RESTAURANT_SELECTOR, true);
+        if(showHelp){
+
+            showHelpDialog();
+        }
     }
 
     @Override
@@ -288,6 +298,25 @@ public class RestaurantSelectorFragment extends Fragment {
         mRestaurant = null;
         mHistory = null;
         setAnswer(false);
+    }
+
+    private void showHelpDialog(){
+
+        Util.showHelpDialog(getActivity(), R.string.title_restaurant_selector, R.string.dialog_restaurant_selector_help, PREFS_SHOW_HELP_RESTAURANT_SELECTOR);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+
+        switch(item.getItemId()){
+
+            case R.id.menu_help:
+                showHelpDialog();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {

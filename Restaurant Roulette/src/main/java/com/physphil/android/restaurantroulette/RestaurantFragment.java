@@ -5,15 +5,18 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.location.Location;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -39,6 +42,7 @@ public class RestaurantFragment extends Fragment {
     public static final String ACTION_RESTAURANT_UPDATED = "com.physphil.android.restaurantroulette.ACTION_RESTAURANT_UPDATED";
     public static final String EXTRA_RESTAURANT_ID = "com.physphil.android.restaurantroulette.EXTRA_RESTAURANT_ID";
     public static final String EXTRA_UPDATED = "com.physphil.android.restaurantroulette.EXTRA_UPDATED";
+    private static final String PREFS_SHOW_HELP_RESTAURANT = "show_help_restaurant";
 
     private DatabaseHelper mDatabaseHelper;
     private Restaurant mRestaurant;
@@ -95,6 +99,7 @@ public class RestaurantFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
 
+        setHasOptionsMenu(true);
         mDatabaseHelper = DatabaseHelper.getInstance(getActivity());
         mLocationHelper = new LocationHelper(getActivity());
         String id;
@@ -128,6 +133,13 @@ public class RestaurantFragment extends Fragment {
 
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mReceiver,
                 new IntentFilter(LocationHelper.ACTION_LOCATION_RETRIEVED));
+
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        boolean showHelp = prefs.getBoolean(PREFS_SHOW_HELP_RESTAURANT, true);
+        if(showHelp){
+
+            showHelpDialog();
+        }
     }
 
     @Override
@@ -300,6 +312,25 @@ public class RestaurantFragment extends Fragment {
 
         // Item not found, set as 'Other', which is always last position in spinner
         return spinner.getCount() - 1;
+    }
+
+    private void showHelpDialog(){
+
+        Util.showHelpDialog(getActivity(), R.string.title_edit_restaurant, R.string.dialog_edit_restaurant_help, PREFS_SHOW_HELP_RESTAURANT);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch(item.getItemId()){
+
+            case R.id.menu_help:
+                showHelpDialog();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {

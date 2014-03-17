@@ -2,6 +2,7 @@ package com.physphil.android.restaurantroulette;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import com.physphil.android.restaurantroulette.util.Constants;
@@ -33,6 +34,13 @@ public class RestaurantActivity extends BaseActivity {
         fm.beginTransaction()
                 .replace(R.id.fragment_container, fragment)
                 .commit();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.edit_restaurant, menu);
+        return true;
     }
 
     @Override

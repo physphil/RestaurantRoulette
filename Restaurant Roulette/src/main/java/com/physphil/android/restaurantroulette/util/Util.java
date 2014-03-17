@@ -1,11 +1,18 @@
 package com.physphil.android.restaurantroulette.util;
 
+import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.location.Location;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.util.Log;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.physphil.android.restaurantroulette.R;
@@ -88,5 +95,38 @@ public class Util {
             Toast.makeText(context, R.string.toast_no_restaurant_name, Toast.LENGTH_SHORT).show();
         }
     }
+
+    /**
+     * Show help dialog to user
+     * @param context context
+     * @param title resource of title
+     * @param message resource of message
+     * @param pref shared preference to track if dialog has been shown
+     */
+    public static void showHelpDialog(Context context, int title, int message, final String pref){
+
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+        AlertDialog dialog = new AlertDialog.Builder(context)
+                .setTitle(title)
+                .setMessage(message)
+                .setPositiveButton(R.string.btn_confirm, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        // Don't show again
+                        prefs.edit()
+                                .putBoolean(pref, false)
+                                .commit();
+                    }
+                })
+                .show();
+
+        // Set fonts in dialog
+        Typeface tf = Typeface.createFromAsset(context.getAssets(), Constants.FONT_DEFAULT);
+        ((Button) dialog.findViewById(android.R.id.button1)).setTypeface(tf);
+        ((TextView) dialog.findViewById(android.R.id.message)).setTypeface(tf);
+    }
+
 
 }
