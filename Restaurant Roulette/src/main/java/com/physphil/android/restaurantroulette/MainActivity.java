@@ -40,7 +40,7 @@ public class MainActivity extends BaseActivity implements NavigationDrawerFragme
         setActionBarFont(Constants.FONT_DEFAULT);
 
         mNavigationDrawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
-        mTitle = getTitle();
+//        mTitle = getTitle();
 
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(
@@ -106,7 +106,10 @@ public class MainActivity extends BaseActivity implements NavigationDrawerFragme
         ActionBar actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle(mTitle);
+
+        if(mTitle != null) {
+            actionBar.setTitle(mTitle);
+        }
 
         // Set up filtering in action bar in RestaurantListFragment
         FragmentManager fm = getSupportFragmentManager();
