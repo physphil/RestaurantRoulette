@@ -37,8 +37,6 @@ public class MainActivity extends BaseActivity implements NavigationDrawerFragme
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
         setContentView(R.layout.activity_main);
 
-        setActionBarFont(Constants.FONT_DEFAULT);
-
         mNavigationDrawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
 //        mTitle = getTitle();
 
@@ -46,6 +44,13 @@ public class MainActivity extends BaseActivity implements NavigationDrawerFragme
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        setActionBarFont(Constants.FONT_DEFAULT);
     }
 
     @Override

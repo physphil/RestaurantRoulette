@@ -198,6 +198,11 @@ public class RestaurantFragment extends Fragment {
         etName.setSelection(etName.getText().length());
         etNotes.setText(mRestaurant.getNotes());
 
+        // Get random hint and assign it to notes field
+        String[] hints = getResources().getStringArray(R.array.notes_hints);
+        int i = (int) (Math.floor(Math.random() * hints.length));
+        etNotes.setHint(hints[i]);
+
         // Add text watchers to update mRestaurant object when edited by user
         etName.addTextChangedListener(new TextWatcher() {
 

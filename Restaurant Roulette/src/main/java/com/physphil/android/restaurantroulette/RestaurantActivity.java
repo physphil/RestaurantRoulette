@@ -1,5 +1,7 @@
 package com.physphil.android.restaurantroulette;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.view.Menu;
@@ -19,7 +21,6 @@ public class RestaurantActivity extends BaseActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(R.string.title_edit_restaurant);
-        setActionBarFont(Constants.FONT_DEFAULT);
 
         String id = getIntent().getStringExtra(RestaurantFragment.EXTRA_RESTAURANT_ID);
 
@@ -34,6 +35,30 @@ public class RestaurantActivity extends BaseActivity {
         fm.beginTransaction()
                 .replace(R.id.fragment_container, fragment)
                 .commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        setActionBarFont(Constants.FONT_DEFAULT);
+    }
+
+    /**
+     * Retrieve intent to start this activity and launch RestaurantFragment
+     * @param context context
+     * @param id id of restaurant to open, or null if new restaurant
+     * @return intent used to start activity
+     */
+    public static Intent getLaunchingIntent(Context context, String id){
+
+        Intent i = new Intent(context, RestaurantActivity.class);
+
+        if(id != null){
+            i.putExtra(RestaurantFragment.EXTRA_RESTAURANT_ID, id);
+        }
+
+        return i;
     }
 
     @Override

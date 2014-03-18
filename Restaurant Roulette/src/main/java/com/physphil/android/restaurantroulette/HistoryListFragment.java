@@ -91,22 +91,7 @@ public class HistoryListFragment extends ListFragment {
     public void onListItemClick(ListView l, View v, int position, long id){
 
         String restaurantId = mHistory.get(position).getRestaurantId();
-        viewRestaurantDetail(restaurantId);
-    }
-
-    /**
-     * Start activity to view restaurant information
-     * @param id database id of restaurant to view, or null if a new restaurant
-     */
-    private void viewRestaurantDetail(String id){
-
-        Intent i = new Intent(getActivity(), RestaurantActivity.class);
-
-        if(id != null){
-            i.putExtra(RestaurantFragment.EXTRA_RESTAURANT_ID, id);
-        }
-
-        startActivity(i);
+        startActivity(RestaurantActivity.getLaunchingIntent(getActivity(), restaurantId));
     }
 
     private void updateHistoryList(){

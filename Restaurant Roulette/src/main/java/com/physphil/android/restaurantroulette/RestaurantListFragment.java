@@ -116,11 +116,7 @@ public class RestaurantListFragment extends ListFragment {
      */
     private void viewRestaurantDetail(String id){
 
-        Intent i = new Intent(getActivity(), RestaurantActivity.class);
-
-        if(id != null){
-            i.putExtra(RestaurantFragment.EXTRA_RESTAURANT_ID, id);
-        }
+        Intent i = RestaurantActivity.getLaunchingIntent(getActivity(), id);
 
         startActivity(i);
     }

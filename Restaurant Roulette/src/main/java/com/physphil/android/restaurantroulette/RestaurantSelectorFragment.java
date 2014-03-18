@@ -63,6 +63,17 @@ public class RestaurantSelectorFragment extends Fragment {
     private SharedPreferences prefs;
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(getActivity());
+
+        lbm.registerReceiver(mReceiver, new IntentFilter(HistoryListFragment.ACTION_HISTORY_CLEARED));
+        lbm.registerReceiver(mReceiver, new IntentFilter(LocationHelper.ACTION_LOCATION_RETRIEVED));
+        lbm.registerReceiver(mReceiver, new IntentFilter(RestaurantFragment.ACTION_RESTAURANT_UPDATED));
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View v = inflater.inflate(R.layout.fragment_restaurant_selector, container, false);
 
@@ -102,13 +113,8 @@ public class RestaurantSelectorFragment extends Fragment {
     }
 
     @Override
-    public void onResume() {
+    public void onResume(){
         super.onResume();
-
-        LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(getActivity());
-
-        lbm.registerReceiver(mReceiver, new IntentFilter(HistoryListFragment.ACTION_HISTORY_CLEARED));
-        lbm.registerReceiver(mReceiver, new IntentFilter(LocationHelper.ACTION_LOCATION_RETRIEVED));
 
         // Show help menu if never been shown
         boolean showHelp = prefs.getBoolean(PREFS_SHOW_HELP_RESTAURANT_SELECTOR, true);
@@ -119,8 +125,8 @@ public class RestaurantSelectorFragment extends Fragment {
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
+    public void onDestroy() {
+        super.onDestroy();
 
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mReceiver);
     }
@@ -165,6 +171,17 @@ public class RestaurantSelectorFragment extends Fragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
+        });
+
+        rlAnswer.setOnClickListener(new View.OnClickListener() {
+
+            // Open restaurant detail view when touched
+            @Override
+            public void onClick(View v) {
+
+                Intent i = RestaurantActivity.getLaunchingIntent(getActivity(), mRestaurant.getRestaurantId());
+                startActivity(i);
+            }
         });
     }
 
@@ -334,6 +351,13 @@ public class RestaurantSelectorFragment extends Fragment {
                 Location location = intent.getParcelableExtra(LocationHelper.EXTRA_LOCATION);
                 Util.showOnMap(getActivity(), mRestaurant.getName(), location);
                 mLocationHelper.disconnect();
+            }
+            else if(intent.getAction().equals(RestaurantFragment.ACTION_RESTAURANT_UPDATED)){
+
+                // Update restaurant info from db, update fields in answer card
+                String id = mRestaurant.getRestaurantId();
+                mRestaurant = mDatabaseHelper.getRestaurantById(id);
+                setAnswer(false);
             }
         }
     };

@@ -24,6 +24,7 @@
     <string name="restaurant_last_time_visited">Last visit: </string>
     <string name="restaurant_answer_header">And the answer is&#8230;</string>
     <string name="restaurant_get_directions">Get Directions</string>
+    <string name="restaurant_name_hint">Enter restaurant name</string>
 
     <string name="menu_add_restaurant">Add Restaurant</string>
     <string name="menu_delete_all_restaurants">Delete All</string>
