@@ -1,6 +1,5 @@
 package com.physphil.android.restaurantroulette.ui;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -77,7 +76,8 @@ public class RestaurantListAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
 
-                new AlertDialog.Builder(mContext)
+//                new AlertDialog.Builder(mContext)
+                new CustomFontDialogBuilder(mContext)
                         .setTitle(R.string.dialog_delete_restaurant_title)
                         .setMessage(R.string.dialog_delete_restaurant_message)
                         .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {

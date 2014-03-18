@@ -1,22 +1,19 @@
 package com.physphil.android.restaurantroulette.util;
 
-import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Typeface;
 import android.location.Location;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.physphil.android.restaurantroulette.R;
 import com.physphil.android.restaurantroulette.models.Restaurant;
+import com.physphil.android.restaurantroulette.ui.CustomFontDialogBuilder;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -107,7 +104,8 @@ public class Util {
 
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 
-        AlertDialog dialog = new AlertDialog.Builder(context)
+//        new AlertDialog.Builder(context)
+          new CustomFontDialogBuilder(context)
                 .setTitle(title)
                 .setMessage(message)
                 .setPositiveButton(R.string.btn_confirm, new DialogInterface.OnClickListener() {
@@ -121,12 +119,5 @@ public class Util {
                     }
                 })
                 .show();
-
-        // Set fonts in dialog
-        Typeface tf = Typeface.createFromAsset(context.getAssets(), Constants.FONT_DEFAULT);
-        ((Button) dialog.findViewById(android.R.id.button1)).setTypeface(tf);
-        ((TextView) dialog.findViewById(android.R.id.message)).setTypeface(tf);
     }
-
-
 }

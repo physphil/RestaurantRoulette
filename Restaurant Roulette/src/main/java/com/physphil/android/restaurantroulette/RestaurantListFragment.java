@@ -1,7 +1,6 @@
 package com.physphil.android.restaurantroulette;
 
 
-import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -27,6 +26,7 @@ import android.widget.TextView;
 import com.physphil.android.restaurantroulette.data.DatabaseHelper;
 import com.physphil.android.restaurantroulette.models.Restaurant;
 import com.physphil.android.restaurantroulette.ui.CustomFontArrayAdapter;
+import com.physphil.android.restaurantroulette.ui.CustomFontDialogBuilder;
 import com.physphil.android.restaurantroulette.ui.RestaurantListAdapter;
 import com.physphil.android.restaurantroulette.util.Constants;
 import com.physphil.android.restaurantroulette.util.Util;
@@ -126,7 +126,8 @@ public class RestaurantListFragment extends ListFragment {
      */
     private void confirmDeleteAllRestaurants(){
 
-        new AlertDialog.Builder(getActivity())
+//        new AlertDialog.Builder(getActivity())
+        new CustomFontDialogBuilder(getActivity())
                 .setTitle(R.string.dialog_delete_all_restaurants_title)
                 .setMessage(R.string.dialog_delete_all_restaurants_message)
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener(){

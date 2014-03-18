@@ -1,6 +1,5 @@
 package com.physphil.android.restaurantroulette;
 
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.physphil.android.restaurantroulette.data.DatabaseHelper;
+import com.physphil.android.restaurantroulette.ui.CustomFontDialogBuilder;
 import com.physphil.android.restaurantroulette.util.Constants;
 
 public class MainActivity extends BaseActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -128,7 +128,8 @@ public class MainActivity extends BaseActivity implements NavigationDrawerFragme
 
     private void confirmClearRestaurantHistory(){
 
-        new AlertDialog.Builder(this)
+//        new AlertDialog.Builder(this)
+        new CustomFontDialogBuilder(this)
                 .setTitle(R.string.dialog_delete_history_title)
                 .setMessage(R.string.dialog_delete_history_message)
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
