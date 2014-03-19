@@ -98,17 +98,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private void insertInitialData(SQLiteDatabase db){
 
         addRestaurant(db, new Restaurant("Burger King", Restaurant.GENRE_FAST_FOOD, 3, 1));
-        addRestaurant(db, new Restaurant("McDonald's", Restaurant.GENRE_FAST_FOOD, 3, 1));
-        addRestaurant(db, new Restaurant("Wendy's", Restaurant.GENRE_FAST_FOOD, 3, 1, "Triple burger if you're feeling hungry!"));
-        addRestaurant(db, new Restaurant("Pizza Hut", Restaurant.GENRE_PIZZA, 3, 2, "Big Box meal is delicious, and also terrifying"));
-        addRestaurant(db, new Restaurant("Olive Garden", Restaurant.GENRE_ITALIAN, 3, 1, "Praise bottomless pasta."));
-        addRestaurant(db, new Restaurant("East Side Mario's", Restaurant.GENRE_ITALIAN, 3, 2));
+        addRestaurant(db, new Restaurant("McDonald's", Restaurant.GENRE_FAST_FOOD, 4, 1));
+        addRestaurant(db, new Restaurant("Wendy's", Restaurant.GENRE_FAST_FOOD, 5, 1, "Triple burger if you're feeling hungry!"));
+        addRestaurant(db, new Restaurant("Pizza Hut", Restaurant.GENRE_PIZZA, 4, 2, "Big Box meal is delicious, and also terrifying"));
+        addRestaurant(db, new Restaurant("Olive Garden", Restaurant.GENRE_ITALIAN, 4, 1, "Praise bottomless pasta"));
+        addRestaurant(db, new Restaurant("East Side Mario's", Restaurant.GENRE_ITALIAN, 2, 2));
         addRestaurant(db, new Restaurant("Cheesecake Factory", Restaurant.GENRE_NORTH_AMERICAN, 3, 2));
-        addRestaurant(db, new Restaurant("Red Lobster", Restaurant.GENRE_SEAFOOD, 3, 2));
-        addRestaurant(db, new Restaurant("The Keg", Restaurant.GENRE_NORTH_AMERICAN, 3, 3, "Try the Pecan Sirloin"));
-        addRestaurant(db, new Restaurant("Denny's", Restaurant.GENRE_BREAKFAST, 3, 1));
+        addRestaurant(db, new Restaurant("Red Lobster", Restaurant.GENRE_SEAFOOD, 1, 2));
+        addRestaurant(db, new Restaurant("The Keg", Restaurant.GENRE_NORTH_AMERICAN, 2, 3, "Try the Pecan Sirloin"));
+        addRestaurant(db, new Restaurant("Denny's", Restaurant.GENRE_BREAKFAST, 5, 1));
         addRestaurant(db, new Restaurant("IHOP", Restaurant.GENRE_BREAKFAST, 3, 2));
-        addRestaurant(db, new Restaurant("In-N-Out Burger", Restaurant.GENRE_FAST_FOOD, 3, 1, "Try the In-N-Out Burger on Camrose"));
+        addRestaurant(db, new Restaurant("In-N-Out Burger", Restaurant.GENRE_FAST_FOOD, 4, 1, "The In-N-Out Burger is on Camrose"));
     }
 
     /**

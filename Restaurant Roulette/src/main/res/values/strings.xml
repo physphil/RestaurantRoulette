@@ -50,5 +50,6 @@
     <string name="toast_no_restaurants_found">No specified restaurants could be found. Please add one and try again.</string>
     <string name="toast_no_restaurant_name">Please enter a name for the restaurant before searching</string>
     <string name="toast_no_maps_app">Sorry, you do not have a mapping application installed</string>
+    <string name="toast_location_unavailable">Oops, we had trouble getting your current location</string>
 
 </resources>

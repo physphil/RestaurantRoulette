@@ -72,6 +72,7 @@ public class Util {
                 }
                 else{
                     Log.d("PS", "No Location Available");
+                    Toast.makeText(context, R.string.toast_location_unavailable, Toast.LENGTH_LONG).show();
                     mapUri = Uri.parse("geo:0,0?q=" + encodedName + "&z=13");
                 }
 
