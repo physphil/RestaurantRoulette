@@ -46,8 +46,7 @@ public class HistoryListFragment extends ListFragment {
         updateHistoryList();
 
         LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(getActivity());
-        lbm.registerReceiver(mReceiver, new IntentFilter(RestaurantFragment.ACTION_RESTAURANT_UPDATED));
-        lbm.registerReceiver(mReceiver, new IntentFilter(ACTION_HISTORY_CLEARED));
+        lbm.registerReceiver(mLifetimeReceiver, new IntentFilter(RestaurantFragment.ACTION_RESTAURANT_UPDATED));
     }
 
     @Override
@@ -72,19 +71,23 @@ public class HistoryListFragment extends ListFragment {
     public void onResume() {
         super.onResume();
 
-        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        boolean showHelp = prefs.getBoolean(PREFS_SHOW_HELP_HISTORY, true);
-        if(showHelp){
+        LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(getActivity());
+        lbm.registerReceiver(mVisibleReceiver, new IntentFilter(NavigationDrawerFragment.ACTION_DRAWER_CLOSED));
+        lbm.registerReceiver(mVisibleReceiver, new IntentFilter(ACTION_HISTORY_CLEARED));
+    }
 
-            showHelpDialog();
-        }
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mVisibleReceiver);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
 
-        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mReceiver);
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mLifetimeReceiver);
     }
 
     @Override
@@ -119,8 +122,20 @@ public class HistoryListFragment extends ListFragment {
         }
     }
 
-    private BroadcastReceiver mReceiver = new BroadcastReceiver(){
+    private BroadcastReceiver mLifetimeReceiver = new BroadcastReceiver(){
 
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            if(intent.getAction().equals(RestaurantFragment.ACTION_RESTAURANT_UPDATED)){
+
+                // Refresh history list to capture updated info
+                updateHistoryList();
+            }
+        }
+    };
+
+    private BroadcastReceiver mVisibleReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
 
@@ -130,10 +145,15 @@ public class HistoryListFragment extends ListFragment {
                 mHistory.clear();
                 mAdapter.notifyDataSetChanged();
             }
-            else if(intent.getAction().equals(RestaurantFragment.ACTION_RESTAURANT_UPDATED)){
+            else if(intent.getAction().equals(NavigationDrawerFragment.ACTION_DRAWER_CLOSED)){
 
-                // Refresh history list to capture updated info
-                updateHistoryList();
+                // Show help dialog if never been shown before
+                final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                boolean showHelp = prefs.getBoolean(PREFS_SHOW_HELP_HISTORY, true);
+                if(showHelp){
+
+                    showHelpDialog();
+                }
             }
         }
     };

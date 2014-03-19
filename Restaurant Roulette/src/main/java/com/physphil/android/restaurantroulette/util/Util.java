@@ -118,6 +118,7 @@ public class Util {
                                 .commit();
                     }
                 })
+                .setCancelable(false)
                 .show();
     }
 }

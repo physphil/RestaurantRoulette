@@ -39,7 +39,6 @@ import java.util.List;
  */
 public class RestaurantListFragment extends ListFragment {
 
-//    public static final String ACTION_UPDATE_RESTAURANT_LIST = "com.physphil.android.restaurantroulette.ACTION_UPDATE_RESTAURANT_LIST";
     public static final String PREFS_GENRE_FILTER_LIST = "genre_filter_list";
     public static final String PREFS_SHOW_HELP_RESTAURANT_LIST = "show_help_restaurant_list";
 
@@ -59,9 +58,8 @@ public class RestaurantListFragment extends ListFragment {
         mTf = Typeface.createFromAsset(getActivity().getAssets(), Constants.FONT_DEFAULT);
 
         // Register broadcast receivers. Need to happen here as receivers need to be active while detail fragment is updating
-        LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(getActivity());
-        lbm.registerReceiver(mReceiver, new IntentFilter(RestaurantFragment.ACTION_DELETE_RESTAURANT));
-        lbm.registerReceiver(mReceiver, new IntentFilter(RestaurantFragment.ACTION_RESTAURANT_UPDATED));
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mLifetimeReceiver,
+                new IntentFilter(RestaurantFragment.ACTION_RESTAURANT_UPDATED));
     }
 
     @Override
@@ -77,7 +75,6 @@ public class RestaurantListFragment extends ListFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
-        // setEmptyText(getString(R.string.empty_listview_restaurants));
         getListView().setDivider(null);
 
         mFilter = mPrefs.getInt(PREFS_GENRE_FILTER_LIST, Restaurant.GENRE_ALL);
@@ -89,18 +86,23 @@ public class RestaurantListFragment extends ListFragment {
     public void onResume() {
         super.onResume();
 
-        boolean showHelp = mPrefs.getBoolean(PREFS_SHOW_HELP_RESTAURANT_LIST, true);
-        if(showHelp){
+        LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(getActivity());
+        lbm.registerReceiver(mVisibleReceiver, new IntentFilter(RestaurantFragment.ACTION_DELETE_RESTAURANT));
+        lbm.registerReceiver(mVisibleReceiver, new IntentFilter(NavigationDrawerFragment.ACTION_DRAWER_CLOSED));
+    }
 
-            showHelpDialog();
-        }
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mVisibleReceiver);
     }
 
     @Override
     public void onDestroy(){
         super.onDestroy();
 
-        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mReceiver);
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mLifetimeReceiver);
     }
 
     @Override
@@ -117,7 +119,6 @@ public class RestaurantListFragment extends ListFragment {
     private void viewRestaurantDetail(String id){
 
         Intent i = RestaurantActivity.getLaunchingIntent(getActivity(), id);
-
         startActivity(i);
     }
 
@@ -284,10 +285,27 @@ public class RestaurantListFragment extends ListFragment {
     }
 
     /**
-     * Receiver to catch all broadcasts for this fragment
+     * Receiver to catch all broadcasts for the lifetime of this fragment
      */
-    private BroadcastReceiver mReceiver = new BroadcastReceiver() {
+    private BroadcastReceiver mLifetimeReceiver = new BroadcastReceiver() {
 
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            if(intent.getAction().equals(RestaurantFragment.ACTION_RESTAURANT_UPDATED)){
+
+                /** Need to reset list adapter as projects are filtered and sorted alphabetically. Can't just add to adapter and call
+                 * onNotifyDataSetChanged, as new entries would be out of place.
+                 */
+                updateRestaurantListView();
+            }
+        }
+    };
+
+    /**
+     * Receiver to catch all broadcasts while fragment is visible
+     */
+    private BroadcastReceiver mVisibleReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
 
@@ -300,12 +318,14 @@ public class RestaurantListFragment extends ListFragment {
                     deleteRestaurant(id);
                 }
             }
-            else if(intent.getAction().equals(RestaurantFragment.ACTION_RESTAURANT_UPDATED)){
+            else if(intent.getAction().equals(NavigationDrawerFragment.ACTION_DRAWER_CLOSED)){
 
-                /** Need to reset list adapter as projects are filtered and sorted alphabetically. Can't just add to adapter and call
-                 * onNotifyDataSetChanged, as new entries would be out of place.
-                 */
-                updateRestaurantListView();
+                // Show help dialog if never been shown before
+                boolean showHelp = mPrefs.getBoolean(PREFS_SHOW_HELP_RESTAURANT_LIST, true);
+                if(showHelp){
+
+                    showHelpDialog();
+                }
             }
         }
     };
