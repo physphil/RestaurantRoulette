@@ -66,11 +66,8 @@ public class RestaurantSelectorFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(getActivity());
-
-        lbm.registerReceiver(mReceiver, new IntentFilter(HistoryListFragment.ACTION_HISTORY_CLEARED));
-        lbm.registerReceiver(mReceiver, new IntentFilter(LocationHelper.ACTION_LOCATION_RETRIEVED));
-        lbm.registerReceiver(mReceiver, new IntentFilter(RestaurantFragment.ACTION_RESTAURANT_UPDATED));
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mLifetimeReceiver,
+                new IntentFilter(RestaurantFragment.ACTION_RESTAURANT_UPDATED));
     }
 
     @Override
@@ -116,19 +113,24 @@ public class RestaurantSelectorFragment extends Fragment {
     public void onResume(){
         super.onResume();
 
-        // Show help menu if never been shown
-        boolean showHelp = prefs.getBoolean(PREFS_SHOW_HELP_RESTAURANT_SELECTOR, true);
-        if(showHelp){
+        LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(getActivity());
+        lbm.registerReceiver(mVisibleReceiver, new IntentFilter(HistoryListFragment.ACTION_HISTORY_CLEARED));
+        lbm.registerReceiver(mVisibleReceiver, new IntentFilter(LocationHelper.ACTION_LOCATION_RETRIEVED));
+        lbm.registerReceiver(mVisibleReceiver, new IntentFilter(NavigationDrawerFragment.ACTION_DRAWER_CLOSED));
+    }
 
-            showHelpDialog();
-        }
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mVisibleReceiver);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
 
-        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mReceiver);
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mLifetimeReceiver);
     }
 
     private void initViewContent(){
@@ -336,7 +338,10 @@ public class RestaurantSelectorFragment extends Fragment {
         }
     }
 
-    private BroadcastReceiver mReceiver = new BroadcastReceiver() {
+    /**
+     * Broadcast receiver to be active only while the fragment is visible
+     */
+    private BroadcastReceiver mVisibleReceiver = new BroadcastReceiver() {
 
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -352,7 +357,27 @@ public class RestaurantSelectorFragment extends Fragment {
                 Util.showOnMap(getActivity(), mRestaurant.getName(), location);
                 mLocationHelper.disconnect();
             }
-            else if(intent.getAction().equals(RestaurantFragment.ACTION_RESTAURANT_UPDATED)){
+            else if(intent.getAction().equals(NavigationDrawerFragment.ACTION_DRAWER_CLOSED)){
+
+                // Show help menu if never been shown
+                boolean showHelp = prefs.getBoolean(PREFS_SHOW_HELP_RESTAURANT_SELECTOR, true);
+                if(showHelp){
+
+                    showHelpDialog();
+                }
+            }
+        }
+    };
+
+    /**
+     * Broadcast Receiver to be active for the lifetime of the fragment
+     */
+    private BroadcastReceiver mLifetimeReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            if(intent.getAction().equals(RestaurantFragment.ACTION_RESTAURANT_UPDATED)){
 
                 // Update restaurant info from db, update fields in answer card
                 String id = mRestaurant.getRestaurantId();
