@@ -30,4 +30,6 @@ public class Constants {
     public static final String FONT_ROBOTO_LIGHT = "roboto_light.ttf";
     public static final String FONT_DEFAULT = FONT_ROBOTO_LIGHT;
 
+    public static final String DEVELOPER_EMAIL_ADDRESS = "physphil@gmail.com";
+
 }

@@ -184,6 +184,19 @@ public class MainActivity extends BaseActivity implements NavigationDrawerFragme
                 .commit();
     }
 
+    /**
+     * Send email to developer
+     */
+    private void emailDeveloper(){
+
+        Intent i = new Intent(Intent.ACTION_SEND);
+        i.setType("message/rfc822");
+        i.putExtra(Intent.EXTRA_EMAIL, new String[] {Constants.DEVELOPER_EMAIL_ADDRESS});
+        i.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.email_subject));
+        i.putExtra(Intent.EXTRA_TEXT, getString(R.string.email_body));
+        startActivity(i);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (!mNavigationDrawerFragment.isDrawerOpen()) {
@@ -207,6 +220,10 @@ public class MainActivity extends BaseActivity implements NavigationDrawerFragme
 
             case R.id.menu_clear_restaurant_history:
                 confirmClearRestaurantHistory();
+                return true;
+
+            case R.id.menu_email_developer:
+                emailDeveloper();
                 return true;
 
             default:

@@ -45,38 +45,6 @@ import java.net.URLEncoder;
  */
 public class Util {
 
-    /**
-     * Open google maps and search for restaurant
-     * @param context context
-     * @param name restaurant name
-     */
-    public static void showOnMap(Context context, String name){
-
-        if(Restaurant.hasName(name)){
-
-            try{
-                // Encode restaurant name and generate maps URI
-                String encodedName = URLEncoder.encode(name, "UTF-8");
-                Uri mapUri = Uri.parse("geo:0,0?q=" + encodedName + "&z=11");
-
-                // Launch maps application and search by restaurant name
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(mapUri);
-                context.startActivity(i);
-            }
-            catch(UnsupportedEncodingException e){
-                // This shouldn't happen, do nothing.
-            }
-            catch(ActivityNotFoundException e){
-                Toast.makeText(context, R.string.toast_no_maps_app, Toast.LENGTH_SHORT).show();
-            }
-        }
-        else{
-
-            Toast.makeText(context, R.string.toast_no_restaurant_name, Toast.LENGTH_SHORT).show();
-        }
-    }
-
     public static void showOnMap(Context context, String name, Location location){
 
         if(Restaurant.hasName(name)){
@@ -89,7 +57,7 @@ public class Util {
                 if(location != null) {
                     Log.d("PS", "Latitude = " + location.getLatitude() + ", Longitude = " + location.getLongitude());
                     mapUri = Uri.parse("geo:" + location.getLatitude() + "," + location.getLongitude() +
-                            "+?q=" + encodedName + "&z=13");
+                            "+?q=" + encodedName + "&z=12");
                 }
                 else{
                     Log.d("PS", "No Location Available");
