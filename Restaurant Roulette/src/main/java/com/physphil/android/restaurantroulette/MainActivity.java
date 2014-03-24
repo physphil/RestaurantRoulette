@@ -21,9 +21,11 @@
 
 package com.physphil.android.restaurantroulette;
 
+import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -33,6 +35,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.physphil.android.restaurantroulette.data.DatabaseHelper;
 import com.physphil.android.restaurantroulette.ui.CustomFontDialogBuilder;
@@ -197,6 +200,20 @@ public class MainActivity extends BaseActivity implements NavigationDrawerFragme
         startActivity(i);
     }
 
+    /**
+     * Open Play Store to rate app
+     */
+    public void rateApp(){
+        Uri uri = Uri.parse("market://details?id=" + this.getPackageName());
+        Intent goToPlayStore = new Intent(Intent.ACTION_VIEW, uri);
+        try{
+            startActivity(goToPlayStore);
+        }
+        catch(ActivityNotFoundException e){
+            Toast.makeText(this, getString(R.string.toast_google_play_error), Toast.LENGTH_LONG).show();
+        }
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (!mNavigationDrawerFragment.isDrawerOpen()) {
@@ -224,6 +241,10 @@ public class MainActivity extends BaseActivity implements NavigationDrawerFragme
 
             case R.id.menu_email_developer:
                 emailDeveloper();
+                return true;
+
+            case R.id.menu_rate_app:
+                rateApp();
                 return true;
 
             default:

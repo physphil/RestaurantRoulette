@@ -47,4 +47,10 @@
         android:orderInCategory="230"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/menu_rate_app"
+        android:title="@string/menu_rate_app"
+        android:orderInCategory="240"
+        app:showAsAction="never" />
+
 </menu>
