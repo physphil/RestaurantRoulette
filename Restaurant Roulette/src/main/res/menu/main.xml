@@ -24,6 +24,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.physphil.android.restaurantroulette.MainActivity" >
 
+    <item
+        android:id="@+id/menu_add_restaurant"
+        android:orderInCategory="100"
+        android:icon="@drawable/ic_action_new"
+        android:title="@string/menu_add_restaurant"
+        app:showAsAction="ifRoom" />
+
     <item android:id="@+id/menu_clear_restaurant_history"
         android:title="@string/menu_clear_restaurant_history"
         android:orderInCategory="200"

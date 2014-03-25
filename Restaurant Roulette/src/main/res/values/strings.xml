@@ -27,6 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <string name="title_restaurant_list">Restaurant List</string>
     <string name="title_restaurant_selector">Pick A Restaurant</string>
     <string name="title_edit_restaurant">Edit Restaurant</string>
+    <string name="title_new_restaurant">New Restaurant</string>
     <string name="title_restaurant_history">History</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -65,9 +66,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <string name="dialog_delete_restaurant_message">Are you sure you want to delete this restaurant?</string>
     <string name="dialog_delete_history_title">Clear History?</string>
     <string name="dialog_delete_history_message">Are you sure you want to clear your restaurant selection history?</string>
-    <string name="dialog_restaurant_selector_help">Touch \"Where should I eat\" to pick a random restaurant from your list. You can filter by genre if you\'re in the mood for something specific.\n\nYou can pick another one if you don\'t like the suggestion&#8230; although that kind of defeats the purpose, no?\n\nTouch \"Get Directions\" to open Google Maps and find a nearby location.</string>
+    <string name="dialog_restaurant_selector_help">Touch \"Where should I eat\" to pick a random restaurant from your list. You can filter by genre if you\'re in the mood for something specific.\n\nYou can pick another one if you don\'t like the suggestion&#8230; although that kind of defeats the purpose, no?\n\nTouch \"Get Directions\" to open Google Maps and find a nearby location.  Touch + to add a new restaurant to your list.</string>
     <string name="dialog_restaurant_list_help">This is a list of all your restaurants. Touch one to view more details, or touch + to add a new one.</string>
-    <string name="dialog_restaurant_history_help">This is a list of all the restaurants that have been picked for you.\n\nOh, the memories.</string>
+    <string name="dialog_restaurant_history_help">This is a list of all the restaurants that have been picked for you.\n\nOh, the memories.\n\nTouch + to add a new restaurant to your list.</string>
     <string name="dialog_edit_restaurant_help">This screen lets you edit the details of any restaurant. Go ahead and change the name, genre, rating or price level. You can even add notes to help you remember things.\n\nTouch \"Get Directions\" to open Google Maps and find a nearby location.</string>
 
     <string name="empty_listview_restaurants">Touch + in the menu bar to add a restaurant</string>

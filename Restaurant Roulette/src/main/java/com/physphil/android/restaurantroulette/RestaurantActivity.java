@@ -41,9 +41,15 @@ public class RestaurantActivity extends BaseActivity {
         setContentView(R.layout.activity_host_fragment);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(R.string.title_edit_restaurant);
 
         String id = getIntent().getStringExtra(RestaurantFragment.EXTRA_RESTAURANT_ID);
+
+        if(id != null){
+            getSupportActionBar().setTitle(R.string.title_edit_restaurant);
+        }
+        else{
+            getSupportActionBar().setTitle(R.string.title_new_restaurant);
+        }
 
         // Attempt to find previously existing fragment.  If not found create new one.
         FragmentManager fm = getSupportFragmentManager();

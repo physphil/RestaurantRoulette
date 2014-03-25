@@ -235,6 +235,10 @@ public class MainActivity extends BaseActivity implements NavigationDrawerFragme
 
         switch(item.getItemId()){
 
+            case R.id.menu_add_restaurant:
+                startActivity(RestaurantActivity.getLaunchingIntent(this, null));
+                return true;
+
             case R.id.menu_clear_restaurant_history:
                 confirmClearRestaurantHistory();
                 return true;
