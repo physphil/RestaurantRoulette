@@ -400,10 +400,13 @@ public class RestaurantSelectorFragment extends Fragment {
 
             if(intent.getAction().equals(RestaurantFragment.ACTION_RESTAURANT_UPDATED)){
 
+                // TODO - replace with don't update if returned broadcast indicates a new entry
                 // Update restaurant info from db, update fields in answer card
-                String id = mRestaurant.getRestaurantId();
-                mRestaurant = mDatabaseHelper.getRestaurantById(id);
-                setAnswer(false);
+                if(mRestaurant != null) {
+                    String id = mRestaurant.getRestaurantId();
+                    mRestaurant = mDatabaseHelper.getRestaurantById(id);
+                    setAnswer(false);
+                }
             }
         }
     };
