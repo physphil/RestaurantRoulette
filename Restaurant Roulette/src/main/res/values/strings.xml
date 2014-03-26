@@ -60,6 +60,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <string name="menu_rate_app">Rate App</string>
 
     <string name="btn_confirm">Ok, got it</string>
+    <string name="btn_rate_now">Rate now!</string>
+    <string name="btn_no_thanks">No thanks</string>
+    <string name="btn_remind_me_later">Remind me later</string>
     <string name="dialog_delete_all_restaurants_title">Delete All Restaurants?</string>
     <string name="dialog_delete_all_restaurants_message">Are you sure you want to delete all your saved restaurants?</string>
     <string name="dialog_delete_restaurant_title">Delete Restaurant?</string>
