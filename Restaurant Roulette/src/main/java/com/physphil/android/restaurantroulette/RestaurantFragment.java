@@ -336,8 +336,10 @@ public class RestaurantFragment extends Fragment {
             }
         }
 
-        // Item not found, set as 'Other', which is always last position in spinner
-        return spinner.getCount() - 1;
+        // Item not found, set as 'Other', which is always last position in spinner. Also set genre in Restaurant object as 'Other'
+        int index = spinner.getCount() - 1;
+        mRestaurant.setGenre((String) spinner.getItemAtPosition(index));
+        return index;
     }
 
     private void showHelpDialog(){
